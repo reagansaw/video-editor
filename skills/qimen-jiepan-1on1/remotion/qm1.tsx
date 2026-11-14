@@ -12,7 +12,7 @@ const OFF = { t: 0, c: -0.09, ipad: 2.61 };           // 那支片的秒数 = �
 const PLACEHOLDER = true;                              // 客人还没换人：分镜上打一个「占位」小标
 const QUESTION = '合作 20 年的伙伴，还能信吗？';
 import { FACES } from './qm1_faces';
-import { CtaEnd } from '../SuyenContent';
+import { QmCta } from './cta';   // CTA 独立一块（Reagan 11-14），不带配乐
 const STEPS = ['钱去哪里', '他有没有心', '几时开始', '拿得回吗'];
 
 type Src = 't' | 'c' | 'ipad' | 'broll' | 'year' | 'cal' | 'pct';
@@ -39,6 +39,8 @@ export const SHOTS: Shot[] = [
   { lay: 'react', s: [153.98, 154.68], rate: 0.5, sp: 't', rg: ['H', 2.2] },
   // 标题卡：先出「合作 20 年的伙伴」，1 秒后才出「还能信吗？」，再停 1.5 秒给人读完
   { tin: 10, s: [0, 2.7], sp: 't', lay: 'card' },
+  // 声明卡（Reagan 11-14）：标题之后出 1 秒，再进主题
+  { tin: 8, s: [0, 1.0], sp: 't', lay: 'card', note: 'DISC' },
   // 1 倒回开头
   { tin: 10, g: 'A', s: [1.04, 6.9], sp: 'c', lay: 'dual', top: 't', sub: ['我公司全部的账和钱，', '我是给一个伙伴管的。'], name: true },
   { g: 'B', s: [7.14, 11.15], sp: 'c', lay: 'dual', top: 'broll', br: 'ledger', note: 'B-roll：账本和对不上的数字', sub: ['最近我发现他讲的，', '跟我看到的不一样。'] },
@@ -204,7 +206,7 @@ const Header: React.FC<{ step?: number }> = () => (
 // 最上面的进度条（Reagan 11-14：上面要 loading bar 时间轴）：整支片分 6 段，走到哪一段那一段亮，段内慢慢填满。
 // 段名只在上下格的镜头出（钩子和标题卡只留条，不挡字）。
 const Bar: React.FC<{ mode: Mode }> = ({ mode }) => { const f = useCurrentFrame(), { shots, start, total } = TL[mode];
-  const cardI = shots.findIndex((x) => x.lay === 'card'), at = (fn: (x: Shot, i: number) => boolean) => start[shots.findIndex(fn)];
+  const titleI = shots.findIndex((x) => x.lay === 'card'), cardI = shots.findIndex((x) => x.note === 'DISC'), at = (fn: (x: Shot, i: number) => boolean) => start[shots.findIndex(fn)];
   const cuts = [0, start[cardI + 1], ...STEPS.map((_, n) => at((x) => x.step === n && true)), total].map((x, i, arr) => i > 1 && i < arr.length - 1 ? at((x2, j) => j > cardI && x2.step === i - 2) : x);
   const names = ['开场', '他的问题', ...STEPS], W = 1000, G = 6;
   let cur = 0; for (let i = 0; i < shots.length; i++) if (f >= start[i]) cur = i;
@@ -239,7 +241,16 @@ const Scene: React.FC<{ sh: Shot }> = ({ sh }) => {
   const mode = React.useContext(ModeCtx);
   const f = useCurrentFrame(), n = nf(sh), k = cl(f / n), at = sh.s[0];
   if (sh.lay === 'card') return sh.note === 'CTA'
-    ? <AbsoluteFill style={{ background: ROSE }}><AbsoluteFill style={{ top: 30 }}><CtaEnd at={0} /></AbsoluteFill></AbsoluteFill>   /* Reagan 11-14：CTA 用之前那个「留言正能量」（她的真声 9.3 秒，SuyenContent 的 CtaEnd） */
+    ? <QmCta />   /* Reagan 11-14：CTA 用之前那个「留言正能量」（她的真声 9.3 秒，SuyenContent 的 CtaEnd） */
+    : sh.note === 'DISC' ? <AbsoluteFill><Bg />
+        <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 34 }}>
+          <span style={{ width: 120, height: 3, background: CREAM, opacity: 0.6 }} />
+          <div style={{ fontFamily: SONG, fontWeight: 900, fontSize: 68, color: WHITE, letterSpacing: '0.04em', textShadow: '0 6px 30px rgba(0,0,0,.7)' }}>奇门遁甲，东方千年智慧。</div>
+          <div style={{ fontFamily: SONG, fontWeight: 700, fontSize: 56, color: CREAM, textShadow: '0 6px 30px rgba(0,0,0,.7)' }}>不是迷信，内容只供参考。</div>
+          <div style={{ fontFamily: SONG, fontWeight: 700, fontSize: 56, color: CREAM, textShadow: '0 6px 30px rgba(0,0,0,.7)' }}>故事如有雷同，纯属巧合。</div>
+          <span style={{ width: 120, height: 3, background: CREAM, opacity: 0.6 }} />
+        </AbsoluteFill>
+      </AbsoluteFill>
     : <AbsoluteFill><Bg />
         <div style={{ position: 'absolute', left: 0, right: 0, top: 70, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Img src={staticFile('suyenc/suyenlogo-light.png')} style={{ width: 180, height: 180, marginTop: -14, marginBottom: 4 }} />   {/* Reagan 11-14：这里放 Suyen logo（如意花纹留在背景） */}
@@ -306,15 +317,15 @@ const Scene: React.FC<{ sh: Shot }> = ({ sh }) => {
 // 配乐（Reagan 11-14）：开头钩用「紧张Hook」，标题卡之后整支用「Void」垫在讲话下面。
 // 第二次「他是有心欺骗」前后音乐收掉，让那一句干净地出来；最后 1 秒淡出。
 const Cut: React.FC<{ mode: Mode; mz?: boolean }> = ({ mode, mz = false }) => { const { shots, dur, start, total } = TL[mode];
-  const cardI = shots.findIndex((x) => x.lay === 'card'), hookEnd = start[cardI + 1], ans = start[shots.findIndex((x, i) => i > cardI && !!x.big)];
+  const titleI = shots.findIndex((x) => x.lay === 'card'), cardI = shots.findIndex((x) => x.note === 'DISC'), hookEnd = start[cardI + 1], ans = start[shots.findIndex((x, i) => i > cardI && !!x.big)], cta = start[shots.findIndex((x) => x.note === 'CTA')];   // 配乐在 CTA 前收掉（Reagan 11-14：CTA 不要 BGM）
   const fade = (f: number, a: number, b: number) => cl((f - a) / (b - a));
   return <MzCtx.Provider value={mz}><ModeCtx.Provider value={mode}><AbsoluteFill style={{ background: BG }}>
     {/* 钩子音效：冲进来 → 闪白撞击 → 大字「咚」→ 故障 → 标题「咚」→ 盖章 → 倒回开头「刷」；第二次「有心欺骗」也有撞击 */}
-    {([[0, '呼2', 0.8], [start[1] - 1, '撞击光1', 0.9], [start[1] + 13, '咚咚重音心头震', 1], [start[1] + 12, '猛然一惊', 0.9], [start[2], '呼2', 0.5], [start[cardI] - 6, '扫光', 0.7], [start[cardI] + 7, '开场音效咚', 0.7], [start[cardI] + 30, '综艺咚', 0.8], [hookEnd - 6, '回忆-刷一下', 0.7], [ans - 1, '撞击光1', 0.7], [ans + 12, '猛然一惊', 0.8], [ans + 13, '咚咚重音心头震', 0.9]] as [number, string, number][]).map(([at, name, v], i) =>
+    {([[0, '呼2', 0.8], [start[1] - 1, '撞击光1', 0.9], [start[1] + 13, '咚咚重音心头震', 1], [start[1] + 12, '猛然一惊', 0.9], [start[2], '呼2', 0.5], [start[titleI] - 6, '扫光', 0.7], [start[titleI] + 7, '开场音效咚', 0.7], [start[titleI] + 30, '综艺咚', 0.8], [hookEnd - 6, '回忆-刷一下', 0.7], [ans - 1, '撞击光1', 0.7], [ans + 12, '猛然一惊', 0.8], [ans + 13, '咚咚重音心头震', 0.9]] as [number, string, number][]).map(([at, name, v], i) =>
       <Sequence key={'sfx' + i} from={Math.max(0, at)}><Audio src={staticFile(`sfx22/${name}.mp3`)} volume={v} /></Sequence>)}
     <Sequence from={0} durationInFrames={hookEnd + 12}><Audio src={staticFile('qm1/bgm/hook.mp3')} volume={(f) => 0.36 * (1 - fade(f, start[1] + 3, start[1] + 9) * (1 - fade(f, start[1] + 16, start[1] + 30))) * (1 - fade(f, hookEnd - 6, hookEnd + 12))} /></Sequence>
     <Sequence from={hookEnd - 10}><Audio src={staticFile('qm1/bgm/void.mp3')} volume={(f) => { const g = f + hookEnd - 10;
-      return 0.11 * fade(g, hookEnd - 10, hookEnd + 20) * (1 - fade(g, ans - 20, ans - 6) * (1 - fade(g, ans + 50, ans + 80))) * (1 - fade(g, total - 30, total - 2)); }} /></Sequence>
+      return 0.11 * fade(g, hookEnd - 10, hookEnd + 20) * (1 - fade(g, ans - 20, ans - 6) * (1 - fade(g, ans + 50, ans + 80))) * (1 - fade(g, cta - 24, cta - 2)); }} /></Sequence>
     {shots.map((sh, i) => <Sequence key={i} from={start[i]} durationInFrames={dur[i] + (shots[i + 1]?.tin ?? 1)}><SceneT sh={sh} /></Sequence>)}
     <Bar mode={mode} />
     {shots.map((sh, i) => sh.lay === 'card' || sh.lay === 'react' || sh.gen === '?' ? null : <Sequence key={'a' + i} from={start[i]} durationInFrames={dur[i]}>

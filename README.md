@@ -5,5 +5,6 @@
 | Skill | 做什么 |
 |---|---|
 | [qimen-jiepan-1on1](skills/qimen-jiepan-1on1/SKILL.md) | Master Suyen「奇门解盘 1对1」竖版上下格访谈片，一次出 4 支：原版、Seedance 2.5 换人版、原版马赛克、Seedance 版马赛克 |
+| [suyen-cta](skills/suyen-cta/SKILL.md) | Master Suyen 竖版片的片尾 CTA：9.3 秒、她的真声、留言打上「正能量」、现场卡 4 段轮播、不带 BGM。可以单独出一支，也可以接在任何一支片后面 |
 
 这里只放做法、脚本和代码。原片、换人片、成片、BGM、钥匙都不放。
