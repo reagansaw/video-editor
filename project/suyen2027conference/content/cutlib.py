@@ -39,7 +39,8 @@ def find_src(src_id):
     sys.exit(f'找不到原片 {src_id}.*（放进 {RAWDIR}，或 export SUYEN_RAW=资料夹）')
 
 def src_fps(src):
-    r = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=avg_frame_rate', '-of', 'csv=p=0', src], capture_output=True, text=True).stdout.strip()
+    r = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=avg_frame_rate', '-of', 'csv=p=0', src], capture_output=True, text=True).stdout
+    r = r.splitlines()[0].strip().rstrip(',') if r.strip() else ''   # iPhone 原片 ffprobe 会多吐一个逗号
     n, d = (r.split('/') + ['1'])[:2]
     return float(n) / float(d or 1) if float(n) else 60000 / 1001
 
@@ -55,6 +56,9 @@ def build(src_id, pieces, out_id, speed=1.15, rot=None):
             for a, b in split(src, p[0], p[1]): subs.append((i, a, b))
     # 每一段：select/aselect 只留没停顿的部分（对齐原片 59.94 格，音画不漂）→ 转正 → 30fps；段跟段再接起来 → 整支加速
     FPS0 = src_fps(src)
+    # iPhone 的 HDR 原片（HLG / BT.2020）要转成 SDR bt709：不转的话抠像 webm 的 alpha Remotion 不认（11-15 踩过）
+    cs = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=color_space,color_primaries', '-of', 'csv=p=0', src], capture_output=True, text=True).stdout
+    SDR = 'colorspace=all=bt709:iall=bt2020:fast=1,' if 'bt2020' in cs else ''
     snap = lambda x: round(round(x * FPS0) / FPS0, 4)
     subs = [(i, snap(a), snap(b)) for i, a, b in subs]
     tmp, pdur = [], {}
@@ -64,7 +68,7 @@ def build(src_id, pieces, out_id, speed=1.15, rot=None):
         lo = rng[0][0]; hi = rng[-1][1]
         cond = '+'.join(f'gte(t\\,{a - lo:.4f})*lt(t\\,{b - lo:.4f})' for a, b in rng)
         o = f'{H}/_p{pi}.mov'
-        fc = (f"[0:v]select='{cond}',setpts=N/({FPS0:.6f})/TB,{'transpose=1,' if rot else ''}scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,setsar=1,fps=30[v];"
+        fc = (f"[0:v]select='{cond}',setpts=N/({FPS0:.6f})/TB,{SDR}{'transpose=1,' if rot else ''}scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,setsar=1,fps=30[v];"
               f"[0:a]aselect='{cond}',asetpts=N/SR/TB,aresample=48000[a]")
         run(['nice', '-n', '10', 'ffmpeg', '-v', 'error', '-y', '-threads', '2', '-ss', f'{lo}', '-to', f'{hi + 0.05}', '-i', src, '-filter_complex', fc,
              '-map', '[v]', '-map', '[a]', '-ac', '1', '-c:v', 'libx264', '-crf', '15', '-preset', 'fast', '-pix_fmt', 'yuv420p', '-c:a', 'pcm_s16le', '-ar', '48000', o])
@@ -74,7 +78,7 @@ def build(src_id, pieces, out_id, speed=1.15, rot=None):
     out = os.path.join(PUB, f'{out_id}.mp4')
     run(['nice', '-n', '10', 'ffmpeg', '-v', 'error', '-y', '-threads', '2', '-f', 'concat', '-safe', '0', '-i', lst,
          '-vf', f'setpts=PTS/{speed},fps=30', '-af', f'atempo={speed},loudnorm=I=-16:TP=-1.5', '-c:v', 'libx264', '-crf', '16', '-preset', 'fast', '-pix_fmt', 'yuv420p',
-         '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', out])
+         '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', out])
     for p in tmp + [lst]: os.remove(p)
     # 时间表用每段实际的帧长（30fps 取整后）算，特效才对得上
     t, meta = 0.0, []

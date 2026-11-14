@@ -82,9 +82,7 @@ const Sfx: React.FC<{ at: number; s: string; vol?: number; len?: number }> = ({ 
 /* ---------- 每支的设定 ---------- */
 type Face = { x: number[]; y: number[] };
 type Ep = { id: string; dur: number; face: Face; tail: number };   // tail = 讲完后接的 CTA 长度
-// Reagan 11-14：内容片片尾不要报名 CTA 了（整个 CtaEnd 段连同 9.3 秒都不接）。要加回来改 CTA_ON = true
-const CTA_ON = false;
-const CTA_DUR = CTA_ON ? 9.3 : 0;
+const CTA_DUR = 10.0;   // 9.3 → 11.0 → 10.0：Reagan 11-14「CTA 剪成 10 秒就好」（语音 8.76s，留言气泡「正能量 ✦」发出后多停 1.5 秒）
 const CTA_CLONE = false; // Reagan 10-31：克隆声「不像」→ CTA 全用她自己的声音（cta_vo.wav）   // 克隆声「想参加的，马上在留言打上正能量」做好后改 true（public/suyenc/cta_clone.wav）
 const EPS: Record<string, Ep> = {
   c55: { id: 'c55', dur: 45.95, face: FC_C55 as any, tail: CTA_DUR },
@@ -513,7 +511,6 @@ export const SuyenC55: React.FC = () => {
     <AbsoluteFill style={{ background: '#000' }}>
       <Plate ep={ep} cam={cam} shakes={shakes} gray={gray} layer="bg" />
       {behind}
-      <CtaBehind until={CUT} />
       <Plate ep={ep} cam={cam} shakes={shakes} gray={gray} layer="person" />
       <Plate ep={ep} cam={cam} shakes={shakes} gray={gray} layer="face" />
       {/* 前景：离脸远的东西 */}
@@ -744,7 +741,6 @@ const C57: React.FC<{ styleN: 1 | 2 }> = ({ styleN }) => {
     <AbsoluteFill style={{ background: '#000' }}>
       <Plate ep={ep} cam={cam} shakes={shakes} gray={gray} layer="bg" />
       {behind}
-      <CtaBehind until={CUT} />
       <Plate ep={ep} cam={cam} shakes={shakes} gray={gray} layer="person" />
       <Plate ep={ep} cam={cam} shakes={shakes} gray={gray} layer="face" />
       {STYLE1 && <GoldDust />}
@@ -803,30 +799,30 @@ export const SuyenC57S1: React.FC = () => <C57 styleN={1} />;
    画面：品牌玫红底 + 中间一张现场卡（课室 / 千人会场轮播）+ 上面大字跟着讲 + 下面留言框打出「正能量」 */
 const CtaEnd: React.FC<{ at: number }> = ({ at }) => {
   // Reagan 10-31：只要一张卡放中间；不提 Allianz（卡上没标签，也不用有 Allianz 字样的镜头）
-  // Reagan 11-14：内容片不要这段了 → CTA_ON = false 时整段不出（画面、cta_vo.wav、音效都不接）
   const t = useT();
-  if (!CTA_ON || t < at) return null;
-  const lt = t - at, u = ease(t, at, 0.35);
+  if (t < at) return null;
+  const lt = t - at;   // Reagan 11-14：CTA 一开始直接硬切（不要淡入把她的脸盖成半透明 + 卡片从脸上弹出来）
   const line = lt < 2.15 ? ['3 天完全免费', 0] : lt < 5.15 ? ['2027 奇门战略大会', 2.15] : lt < 7.1 ? ['马上报名', 5.15] : ['留言打上「正能量」', 7.1];
   const lk = pop(t, at + (line[1] as number), 0.3);
   const word = '正能量', typeA = 7.2, typeB = 8.25, sent = 8.5;
   const typed = word.slice(0, Math.max(0, Math.min(3, Math.floor(((lt - typeA) / (typeB - typeA)) * 3 + 0.001))));
   const caret = lt < sent && Math.floor(lt * 3) % 2 === 0;
   const bub = lt >= sent ? pop(t, at + sent, 0.35) : 0;
-  const clips = ['s_teach', 'a_phones', 's_class'], seg = 3.1;
+  // s_teach 2.8 秒之后镜头摇到穿浅蓝衬衫的男生（Reagan 11-14 不要）→ 第一段只播到 2.75 秒就切下一段
+  const clips = ['s_teach', 'a_phones', 's_class'], starts = [0, 2.6, 5.7];   // s_teach 只播 0–2.78 秒；下一段 2.6 起淡入 0.18 秒（到 2.78 完成），男生 2.82 秒才出现
   return (
-    <AbsoluteFill style={{ opacity: u }}>
+    <AbsoluteFill>
       <AbsoluteFill style={{ background: `linear-gradient(180deg, ${ROSE} 0%, ${ROSE_DEEP} 100%)` }}><Seigaiha o={0.12} /></AbsoluteFill>
       <div style={{ position: 'absolute', left: 60, top: 110, fontFamily: LTH, fontSize: 58, color: CREAM, letterSpacing: '0.04em', lineHeight: 1 }}>MASTER SUYEN LIM</div>
       <Img src={staticFile('suyenc/suyenlogo-light.png')} style={{ position: 'absolute', right: 40, top: 40, width: 170, height: 170 }} />
       <div style={{ position: 'absolute', left: 0, width: W, top: 330, textAlign: 'center', fontFamily: LTH, fontSize: (line[1] as number) === 2.15 ? 100 : 90, color: WHITE,
         textShadow: '0 4px 14px rgba(0,0,0,0.35)', transform: `scale(${lk})`, letterSpacing: '0.04em' }}>{line[0]}</div>
       {/* 中间一张现场卡（B-roll）*/}
-      <div style={{ position: 'absolute', left: 40, top: 520, width: 1000, height: 560, transform: `scale(${pop(t, at, 0.45)}) rotate(-1.2deg)`, borderRadius: 24, overflow: 'hidden', border: `8px solid ${CREAM}`, background: '#000' }}>
+      <div style={{ position: 'absolute', left: 40, top: 520, width: 1000, height: 560, transform: 'rotate(-1.2deg)', borderRadius: 24, overflow: 'hidden', border: `8px solid ${CREAM}`, background: '#000' }}>
         {clips.map((c, i) => (
-          <Sequence key={c} from={f(at + i * seg)} durationInFrames={f(i === clips.length - 1 ? 30 : seg)} layout="none">
+          <Sequence key={c} from={f(at + starts[i])} durationInFrames={f(i === clips.length - 1 ? 30 : Math.min(3.2, starts[i + 1] - starts[i] + 0.18))} layout="none">
             <OffthreadVideo src={staticFile(`suyenc/ev/${c}.mp4`)} muted style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover',
-              opacity: interpolate(lt - i * seg, [0, 0.18], [i ? 0 : 1, 1], clamp) }} />
+              opacity: interpolate(lt - starts[i], [0, 0.18], [i ? 0 : 1, 1], clamp) }} />
           </Sequence>
         ))}
       </div>
@@ -857,30 +853,10 @@ const CtaEnd: React.FC<{ at: number }> = ({ at }) => {
   );
 };
 
-/* ---------- 片尾 CTA · 人后层（Reagan 11-14：不要整屏粉红 CTA 卡；片尾只留「留言打上正能量」，放在她身后）----------
-   在 behind 层 → 她永远挡在字前面（铁律：字不盖脸）。不加长度、不接旁白（cta_vo 不用）。
-   y 预设 1400：上面避开字幕（y≈1100）、下面避开出片时贴的 2027 大会 banner（y≈1634 起）。某一集最后几秒字幕掉到 1420 就调 y / dur */
-const CtaBehind: React.FC<{ until: number; dur?: number; y?: number; x?: number }> = ({ until, dur = 3.2, y = 1420, x = 50 }) => {
-  const t = useT();
-  const at = until - dur;
-  if (t < at || t > until) return null;
-  const u = ease(t, at, 0.4), k = pop(t, at + 0.5, 0.4);
-  return (
-    <>
-      <div style={{ position: 'absolute', left: x, top: y, transform: `translateY(${(1 - u) * 70}px)`, opacity: u }}>
-        <div style={{ fontFamily: LTH, fontSize: 34, color: CREAM, letterSpacing: '0.08em', textShadow: '0 3px 12px rgba(0,0,0,0.55)' }}>在留言打上 ↓</div>
-        <div style={{ display: 'inline-block', marginTop: 10, background: ROSE, color: WHITE, fontFamily: LTH, fontSize: 62, letterSpacing: '0.02em',
-          padding: '8px 22px', borderRadius: '24px 6px 24px 24px', border: `5px solid ${CREAM}`, boxShadow: '0 14px 36px rgba(0,0,0,0.35)', transform: `scale(${k})`, transformOrigin: 'left bottom' }}>正能量</div>
-      </div>
-      <Sfx at={at} s="呼2" /><Sfx at={at + 0.5} s="叮收银机提示音1" />
-    </>
-  );
-};
-
 /* ---------- 给内容③起的每一集用（src/suyenc/*.tsx）---------- */
 export {
   W, H, FPS, f, clamp, useT, eo, eio, ease, win, pop, LTH, WHITE, Seigaiha, useFonts, Sfx, CTA_DUR, faceAt, Plate, Hero, TopBanner, IndexPanel, MysteryTiles, NameTag,
-  Glitch, Chip, Cutaway, HandCircle, Checklist, CircleStage, PhoneQimen, Seal, Flash, FlipPair, Bug, Subs, BlindBox, SpeedLines, rng, LuopanRing, Road, mkR, QuestionCard, CtaEnd, CtaBehind,
+  Glitch, Chip, Cutaway, HandCircle, Checklist, CircleStage, PhoneQimen, Seal, Flash, FlipPair, Bug, Subs, BlindBox, SpeedLines, rng, LuopanRing, Road, mkR, QuestionCard, CtaEnd,
   applyTheme, shakeAt,
 };
 export { ROSE, ROSE_DEEP, CREAM, NAVY, BUTTERFLY, PANEL };

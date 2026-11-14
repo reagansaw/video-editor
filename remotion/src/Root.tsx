@@ -19,6 +19,7 @@ import { SuyenC59a, framesC59a } from './suyenc/c59a';
 import { SuyenC59b, framesC59b } from './suyenc/c59b';
 import { SuyenC59c, framesC59c } from './suyenc/c59c';
 import { SuyenC60, framesC60 } from './suyenc/c60';
+import { SuyenC61, framesC61 } from './suyenc/c61';
 
 // 横版 16:9：钩子 P1 / I2 / P6 + 广告第一集；竖版 S4（C0057，广告不用，只留着参考）
 export const Root: React.FC = () => (
@@ -48,6 +49,7 @@ export const Root: React.FC = () => (
     {/* 1:1 版上 banner：每集换题目 + 痛点 */}
     <Still id="TopBanner" component={TopBanner} width={2000} height={667} defaultProps={{ pill: '别人求救，你救不救？', main: '一句求救，赔上全团队薪水', sub: '不再靠感情做决定' }} />
     <Still id="ContentIntroBg" component={ContentIntroBg} width={1080} height={1426} />
+      <Still id="ContentIntroBgFull" component={ContentIntroBg} width={1080} height={1920} defaultProps={{ full: true }} />
     <Still id="TopBannerOrig" component={TopBannerOrig} width={2000} height={667} />
     {/* 内容片（竖版玫红模板，skills/suyen-content-rose）*/}
     <Composition id="SuyenC55" component={SuyenC55} durationInFrames={suyenCFrames('c55')} fps={30} width={1080} height={1920} />
@@ -65,6 +67,7 @@ export const Root: React.FC = () => (
     <Composition id="SuyenC59b" component={SuyenC59b} durationInFrames={framesC59b} fps={30} width={1080} height={1920} />
     <Composition id="SuyenC59c" component={SuyenC59c} durationInFrames={framesC59c} fps={30} width={1080} height={1920} />
     <Composition id="SuyenC60" component={SuyenC60} durationInFrames={framesC60} fps={30} width={1080} height={1920} />
+    <Composition id="SuyenC61" component={SuyenC61} durationInFrames={framesC61} fps={30} width={1080} height={1920} />
     <Composition id="SuyenC57S1" component={SuyenC57S1} durationInFrames={suyenCFrames('c57')} fps={30} width={1080} height={1920} />
   </>
 );

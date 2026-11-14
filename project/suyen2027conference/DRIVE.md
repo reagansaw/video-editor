@@ -4,6 +4,8 @@ Company Identity: https://drive.google.com/drive/folders/15MjAtB3Nq_VBmot403b2fj
 
 RAW Video: https://drive.google.com/drive/folders/1w7i0qvTXDjgkmUR9UqzpFp8BSXUOMVwu?usp=drive_link
 
+RAW Video（11-14 这批 · IMG_1699 / IMG_1711）: https://drive.google.com/drive/folders/1wEaX4lTlxhpZXe9q3zBklOUDYPUdRZsJ?usp=drive_link
+
 RAW Picture: https://drive.google.com/drive/folders/1Cg-aWee1X8_vF1A6Y3bzDzxMzWcMa35c?usp=drive_link
 
 Poster:
