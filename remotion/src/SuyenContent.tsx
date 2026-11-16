@@ -14,7 +14,11 @@ import FC_C55 from './suyenc-face-c55.json';
 import FC_C57 from './suyenc-face-c57.json';
 import C57_CUT from './suyenc-c57-subs.json';
 
-const W = 1080, H = 1920, FPS = 30;
+const W = 1080, H = 1920;
+// FPS 预设 30；出 60fps 版时合成最上面呼叫 applyFps(60)（跟 applyTheme 一样的用法）。
+// ANIM_FPS 固定 30：大字入场动画是照 30fps 设计的，换 60fps 不能让它变快一倍
+let FPS = 30; const ANIM_FPS = 30;
+const applyFps = (n: number) => { FPS = n; };
 const f = (s: number) => Math.round(s * FPS);
 const clamp = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const };
 const useT = () => useCurrentFrame() / FPS;
@@ -97,11 +101,18 @@ const faceAt = (ep: Ep, t: number) => {
 };
 
 /* ---------- 镜头：钩子冲进 + 冲击点轻推 ---------- */
-type Cam = { hits: number[]; pushes: [number, number, number][] };
+type Cam = { hits: number[]; pushes: [number, number, number][]; zooms?: [number, number, number][] };
+// zooms：[起, 止, 倍率] —— 整段维持在这个倍率（带 0.5 秒的进出过渡），重点段落用它推近，
+// 其余时间维持 1.0 的原尺寸。跟 pushes（段内慢慢推）可以叠加。
 const camK = (t: number, c: Cam) => {
   let s = 1 + 0.22 * (1 - ease(t, 0, 0.5, Easing.out(Easing.quad)));      // 第 0 帧就冲进来（Visual hook）
   for (const h of c.hits) if (t >= h && t < h + 0.45) s *= 1 + 0.07 * Math.sin(Math.PI * Math.min(1, (t - h) / 0.45));
   for (const [a, b, z] of c.pushes) if (t >= a && t < b) s *= interpolate(t, [a, b], [1, z], { ...clamp, easing: eio });
+  for (const [a, b, z] of c.zooms ?? []) {                                  // 推近一段（进 0.5 秒、出 0.5 秒）
+    if (t < a - 0.5 || t > b + 0.5) continue;
+    const k = t < a ? ease(t, a - 0.5, 0.5, eio) : t > b ? 1 - ease(t, b, 0.5, eio) : 1;
+    s *= 1 + (z - 1) * k;
+  }
   return s;
 };
 const shakeAt = (t: number, hits: number[]) => {
@@ -148,7 +159,7 @@ const Hero: React.FC<{ text: string; at: number; until: number; x: number; y: nu
   ({ text, at, until, x, y, size, tone = 'rose', rotY = -16, rotX = 14, anim = '缩小II', ls = 0.04, vertical, shake = [] }) => {
     const t = useT();
     if (t < at || t > until) return null;
-    const e = jyIn(anim, (t - at) * FPS), out = 1 - ease(t, until - 0.25, 0.25, Easing.in(Easing.quad));
+    const e = jyIn(anim, (t - at) * ANIM_FPS), out = 1 - ease(t, until - 0.25, 0.25, Easing.in(Easing.quad));
     const ry = rotY * (1 + 0.5 * (1 - e.p)) + Math.sin((t - at) * 0.9) * 3, rx = rotX * (1 + 0.4 * (1 - e.p));
     const o = out * e.op, moving = e.p < 0.999 || o < 0.999;
     const n = Math.max(10, Math.round(size / 12)), step = size / 130, [s1, s2] = sideC(tone);
@@ -860,8 +871,8 @@ const CtaEnd: React.FC<{ at: number }> = ({ at }) => {
 
 /* ---------- 片尾 CTA · 人后层（Reagan 11-14：不要整屏粉红卡，片尾只留「留言打上正能量」，放在她身后）----------
    在 behind 层 → 她永远挡在字前面（铁律：字不盖脸）。不加长度、不接旁白（cta_vo 不用）。
-   位置 x50 / y1420 是量过的：左边是她腿外侧唯一塞得下三个字的地方；上面避开字幕、下面避开出片时贴的大会 banner */
-const CtaBehind: React.FC<{ until: number; dur?: number; y?: number; x?: number }> = ({ until, dur = 3.2, y = 1420, x = 50 }) => {
+   位置 x50 / y1270 是量过的（2026-11-16 新 banner 比较高，盖到 y1559，所以从 1420 往上挪）：左边是她腿外侧唯一塞得下三个字的地方；上面避开字幕、下面避开出片时贴的大会 banner */
+const CtaBehind: React.FC<{ until: number; dur?: number; y?: number; x?: number; size?: number }> = ({ until, dur = 3.2, y = 1270, x = 50, size = 62 }) => {
   const t = useT();
   const at = until - dur;
   if (t < at || t > until) return null;
@@ -870,7 +881,7 @@ const CtaBehind: React.FC<{ until: number; dur?: number; y?: number; x?: number 
     <>
       <div style={{ position: 'absolute', left: x, top: y, transform: `translateY(${(1 - u) * 70}px)`, opacity: u }}>
         <div style={{ fontFamily: LTH, fontSize: 34, color: CREAM, letterSpacing: '0.08em', textShadow: '0 3px 12px rgba(0,0,0,0.55)' }}>在留言打上 ↓</div>
-        <div style={{ display: 'inline-block', marginTop: 10, background: ROSE, color: WHITE, fontFamily: LTH, fontSize: 62, letterSpacing: '0.02em',
+        <div style={{ display: 'inline-block', marginTop: 10, background: ROSE, color: WHITE, fontFamily: LTH, fontSize: size, letterSpacing: '0.02em',
           padding: '8px 22px', borderRadius: '24px 6px 24px 24px', border: `5px solid ${CREAM}`, boxShadow: '0 14px 36px rgba(0,0,0,0.35)', transform: `scale(${k})`, transformOrigin: 'left bottom' }}>正能量</div>
       </div>
       <Sfx at={at} s="呼2" /><Sfx at={at + 0.5} s="叮收银机提示音1" />
@@ -880,7 +891,7 @@ const CtaBehind: React.FC<{ until: number; dur?: number; y?: number; x?: number 
 
 /* ---------- 给内容③起的每一集用（src/suyenc/*.tsx）---------- */
 export {
-  W, H, FPS, f, clamp, useT, eo, eio, ease, win, pop, LTH, WHITE, Seigaiha, useFonts, Sfx, CTA_DUR, faceAt, Plate, Hero, TopBanner, IndexPanel, MysteryTiles, NameTag,
+  W, H, FPS, applyFps, f, clamp, useT, eo, eio, ease, win, pop, LTH, WHITE, Seigaiha, useFonts, Sfx, CTA_DUR, faceAt, Plate, Hero, TopBanner, IndexPanel, MysteryTiles, NameTag,
   Glitch, Chip, Cutaway, HandCircle, Checklist, CircleStage, PhoneQimen, Seal, Flash, FlipPair, Bug, Subs, BlindBox, SpeedLines, rng, LuopanRing, Road, mkR, QuestionCard, CtaEnd, CtaBehind,
   applyTheme, shakeAt,
 };

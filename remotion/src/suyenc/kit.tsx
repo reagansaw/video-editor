@@ -3,7 +3,7 @@
 import React from 'react';
 import { AbsoluteFill, Audio, Easing, interpolate, staticFile } from 'remotion';
 import {
-  W, H, f, clamp, useT, ease, win, pop, LTH, WHITE, Seigaiha, useFonts, Sfx, CTA_DUR, Plate, Flash, Bug, Subs, CtaEnd, CtaBehind, applyTheme, mkR, shakeAt,
+  W, H, f, clamp, useT, ease, win, pop, LTH, WHITE, Seigaiha, useFonts, Sfx, CTA_DUR, Plate, Flash, Bug, Subs, CtaEnd, CtaBehind, applyTheme, applyFps, mkR, shakeAt,
   ROSE, ROSE_DEEP, CREAM, NAVY, BUTTERFLY,
 } from '../SuyenContent';
 import type { Ep, Cam, Sub, SubSeg } from '../SuyenContent';
@@ -27,18 +27,37 @@ export const mkEp = (id: string, cut: Cut, face: unknown): { ep: Ep; R: RFn } =>
   ({ ep: { id, dur: cut.dur, face: face as any, tail: CTA_DUR }, R: mkRn(cut.subs) });
 export const epFrames = (cut: Cut) => f(cut.dur + CTA_DUR);
 
+/* ---------- 镜头：自动推近／拉远 ----------
+   Reagan 2026-11-16：「有时候 zoom in 有时候 zoom out，重点的地方要推近」。
+   做法：重点时间（大字、印章、金句那几拍）各开一个推近窗，靠太近的合并，窗跟窗之间留 ≥3.5 秒的原尺寸，
+   这样整支就会「推近 → 拉回 → 再推近」地呼吸，而不是从头紧到尾。
+   keys = 重点时间（成片秒），一般就把 cam.hits 丢进来。 */
+export const autoZooms = (dur: number, keys: number[], o?: { pre?: number; post?: number; max?: number; gap?: number; z?: number }): [number, number, number][] => {
+  const pre = o?.pre ?? 1.2, post = o?.post ?? 4.0, max = o?.max ?? 11, gap = o?.gap ?? 3.5, z = o?.z ?? 1.12;
+  const win = [...keys].sort((a, b) => a - b).map((k) => [Math.max(0.2, k - pre), Math.min(dur - 0.2, k + post)] as [number, number]);
+  const out: [number, number][] = [];
+  for (const w of win) {
+    const last = out[out.length - 1];
+    if (last && w[0] - last[1] < gap) { last[1] = Math.min(Math.max(last[1], w[1]), last[0] + max); continue; }   // 太近就并成一段，但不超过 max
+    if (w[1] > w[0] + 0.6) out.push([w[0], Math.min(w[1], w[0] + max)]);
+  }
+  return out.map(([a, b], i) => [a, b, i % 2 ? z + 0.03 : z]);   // 一段一段轮流深一点／浅一点，看起来不呆板
+};
+
 /* ---------- 外壳：bg → behind（人后大字）→ 抠像人 → 护脸 → 前景 → 字幕 → CTA ---------- */
 export const EpShell: React.FC<{
   ep: Ep; subs: Sub[]; cam: Cam; shakes: number[]; gray?: (t: number) => number;
   behind?: React.ReactNode; children?: React.ReactNode; sfx?: React.ReactNode; yAt?: (t: number) => number; bgm?: number; styleN?: 1 | 2;
-}> = ({ ep, subs, cam, shakes, gray, behind, children, sfx, yAt, bgm = 0.18, styleN = 2 }) => {
-  useFonts(); applyTheme(styleN);
+  fps?: number;   // 预设 30；出 60fps 版时传 60（剪片、抠像、脸轨迹都要是 60 才有意义）
+  cta?: { dur?: number; y?: number; x?: number; size?: number };   // 片尾「正能量」微调（机位不同时用）
+}> = ({ ep, subs, cam, shakes, gray, behind, children, sfx, yAt, bgm = 0.18, styleN = 2, fps = 30, cta }) => {
+  useFonts(); applyTheme(styleN); applyFps(fps);
   const CUT = ep.dur, total = f(ep.dur + ep.tail);
   return (
     <AbsoluteFill style={{ background: '#000' }}>
       <Plate ep={ep} cam={cam} shakes={shakes} gray={gray} layer="bg" />
       {behind}
-      <CtaBehind until={CUT} />
+      <CtaBehind until={CUT} {...(cta ?? {})} />
       <Plate ep={ep} cam={cam} shakes={shakes} gray={gray} layer="person" />
       <Plate ep={ep} cam={cam} shakes={shakes} gray={gray} layer="face" />
       {children}

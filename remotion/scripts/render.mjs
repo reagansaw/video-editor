@@ -10,7 +10,9 @@ const serveUrl = await bundle({ entryPoint: path.join(root, 'src/index.ts'), pub
 try {
   const composition = await selectComposition({ serveUrl, id, chromiumOptions: { gl: 'angle' } });
   let last = 0;
-  await renderMedia({ composition, serveUrl, codec: 'h264', crf: 16, outputLocation: path.resolve(out), chromiumOptions: { gl: 'angle' },
+  const codec = process.env.CODEC || 'h264';   // CODEC=prores + out 用 .mov = 几乎无损中间档（最后只压一次）
+  await renderMedia({ composition, serveUrl, codec, ...(codec === 'prores' ? { proResProfile: process.env.PRORES || 'hq' } : { crf: Number(process.env.CRF || 16) }),
+    outputLocation: path.resolve(out), chromiumOptions: { gl: 'angle' },
     concurrency: Number(process.env.CONCURRENCY || 2), timeoutInMilliseconds: 120000, ...(process.env.FRAMES ? { frameRange: process.env.FRAMES.split('-').map(Number) } : {}),
     onProgress: ({ progress }) => { if (progress - last >= 0.1) { last = progress; console.log(`${Math.round(progress * 100)}%`); } } });
   console.log('done', out);

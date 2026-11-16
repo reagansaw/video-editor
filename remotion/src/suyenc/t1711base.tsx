@@ -3,9 +3,9 @@
 // → 九运离火 2024–2043（罗盘）→ 把包袱抛开往前看 → 正能量要落实 → 布局、破局 → Don't just talk, do it
 // 钩子只差开头那一段，时间一律写 R(原片秒)，所以同一份正文四版通用
 import React from 'react';
-import { Hero, Cutaway, HandCircle, Seal, Flash, TopBanner, LuopanRing, Chip, Sfx } from '../SuyenContent';
+import { Hero, Cutaway, HandCircle, Seal, Flash, TopBanner, LuopanRing, Sfx } from '../SuyenContent';
 import type { Cam, Ep } from '../SuyenContent';
-import { EpShell, subsR, mkYAt, YearStrip } from './kit';
+import { EpShell, subsR, mkYAt, YearStrip, autoZooms } from './kit';
 import type { RFn } from './kit';
 
 export type HookId = 'v1' | 'a' | 'b' | 'd';
@@ -18,7 +18,7 @@ const BASE_SUBS: [string, number, number][] = [
   ['而你可以想想', 23.10, 24.20], ['经历过的风雨依然到了今天', 24.20, 26.40], ['屹立不倒', 26.40, 27.84],
   ['你看从玄学的角度', 51.86, 53.78], ['每 20 年转运一次', 53.78, 55.30], ['十年河东、十年河西', 55.30, 57.82],
   ['你看 80 年就经历了四运', 60.64, 62.64], ['四个运转', 62.64, 64.28],
-  ['来到了九运 2024 年到 2043 年', 121.16, 124.40], ['就是离火九运', 124.40, 126.18], ['九运讲的就是能量磁场', 126.18, 128.10],
+  ['来到了九运', 121.16, 122.80], ['2024 年到 2043 年', 122.80, 124.40], ['就是离火九运', 124.40, 126.18], ['九运讲的就是能量磁场', 126.18, 128.10],
   ['把过去的包袱抛开', 129.52, 131.62], ['一定要往前看', 131.62, 133.64], ['这个就是秘诀', 133.64, 135.02],
   ['要时时刻刻保持这个正能量', 104.94, 107.60], ['正能量不仅仅是口说', 107.60, 110.42], ['而是你必须要把它落实下来', 110.42, 113.00],
   ['布局，然后就可以破局', 254.52, 257.00],
@@ -33,30 +33,35 @@ const HOOK_SUBS: Record<HookId, [string, number, number][]> = {
   d: [['当你去到了高点', 84.42, 86.24], ['它就会跌落来低点', 86.24, 87.88], ['它就会走下坡', 87.88, 89.00]],
 };
 
-export const T1711Body: React.FC<{ ep: Ep; R: RFn; hook: HookId }> = ({ ep, R, hook }) => {
+// wide = 宽机位（IMG_4861 那种全身中远景，她在画面右边）：人后层大字往左挪到空背板上、片尾「正能量」放大
+export const T1711Body: React.FC<{ ep: Ep; R: RFn; hook: HookId; fps?: number; wide?: boolean }> = ({ ep, R, hook, fps = 30, wide }) => {
+  const BX = wide ? 430 : 540, BX2 = wide ? 410 : 520, BY = wide ? 40 : 0;   // BY：宽机位时大字往下挪，不顶到顶部标题条
   const CUTT = ep.dur;
   const subs = subsR(R, [...HOOK_SUBS[hook], ...BASE_SUBS] as any);
   const shakes = [R(153.84), R(26.40), R(124.40), R(266.56)];
+  const hits = [0.05, R(148.40), R(153.84), R(26.40), R(55.30), R(62.64), R(124.40), R(131.62), R(104.94), R(254.52), R(266.56)];
   const cam: Cam = {
-    hits: [0.05, R(148.40), R(153.84), R(26.40), R(55.30), R(62.64), R(124.40), R(131.62), R(104.94), R(254.52), R(266.56)],
+    hits,
     pushes: [[R(110.42), R(113.00), 1.05], [R(265.14), R(267.78), 1.06]],
+    // 重点推近、其余拉回原尺寸（Reagan 11-16）
+    zooms: autoZooms(ep.dur, [R(148.40), R(153.84), R(26.40), R(62.64), R(124.40), R(131.62), R(104.94), R(254.52), R(266.56)]),
   };
   // 顶部标题条：钩子讲完才上（各版的第一段不一样）
   const bannerAt = hook === 'b' ? R(10.96) : hook === 'd' ? R(146.96) : hook === 'a' ? R(146.96) : R(151.10);
   return (
-    <EpShell ep={ep} subs={subs} cam={cam} shakes={shakes}
+    <EpShell ep={ep} subs={subs} cam={cam} shakes={shakes} fps={fps} cta={wide ? { size: 72, y: 1230 } : undefined}
       behind={<>
         {hook === 'b' && <Hero text="80 年？" at={R(7.20)} until={R(10.28)} x={540} y={430} size={250} tone="cream" anim="呐喊声波" />}
-        {hook === 'd' && <Hero text="走下坡" at={R(87.88)} until={R(89.00)} x={540} y={430} size={240} tone="navy" anim="呐喊声波" shake={[R(87.88)]} />}
-        <Hero text="落实" at={R(148.40)} until={R(150.22)} x={540} y={430} size={280} tone="rose" anim="呐喊声波" shake={[R(148.40)]} />
-        <Hero text="没有行动" at={R(153.84)} until={R(155.30)} x={540} y={420} size={190} tone="navy" anim="呐喊声波" shake={[R(153.84)]} />
-        {hook !== 'b' && <Hero text="80 年" at={R(11.90)} until={R(14.40)} x={520} y={400} size={240} tone="cream" />}
-        <Hero text="四个运转" at={R(62.64)} until={R(64.28)} x={540} y={420} size={200} tone="cream" anim="呐喊声波" />
+        {hook === 'd' && <Hero text="走下坡" at={R(87.88)} until={R(89.00)} x={540} y={430 + BY} size={240} tone="navy" anim="呐喊声波" shake={[R(87.88)]} />}
+        <Hero text="落实" at={R(148.40)} until={R(150.22)} x={BX} y={430 + BY} size={280} tone="rose" anim="呐喊声波" shake={[R(148.40)]} />
+        <Hero text="没有行动" at={R(153.84)} until={R(155.30)} x={BX} y={420 + BY} size={190} tone="navy" anim="呐喊声波" shake={[R(153.84)]} />
+        {hook !== 'b' && <Hero text="80 年" at={R(11.90)} until={R(14.40)} x={BX2} y={400 + BY} size={240} tone="cream" />}
+        <Hero text="四个运转" at={R(62.64)} until={R(64.28)} x={BX} y={420 + BY} size={200} tone="cream" anim="呐喊声波" />
         <LuopanRing from={R(126.18)} to={R(128.10)} lock={R(127.6)} cx={540} cy={560} r={430} />
-        <Hero text="九运 · 离火" at={R(124.40)} until={R(126.18)} x={540} y={420} size={170} tone="rose" anim="呐喊声波" shake={[R(124.40)]} />
-        <Hero text="往前看" at={R(131.62)} until={R(133.64)} x={540} y={430} size={220} tone="rose" anim="呐喊声波" />
-        <Hero text="正能量" at={R(104.94)} until={R(107.60)} x={540} y={420} size={230} tone="cream" anim="呐喊声波" />
-        <Hero text="Do it" at={R(266.56)} until={R(267.78)} x={540} y={430} size={240} tone="rose" anim="呐喊声波" shake={[R(266.56)]} />
+        <Hero text="九运 · 离火" at={R(124.40)} until={R(126.18)} x={BX} y={420 + BY} size={170} tone="rose" anim="呐喊声波" shake={[R(124.40)]} />
+        <Hero text="往前看" at={R(131.62)} until={R(133.64)} x={BX} y={430 + BY} size={220} tone="rose" anim="呐喊声波" />
+        <Hero text="正能量" at={R(104.94)} until={R(107.60)} x={BX} y={420 + BY} size={230} tone="cream" anim="呐喊声波" />
+        <Hero text="Do it" at={R(266.56)} until={R(267.78)} x={BX} y={430} size={240} tone="rose" anim="呐喊声波" shake={[R(266.56)]} />
       </>}
       yAt={mkYAt([[R(51.86), R(64.28)], [R(121.16), R(128.10)]], [[R(11.90), R(17.00)]])}
       sfx={<>
@@ -77,7 +82,6 @@ export const T1711Body: React.FC<{ ep: Ep; R: RFn; hook: HookId }> = ({ ep, R, h
       <Seal text="屹立不倒" at={R(26.40)} until={R(27.84)} x={190} y={760} size={190} />
       <YearStrip at={R(60.64)} until={R(64.28)} y={880} title="80 年 · 四个运转"
         items={[{ year: '1944', word: '一运', at: R(60.9) }, { year: '1964', word: '二运', at: R(61.6) }, { year: '1984', word: '三运', at: R(62.3) }, { year: '2004', word: '四运', at: R(63.0), up: 1 }]} />
-      <Chip text="2024 – 2043" at={R(121.16)} until={R(124.40)} x={620} y={1240} tone="navy" size={52} />
       <HandCircle ep={ep} at={R(133.64)} until={R(135.02)} label="秘诀" labelAt={R(133.9)} />
       <Seal text="布局" at={R(254.52)} until={R(257.00)} x={190} y={820} size={180} />
       <Seal text="破局" at={R(255.80)} until={R(257.00)} x={190} y={1060} size={180} rot={4} />

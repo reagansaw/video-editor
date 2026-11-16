@@ -30,7 +30,7 @@ claude plugin install video-craft@video-craft       # 装插件本体
 | 内容⑭ | 3 天 · 4 大收获 | C0059 215–383 | `SuyenC59c` | 玫红 style 2 | intro_v2 | 待填 |
 | 内容⑮ | 学生真实故事：美容院老板 | C0060 10–247 | `SuyenC60` | 玫红 style 2 | 100K→50K p2_loss | 待填 |
 | 内容⑯ | 择日指南 2027 | （择日指南原片，不在 C0049–C0060） | `—（不是 Remotion 合成）` | 原片直出 + 下 banner | — | 待填 |
-| 内容⑰ | 华耀奖 2026：2027 两个字「落实」 | IMG_1711（iPhone 4K60 HDR，已转 SDR） | `SuyenT1711` | 玫红 style 2 | 荣誉墙 award_wall（IMG_1699） | 待填 |
+| 内容⑰ | 华耀奖 2026：2027 两个字「落实」 | IMG_1711（iPhone 4K60 HDR，已转 SDR） | `SuyenT1711` | 玫红 style 2 | 荣誉墙 award_wall（IMG_1699） | 玫红模板（钩子赛马 4 版：v1 落实 ✅定稿 / A 不要再讲 / B 80 年 / D 走下坡） |
 
 ## 新的一支怎么填
 

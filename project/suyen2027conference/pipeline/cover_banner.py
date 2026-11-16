@@ -2,7 +2,7 @@
 用法（repo 根目录）：python3 pipeline/cover_banner.py <成片.mp4> <海报图> <输出.mp4> [--scale 1.22] [--x 35] [--phone]
 - 第 1 帧 = 海报（满屏 1080×1920，没有 banner），第 2 帧起是影片，下面一直有 banner
 - 海报是 3:4：放大 --scale 倍、左边起 --x 裁 1080 宽（让左边大字不被切、人脸完整），下面不够的用海报最下面镜像补满（不模糊）
-- 下 banner：remotion/public/suyenc/banner_bottom.webp 原图 2000×530，缩成 1080 宽贴底
+- 下 banner：remotion/public/suyenc/banner_bottom_2027.png 原图 2170×725，缩成 1080 宽（≈361 高）贴底
 - --phone：另外出手机版（crf 25、maxrate 6M）"""
 import argparse, os, subprocess, tempfile
 ap = argparse.ArgumentParser()
@@ -12,7 +12,7 @@ ap.add_argument('--phone', action='store_true')
 ap.add_argument('--ratio45', action='store_true', help='出 Instagram Feed 用的 4:5（1080×1350）版')
 a = ap.parse_args()
 R = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-banner = f'{R}/remotion/public/suyenc/banner_bottom.webp'
+banner = f'{R}/remotion/public/suyenc/banner_bottom_2027.png'   # 2026-11-16 起的新 banner（2170×725）
 w, h = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'stream=width,height', '-of', 'csv=p=0', a.poster],
                       capture_output=True, text=True, check=True).stdout.strip().split(',')
 sw = round(1080 * a.scale)

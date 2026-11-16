@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# 内容片剪辑工具：竖拍原片 → 转正 → 按段剪 → 段内长停顿（拖）自动删掉 → 接起来 → 整支加速
+# 内容片剪辑工具：竖拍原片 → 转正 → 按段剪 → 段内长停顿（拖）自动删掉 → 接起来 → 整支加速 + 去背景噪音
 # Reagan 10-31：「讲话有点慢」「字跟字中间 gap 有时拖很长……找出这些拖的删了它，节奏快一些」
 # 停顿 = 能量低于 SIL_DB 且 ≥ MIN_GAP 秒；删到只留两边各 PAD 秒
 # 用法：from cutlib import build; build('C0055', PIECES, 'c55', speed=1.15)
@@ -8,6 +8,10 @@ H = os.path.dirname(os.path.abspath(__file__))
 RAWDIR = os.environ.get('SUYEN_RAW') or os.path.join(H, '..', 'raw')   # 原片放这里（<编号>.MP4/.mov…，或 export SUYEN_RAW）
 PUB = os.path.join(H, '..', 'remotion', 'public', 'suyenc')
 SIL_DB, MIN_GAP, PAD = -30, 0.16, 0.06
+DENOISE = os.environ.get('DENOISE', '1')   # 1 = 去背景噪音（现场冷气／人声嗡嗡）；DENOISE=0 关掉
+CUT_FPS = os.environ.get('CUT_FPS', '30')   # 出 60fps 版时给 CUT_FPS=60（抠像、脸轨迹、合成都要跟着 60）
+CUT_CRF = os.environ.get('CUT_CRF', '15')   # 每段中间档的 crf（要更清楚就调到 10）
+OUT_CRF = os.environ.get('OUT_CRF', '16')   # 接起来 + 加速那一道的 crf
 
 def run(cmd):
     r = subprocess.run(cmd, capture_output=True, text=True)
@@ -68,16 +72,16 @@ def build(src_id, pieces, out_id, speed=1.15, rot=None):
         lo = rng[0][0]; hi = rng[-1][1]
         cond = '+'.join(f'gte(t\\,{a - lo:.4f})*lt(t\\,{b - lo:.4f})' for a, b in rng)
         o = f'{H}/_p{pi}.mov'
-        fc = (f"[0:v]select='{cond}',setpts=N/({FPS0:.6f})/TB,{SDR}{'transpose=1,' if rot else ''}scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,setsar=1,fps=30[v];"
+        fc = (f"[0:v]select='{cond}',setpts=N/({FPS0:.6f})/TB,{SDR}{'transpose=1,' if rot else ''}scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,setsar=1,fps={CUT_FPS}[v];"
               f"[0:a]aselect='{cond}',asetpts=N/SR/TB,aresample=48000[a]")
         run(['nice', '-n', '10', 'ffmpeg', '-v', 'error', '-y', '-threads', '2', '-ss', f'{lo}', '-to', f'{hi + 0.05}', '-i', src, '-filter_complex', fc,
-             '-map', '[v]', '-map', '[a]', '-ac', '1', '-c:v', 'libx264', '-crf', '15', '-preset', 'fast', '-pix_fmt', 'yuv420p', '-c:a', 'pcm_s16le', '-ar', '48000', o])
+             '-map', '[v]', '-map', '[a]', '-ac', '1', '-c:v', 'libx264', '-crf', CUT_CRF, '-preset', 'fast', '-pix_fmt', 'yuv420p', '-c:a', 'pcm_s16le', '-ar', '48000', o])
         tmp.append(o)
         pdur[pi] = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', o], capture_output=True, text=True).stdout.strip())
     lst = f'{H}/_list.txt'; open(lst, 'w').write(''.join(f"file '{p}'\n" for p in tmp))
     out = os.path.join(PUB, f'{out_id}.mp4')
     run(['nice', '-n', '10', 'ffmpeg', '-v', 'error', '-y', '-threads', '2', '-f', 'concat', '-safe', '0', '-i', lst,
-         '-vf', f'setpts=PTS/{speed},fps=30', '-af', f'atempo={speed},loudnorm=I=-16:TP=-1.5', '-c:v', 'libx264', '-crf', '16', '-preset', 'fast', '-pix_fmt', 'yuv420p',
+         '-vf', f'setpts=PTS/{speed},fps={CUT_FPS}', '-af', f'atempo={speed},{"highpass=f=80,afftdn=nf=-28:tn=1," if DENOISE == "1" else ""}loudnorm=I=-16:TP=-1.5', '-c:v', 'libx264', '-crf', OUT_CRF, '-preset', 'fast', '-pix_fmt', 'yuv420p',
          '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', out])
     for p in tmp + [lst]: os.remove(p)
     # 时间表用每段实际的帧长（30fps 取整后）算，特效才对得上

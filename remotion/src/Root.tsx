@@ -24,6 +24,8 @@ import { SuyenT1711, framesT1711 } from './suyenc/t1711';
 import { SuyenT1711A, framesT1711A } from './suyenc/t1711a';
 import { SuyenT1711B, framesT1711B } from './suyenc/t1711b';
 import { SuyenT1711D, framesT1711D } from './suyenc/t1711d';
+import { SuyenT171160, framesT171160 } from './suyenc/t171160';
+import { SuyenT4861, framesT4861 } from './suyenc/t4861';
 
 // 横版 16:9：钩子 P1 / I2 / P6 + 广告第一集；竖版 S4（C0057，广告不用，只留着参考）
 export const Root: React.FC = () => (
@@ -76,6 +78,8 @@ export const Root: React.FC = () => (
     <Composition id="SuyenT1711A" component={SuyenT1711A} durationInFrames={framesT1711A} fps={30} width={1080} height={1920} />
     <Composition id="SuyenT1711B" component={SuyenT1711B} durationInFrames={framesT1711B} fps={30} width={1080} height={1920} />
     <Composition id="SuyenT1711D" component={SuyenT1711D} durationInFrames={framesT1711D} fps={30} width={1080} height={1920} />
+    <Composition id="SuyenT171160" component={SuyenT171160} durationInFrames={framesT171160} fps={60} width={1080} height={1920} />
+    <Composition id="SuyenT4861" component={SuyenT4861} durationInFrames={framesT4861} fps={30} width={1080} height={1920} />
     <Composition id="SuyenC57S1" component={SuyenC57S1} durationInFrames={suyenCFrames('c57')} fps={30} width={1080} height={1920} />
   </>
 );

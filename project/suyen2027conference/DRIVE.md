@@ -25,3 +25,20 @@ Final Video:
 | `remotion/node_modules/` | 不用拉，`cd remotion && npm install` |
 
 留在 GitHub 的只有声音：`bgm/`、`remotion/public/audio/`（BGM）、`remotion/public/sfx22/`（音效）。
+
+---
+
+## iCloud（素材正本在这里，不是 Google Drive）
+
+`~/Library/Mobile Documents/com~apple~CloudDocs/Master Suyen/`
+
+| 资料夹 | 里面是什么 |
+|---|---|
+| `Content 成品/` | 内容片成品（交片放这里，`内容N.mp4`） |
+| `Marketing Video/` | 广告成品（`广告N.mp4`） |
+| `中国报 2026/` | 华耀奖那一批原片（IMG_1699 / 1711 / 4846 / 4861） |
+| `RAW/` · `Others/` | 其他原片 |
+| `2027 奇门战略大会/` | Bottom Banner.png · Top Banner.png · OTO/ |
+| `CTA/` | CTA 正能量.mp4 |
+| `2027 丁未年十二生肖/` · `2027 生肖求财方向指南/` | lead magnet 文件 |
+| `Master Photo/` | 形象照 |

@@ -84,6 +84,13 @@ description: Master Suyen（林舒苑）竖版内容片模板「玫红 style 2�
 ### 流程
 20. **先出分镜检查图给 Reagan 看，点头才渲染。**
 21. Reagan 常在外面：**交手机版**（crf 25、maxrate 6M，约 17–22MB），并报每支的秒数。
+22. **每支做完就放进 iCloud**：`~/Library/Mobile Documents/com~apple~CloudDocs/Master Suyen/Content 成品/`（2026-11-16 起的新路径；广告片放隔壁 `Marketing Video/`），档名就是 `内容N.mp4`。**只放完整版**（首页海报 + 下 banner + 片尾 CTA 都做完、高码率那一支），粗剪、分镜图、赛马备选版留在 `~/Downloads`。
+23. **下 banner 一律用 `banner_bottom_2027.png`**（2026-11-16 Reagan 给的新图，广告和内容片都用）。它比旧的高：贴到 1080 宽约 361 高、盖住 y1559 以下，所以片尾「正能量」这种贴底元件要收在 **y ≤ 1540**（预设已改成 y1270）。
+25. **去背景噪音**：剪片那一道已经自动做（`cutlib.py`：`highpass=80` + `afftdn=nf=-28:tn=1` → 再 loudnorm）。现场冷气声、人声嗡嗡、户外风声都收掉。录音本来就很干净、或降噪听起来闷掉时，用 `DENOISE=0` 关掉重剪。
+26. **镜头要呼吸：推近／拉回交替**（Reagan 11-16：「有时候 zoom in 有时候 zoom out，重点的地方要推近」）。
+    用 `autoZooms(ep.dur, keys)` 产生 `cam.zooms`：每个重点（大字、印章、金句那几拍）开一个约 5 秒的推近窗（1.12–1.15 倍，进出各 0.5 秒过渡），靠太近的自动并成一段、最长 11 秒，窗跟窗之间留 ≥3.5 秒回到原尺寸。
+    `keys` 一般就把 `cam.hits` 里那几个重点时间丢进去。**不要整支一直紧**——拉回来才看得出推近。
+27. **字幕一行放不下就自己拆成两句**，不要让它自动换行（换行会把第二行推到 banner 上）。图卡／标签也不要跟字幕叠在同一个 y。
 
 ---
 
@@ -159,17 +166,53 @@ cd .. && bash content/matte.sh c53 600 620  # → public/suyenc/pf/c53.webm + sr
 # 5) 分镜检查图（每 2.5 秒一格 + 每个效果入场 +0.15s/+0.6s）→ 自己先逐格查（字盖脸？小卡位置？字幕被图卡挡？）→ 给 Reagan，等他点头
 cd remotion && nice -n 19 node scripts/stills.mjs '[["SuyenC53","c53-00.3",0.3],["SuyenC53","c53-02.5",2.5]]'
 
-# 6) 渲染 + 母带 + 手机版
-CONCURRENCY=2 nice -n 19 node scripts/render.mjs SuyenC53 out/c53-raw.mp4
-nice -n 19 ffmpeg -threads 2 -i out/c53-raw.mp4 -c:v copy \
-  -af "loudnorm=I=-15:TP=-2:LRA=11,aresample=192000,alimiter=limit=0.79:attack=3:release=60:level=false,aresample=48000" \
-  -c:a aac -b:a 192k -movflags +faststart ~/Downloads/"Suyen-内容③-<题目>-竖版-v1.mp4"
-nice -n 19 ffmpeg -threads 2 -i ~/Downloads/"Suyen-内容③-<题目>-竖版-v1.mp4" -c:v libx264 -crf 25 -maxrate 6M -bufsize 12M -preset medium \
-  -pix_fmt yuv420p -c:a copy -movflags +faststart ~/Downloads/"Suyen-内容③-<题目>-竖版-v1-手机.mp4"
+# 6) 渲染（高画质旋钮见 4c）
+CRF=12 CONCURRENCY=2 nice -n 19 node scripts/render.mjs SuyenC53 out/c53-raw.mp4
+# 7) 一次压完：第 1 帧海报 + 下 banner + 片尾 CTA 卡 + 响度，全部在同一道（**不要分三次压**，见 4c）
 # QA：ebur128 响度 −15～−16 LUFS、峰值 ≤ −1；silencedetect −40dB 0.4s = 0；YAVG<20 黑帧 = 0
 ```
 
 8GB Mac：重活一次一个、`nice -n 19`、ffmpeg `-threads 2`、渲染 `CONCURRENCY=2`；只删自己产生的档、只杀自己的 PID。
+
+## 4c. 高画质出片（2026-11-15 定；Reagan 嫌糊之后改的）
+
+**糊不是原片的问题，是压了太多代。** 之前一支片被压 4 次（剪片 → 接片 → 贴 banner → 接 CTA → 手机版），最后交出去只有 3.3 Mbps。现在两条规矩：
+
+**① 每一道都调高（旋钮已经做成环境变数，预设不变）**
+
+| 环节 | 预设 | 高画质 | 怎么给 |
+|---|---|---|---|
+| 剪片中间档 | crf 15 | **10** | `CUT_CRF=10` |
+| 接起来 + 1.15 倍 | crf 16 | **12** | `OUT_CRF=12` |
+| 抠像人像层 webm | 6M | **12M** | `MATTE_BV=12M` |
+| Remotion 渲染 | crf 16 | **12** | `CRF=12` |
+| B-roll 小片 | 随手 crf 18 | **12** | 自己下 `-crf 12 -preset slow` |
+
+```bash
+CUT_CRF=10 OUT_CRF=12 python3 prep_<id>.py        # 剪
+MATTE_BV=12M bash content/matte.sh <id> <fx> <fy>  # 抠像
+CRF=12 CONCURRENCY=2 node scripts/render.mjs <合成> out/<id>-hq-raw.mp4
+```
+
+**② 最后一定一次压完**（海报 + banner + CTA 卡 + 响度同一道，crf 16 / preset slow）：
+
+```bash
+ffmpeg -y -threads 2 -i out/<id>-hq-raw.mp4 -loop 1 -i <海报 1080x1920.png> -loop 1 -i remotion/public/suyenc/banner_bottom.webp -i <CTA卡.mp4> \
+ -filter_complex "[2]scale=1080:-2[bn];[0:v]fps=30,setsar=1[v0a];[v0a][bn]overlay=0:H-h:shortest=1[v0b];\
+ [v0b][1]overlay=0:0:enable='lt(n,1)':shortest=1,format=yuv420p[v0];\
+ [0:a]loudnorm=I=-15:TP=-2:LRA=11,aresample=48000,aformat=channel_layouts=stereo[a0];\
+ [3:v]fps=30,setsar=1,format=yuv420p[v1];[3:a]aresample=48000,aformat=channel_layouts=stereo,volume=1.8dB[a1];\
+ [v0][a0][v1][a1]concat=n=2:v=1:a=1[v][a]" -map "[v]" -map "[a]" \
+ -c:v libx264 -crf 16 -preset slow -maxrate 20M -bufsize 40M -pix_fmt yuv420p -c:a aac -b:a 192k -movflags +faststart <成片.mp4>
+```
+
+出来的成片约 **11–16 Mbps / 80–120MB / 60 秒**。交到 iCloud 的就是这一支（见铁律 22），**不要再压 crf 25 的手机版送上去**；真的要小档（手机流量传）才另外出一支，档名加 `-手机`。
+
+- 海报：有 1080×1920 的直接用；只有 3:4 的，整张放中间、上下各补 240 用「边缘顺着拉」（**不要镜像、不要模糊**，Reagan 11-15 两个都否掉了）。
+- CTA 卡那一段的响度要先量（`ebur128`），跟正文差多少就用 `volume=XdB` 补平。
+- 原片是 iPhone HDR（BT.2020 / HLG）的话 `cutlib.py` 会自动转 bt709，不转的话抠像的 alpha Remotion 不认（人后层的字会整个不见）。
+
+---
 
 ## 4b. 用团队自己素材库的新片（不是 C0049–C0060）
 
