@@ -346,6 +346,21 @@ body:has(.modal:target),body:has(.modal.ag-open){overflow:hidden}
 @keyframes mJump{0%,62%,100%{transform:translateY(0)}68%{transform:translateY(-9px)}74%{transform:translateY(0)}80%{transform:translateY(-4px)}86%{transform:translateY(0)}}
 @keyframes mGlow{0%,60%,100%{box-shadow:0 8px 22px rgba(208,63,88,.35)}75%{box-shadow:0 8px 22px rgba(208,63,88,.35),0 0 0 8px rgba(208,63,88,.18)}}
 #signup .field .req{margin-left:4px}#signup .field .opt{margin-left:8px}
+.modal-x{width:44px;height:44px}
+
+/* ===== 小屏幕（320–392px）：照 viewports 规则，只在比 393px 窄时缩，390 手机和电脑尺寸不变 ===== */
+@media(max-width:392.98px){
+  .h2{font-size:clamp(40px,14vw,55px)}
+  .hero .l3{font-size:clamp(48px,18vw,64px)}
+  .prof h1{font-size:clamp(32px,10.5vw,40px)}
+}
+@media(max-width:359.98px){
+  .hero{padding:36px 14px 32px;margin-left:12px;margin-right:12px}
+  .picker{padding:16px 10px 14px}
+  .zgrid{gap:6px}
+}
+.zt i,.zgrid i{font-size:12px!important;letter-spacing:.5px}
+.picker-h small{font-size:12px}
 
 .bridge{max-width:760px;text-align:left}
 .bridge p{font-size:17px;line-height:1.8;color:var(--muted);margin-top:14px}
