@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>2027 生肖财运指南 · 林舒苑老师</title>
-<meta name="description" content="选择你的生肖，逐层了解 2027 求财机会、贵人助力、出生年柱求财方向与行动重点。免费阅读，可领取图片版到 WhatsApp。">
+<meta name="description" content="选择你的生肖，逐层了解 2027 求财机会、贵人助力、出生年柱求财方向与行动重点。免费阅读，再报名 2027 奇门遁甲战略大会。">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@700;900&family=Noto+Sans+SC:wght@400;700;900&display=swap">
 <style>
@@ -271,7 +271,37 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
 .after,.mbar{display:none}
 .zr:checked~.after,.zr:checked~.mbar{display:block}
 @media(min-width:900px){.hero{min-height:calc(100vh - 92px)}}
-.close{padding:64px 0 0}
+.close{padding:64px 0 32px}
+.cdate .g{display:inline-block}
+.cdate{font-size:16px;font-weight:700;line-height:1.7;color:var(--beige)!important;margin-bottom:6px}
+/* 报名弹窗：开关由平台的 data-aigoal-modal 负责；本机预览用 :target 顶替 */
+.modal{display:none;position:fixed;inset:0;z-index:9998;align-items:center;justify-content:center;padding:16px;background:rgba(42,20,24,.6)}
+.modal:target{display:flex}
+.modal-card{position:relative;width:100%;max-width:460px;max-height:92vh;overflow:auto;background:var(--canvas);border-radius:var(--radius-md);padding:28px 20px 22px;box-shadow:var(--shadow-2)}
+.modal-x{position:absolute;top:10px;right:12px;width:40px;height:40px;border:0;border-radius:50%;background:var(--surface);font-size:26px;line-height:1;color:var(--ink);cursor:pointer;text-decoration:none;display:grid;place-items:center}
+.modal-card .mh{font-size:28px;font-weight:900;line-height:1.3;padding-right:36px}
+.modal-sub{font-size:15px;line-height:1.7;color:var(--muted);margin-top:6px}
+.modal form{display:grid;gap:14px;margin-top:16px}
+.modal .field>label,.modal .field>.lb{display:block;font-size:15px;font-weight:700;margin-bottom:6px}
+.modal .req{color:var(--crimson)}
+.modal .opt{font-weight:400;color:var(--muted);margin-left:6px;font-size:13px}
+.modal .field input[type=text],.modal .field input[type=tel],.modal .field input[type=email]{width:100%;height:52px;border:2px solid var(--line);border-radius:var(--radius-sm);padding:0 16px;font:400 17px var(--sans);color:var(--ink);background:#FFFDF8}
+.modal .field input:focus{outline:none;border-color:var(--crimson)}
+.modal .err{display:none;font-size:13px;color:var(--crimson-600);margin-top:4px}
+.pick-hint{font-size:13px;color:var(--muted);margin:-2px 0 8px}
+.pick{display:flex;flex-wrap:wrap;gap:8px}
+.pk{position:relative;cursor:pointer}
+.pk input{position:absolute;opacity:0;width:1px;height:1px}
+.pk span{display:inline-block;padding:9px 14px;border:1.5px solid var(--line);border-radius:999px;font-size:15px;font-weight:700;background:#FFFDF8}
+.pk input:checked+span{background:var(--crimson);border-color:var(--crimson);color:#fff}
+.pk input:focus-visible+span{outline:3px solid var(--crimson-900);outline-offset:2px}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.6;color:var(--muted);cursor:pointer}
+.consent input{width:20px;height:20px;margin-top:2px;flex-shrink:0;accent-color:var(--crimson)}
+.modal form .btn{width:100%;margin-top:4px}
+.status{font-size:14px;color:var(--crimson-600);min-height:20px;text-align:center}
+.modal .field .req,.modal .field .opt{display:inline;margin:0 0 0 4px}
+.modal .field .err{display:none}
+
 .bridge{max-width:760px;text-align:left}
 .bridge p{font-size:17px;line-height:1.8;color:var(--muted);margin-top:14px}
 .bridge strong{color:var(--ink)}
@@ -335,7 +365,7 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
 <div id="read">
 <div class="rd rd0">
   <div class="rbar"><div class="wrap"><span class="t">2027 · 属鼠的求财指南</span><label class="back" for="znone">重新选生肖 ↺</label></div>
-    <nav class="qnav" aria-label="指南章节"><a href="#z0-opp">财运</a><a href="#z0-people">贵人</a><a href="#z0-dir">求财方向</a><a href="#z0-time">月份</a><a href="#z0-check">核对</a><a href="#z0-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <nav class="qnav" aria-label="指南章节"><a href="#z0-opp">财运</a><a href="#z0-people">贵人</a><a href="#z0-dir">求财方向</a><a href="#z0-time">月份</a><a href="#z0-check">核对</a><a href="#z0-plan">行动卡</a><a href="#z0-conf">战略大会</a></nav>
     <div class="prog"><i></i></div></div>
   <div class="prof">
     <div>
@@ -409,7 +439,7 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
     </div>
     <p class="note">只在你的手机上，不会提交个人资料。</p>
   </section>
-  <section class="close">
+  <section class="close" id="z0-conf">
     <div class="bridge">
       <span class="pill">你的生肖，是看懂 2027 的第一步</span>
       <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
@@ -422,15 +452,16 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
       <h3>2027 年奇门遁甲<br>战略大会</h3>
       <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
       <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
-      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
-      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+      <p class="cdate">2027 年 1 月 8–10 日（五、六、日）<br><span class="g">1 月 8 日 8:30pm ｜</span> <span class="g">1 月 9–10 日 1pm–6pm</span><br>Zoom 线上直播</p>
+      <a class="btn btn-white" href="#signup" data-modal-open="lead">立即报名，提前布局 2027</a>
+      <p class="meta">免费参与 · 30 秒填好</p>
     </div>
   </section>
   </div>
 </div>
 <div class="rd rd1">
   <div class="rbar"><div class="wrap"><span class="t">2027 · 属牛的求财指南</span><label class="back" for="znone">重新选生肖 ↺</label></div>
-    <nav class="qnav" aria-label="指南章节"><a href="#z1-opp">财运</a><a href="#z1-people">贵人</a><a href="#z1-dir">求财方向</a><a href="#z1-time">月份</a><a href="#z1-check">核对</a><a href="#z1-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <nav class="qnav" aria-label="指南章节"><a href="#z1-opp">财运</a><a href="#z1-people">贵人</a><a href="#z1-dir">求财方向</a><a href="#z1-time">月份</a><a href="#z1-check">核对</a><a href="#z1-plan">行动卡</a><a href="#z1-conf">战略大会</a></nav>
     <div class="prog"><i></i></div></div>
   <div class="prof">
     <div>
@@ -504,7 +535,7 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
     </div>
     <p class="note">只在你的手机上，不会提交个人资料。</p>
   </section>
-  <section class="close">
+  <section class="close" id="z1-conf">
     <div class="bridge">
       <span class="pill">你的生肖，是看懂 2027 的第一步</span>
       <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
@@ -517,15 +548,16 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
       <h3>2027 年奇门遁甲<br>战略大会</h3>
       <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
       <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
-      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
-      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+      <p class="cdate">2027 年 1 月 8–10 日（五、六、日）<br><span class="g">1 月 8 日 8:30pm ｜</span> <span class="g">1 月 9–10 日 1pm–6pm</span><br>Zoom 线上直播</p>
+      <a class="btn btn-white" href="#signup" data-modal-open="lead">立即报名，提前布局 2027</a>
+      <p class="meta">免费参与 · 30 秒填好</p>
     </div>
   </section>
   </div>
 </div>
 <div class="rd rd2">
   <div class="rbar"><div class="wrap"><span class="t">2027 · 属虎的求财指南</span><label class="back" for="znone">重新选生肖 ↺</label></div>
-    <nav class="qnav" aria-label="指南章节"><a href="#z2-opp">财运</a><a href="#z2-people">贵人</a><a href="#z2-dir">求财方向</a><a href="#z2-time">月份</a><a href="#z2-check">核对</a><a href="#z2-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <nav class="qnav" aria-label="指南章节"><a href="#z2-opp">财运</a><a href="#z2-people">贵人</a><a href="#z2-dir">求财方向</a><a href="#z2-time">月份</a><a href="#z2-check">核对</a><a href="#z2-plan">行动卡</a><a href="#z2-conf">战略大会</a></nav>
     <div class="prog"><i></i></div></div>
   <div class="prof">
     <div>
@@ -599,7 +631,7 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
     </div>
     <p class="note">只在你的手机上，不会提交个人资料。</p>
   </section>
-  <section class="close">
+  <section class="close" id="z2-conf">
     <div class="bridge">
       <span class="pill">你的生肖，是看懂 2027 的第一步</span>
       <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
@@ -612,15 +644,16 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
       <h3>2027 年奇门遁甲<br>战略大会</h3>
       <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
       <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
-      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
-      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+      <p class="cdate">2027 年 1 月 8–10 日（五、六、日）<br><span class="g">1 月 8 日 8:30pm ｜</span> <span class="g">1 月 9–10 日 1pm–6pm</span><br>Zoom 线上直播</p>
+      <a class="btn btn-white" href="#signup" data-modal-open="lead">立即报名，提前布局 2027</a>
+      <p class="meta">免费参与 · 30 秒填好</p>
     </div>
   </section>
   </div>
 </div>
 <div class="rd rd3">
   <div class="rbar"><div class="wrap"><span class="t">2027 · 属兔的求财指南</span><label class="back" for="znone">重新选生肖 ↺</label></div>
-    <nav class="qnav" aria-label="指南章节"><a href="#z3-opp">财运</a><a href="#z3-people">贵人</a><a href="#z3-dir">求财方向</a><a href="#z3-time">月份</a><a href="#z3-check">核对</a><a href="#z3-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <nav class="qnav" aria-label="指南章节"><a href="#z3-opp">财运</a><a href="#z3-people">贵人</a><a href="#z3-dir">求财方向</a><a href="#z3-time">月份</a><a href="#z3-check">核对</a><a href="#z3-plan">行动卡</a><a href="#z3-conf">战略大会</a></nav>
     <div class="prog"><i></i></div></div>
   <div class="prof">
     <div>
@@ -694,7 +727,7 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
     </div>
     <p class="note">只在你的手机上，不会提交个人资料。</p>
   </section>
-  <section class="close">
+  <section class="close" id="z3-conf">
     <div class="bridge">
       <span class="pill">你的生肖，是看懂 2027 的第一步</span>
       <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
@@ -707,15 +740,16 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
       <h3>2027 年奇门遁甲<br>战略大会</h3>
       <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
       <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
-      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
-      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+      <p class="cdate">2027 年 1 月 8–10 日（五、六、日）<br><span class="g">1 月 8 日 8:30pm ｜</span> <span class="g">1 月 9–10 日 1pm–6pm</span><br>Zoom 线上直播</p>
+      <a class="btn btn-white" href="#signup" data-modal-open="lead">立即报名，提前布局 2027</a>
+      <p class="meta">免费参与 · 30 秒填好</p>
     </div>
   </section>
   </div>
 </div>
 <div class="rd rd4">
   <div class="rbar"><div class="wrap"><span class="t">2027 · 属龙的求财指南</span><label class="back" for="znone">重新选生肖 ↺</label></div>
-    <nav class="qnav" aria-label="指南章节"><a href="#z4-opp">财运</a><a href="#z4-people">贵人</a><a href="#z4-dir">求财方向</a><a href="#z4-time">月份</a><a href="#z4-check">核对</a><a href="#z4-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <nav class="qnav" aria-label="指南章节"><a href="#z4-opp">财运</a><a href="#z4-people">贵人</a><a href="#z4-dir">求财方向</a><a href="#z4-time">月份</a><a href="#z4-check">核对</a><a href="#z4-plan">行动卡</a><a href="#z4-conf">战略大会</a></nav>
     <div class="prog"><i></i></div></div>
   <div class="prof">
     <div>
@@ -789,7 +823,7 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
     </div>
     <p class="note">只在你的手机上，不会提交个人资料。</p>
   </section>
-  <section class="close">
+  <section class="close" id="z4-conf">
     <div class="bridge">
       <span class="pill">你的生肖，是看懂 2027 的第一步</span>
       <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
@@ -802,15 +836,16 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
       <h3>2027 年奇门遁甲<br>战略大会</h3>
       <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
       <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
-      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
-      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+      <p class="cdate">2027 年 1 月 8–10 日（五、六、日）<br><span class="g">1 月 8 日 8:30pm ｜</span> <span class="g">1 月 9–10 日 1pm–6pm</span><br>Zoom 线上直播</p>
+      <a class="btn btn-white" href="#signup" data-modal-open="lead">立即报名，提前布局 2027</a>
+      <p class="meta">免费参与 · 30 秒填好</p>
     </div>
   </section>
   </div>
 </div>
 <div class="rd rd5">
   <div class="rbar"><div class="wrap"><span class="t">2027 · 属蛇的求财指南</span><label class="back" for="znone">重新选生肖 ↺</label></div>
-    <nav class="qnav" aria-label="指南章节"><a href="#z5-opp">财运</a><a href="#z5-people">贵人</a><a href="#z5-dir">求财方向</a><a href="#z5-time">月份</a><a href="#z5-check">核对</a><a href="#z5-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <nav class="qnav" aria-label="指南章节"><a href="#z5-opp">财运</a><a href="#z5-people">贵人</a><a href="#z5-dir">求财方向</a><a href="#z5-time">月份</a><a href="#z5-check">核对</a><a href="#z5-plan">行动卡</a><a href="#z5-conf">战略大会</a></nav>
     <div class="prog"><i></i></div></div>
   <div class="prof">
     <div>
@@ -884,7 +919,7 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
     </div>
     <p class="note">只在你的手机上，不会提交个人资料。</p>
   </section>
-  <section class="close">
+  <section class="close" id="z5-conf">
     <div class="bridge">
       <span class="pill">你的生肖，是看懂 2027 的第一步</span>
       <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
@@ -897,15 +932,16 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
       <h3>2027 年奇门遁甲<br>战略大会</h3>
       <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
       <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
-      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
-      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+      <p class="cdate">2027 年 1 月 8–10 日（五、六、日）<br><span class="g">1 月 8 日 8:30pm ｜</span> <span class="g">1 月 9–10 日 1pm–6pm</span><br>Zoom 线上直播</p>
+      <a class="btn btn-white" href="#signup" data-modal-open="lead">立即报名，提前布局 2027</a>
+      <p class="meta">免费参与 · 30 秒填好</p>
     </div>
   </section>
   </div>
 </div>
 <div class="rd rd6">
   <div class="rbar"><div class="wrap"><span class="t">2027 · 属马的求财指南</span><label class="back" for="znone">重新选生肖 ↺</label></div>
-    <nav class="qnav" aria-label="指南章节"><a href="#z6-opp">财运</a><a href="#z6-people">贵人</a><a href="#z6-dir">求财方向</a><a href="#z6-time">月份</a><a href="#z6-check">核对</a><a href="#z6-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <nav class="qnav" aria-label="指南章节"><a href="#z6-opp">财运</a><a href="#z6-people">贵人</a><a href="#z6-dir">求财方向</a><a href="#z6-time">月份</a><a href="#z6-check">核对</a><a href="#z6-plan">行动卡</a><a href="#z6-conf">战略大会</a></nav>
     <div class="prog"><i></i></div></div>
   <div class="prof">
     <div>
@@ -979,7 +1015,7 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
     </div>
     <p class="note">只在你的手机上，不会提交个人资料。</p>
   </section>
-  <section class="close">
+  <section class="close" id="z6-conf">
     <div class="bridge">
       <span class="pill">你的生肖，是看懂 2027 的第一步</span>
       <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
@@ -992,15 +1028,16 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
       <h3>2027 年奇门遁甲<br>战略大会</h3>
       <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
       <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
-      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
-      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+      <p class="cdate">2027 年 1 月 8–10 日（五、六、日）<br><span class="g">1 月 8 日 8:30pm ｜</span> <span class="g">1 月 9–10 日 1pm–6pm</span><br>Zoom 线上直播</p>
+      <a class="btn btn-white" href="#signup" data-modal-open="lead">立即报名，提前布局 2027</a>
+      <p class="meta">免费参与 · 30 秒填好</p>
     </div>
   </section>
   </div>
 </div>
 <div class="rd rd7">
   <div class="rbar"><div class="wrap"><span class="t">2027 · 属羊的求财指南</span><label class="back" for="znone">重新选生肖 ↺</label></div>
-    <nav class="qnav" aria-label="指南章节"><a href="#z7-opp">财运</a><a href="#z7-people">贵人</a><a href="#z7-dir">求财方向</a><a href="#z7-time">月份</a><a href="#z7-check">核对</a><a href="#z7-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <nav class="qnav" aria-label="指南章节"><a href="#z7-opp">财运</a><a href="#z7-people">贵人</a><a href="#z7-dir">求财方向</a><a href="#z7-time">月份</a><a href="#z7-check">核对</a><a href="#z7-plan">行动卡</a><a href="#z7-conf">战略大会</a></nav>
     <div class="prog"><i></i></div></div>
   <div class="prof">
     <div>
@@ -1074,7 +1111,7 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
     </div>
     <p class="note">只在你的手机上，不会提交个人资料。</p>
   </section>
-  <section class="close">
+  <section class="close" id="z7-conf">
     <div class="bridge">
       <span class="pill">你的生肖，是看懂 2027 的第一步</span>
       <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
@@ -1087,15 +1124,16 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
       <h3>2027 年奇门遁甲<br>战略大会</h3>
       <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
       <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
-      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
-      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+      <p class="cdate">2027 年 1 月 8–10 日（五、六、日）<br><span class="g">1 月 8 日 8:30pm ｜</span> <span class="g">1 月 9–10 日 1pm–6pm</span><br>Zoom 线上直播</p>
+      <a class="btn btn-white" href="#signup" data-modal-open="lead">立即报名，提前布局 2027</a>
+      <p class="meta">免费参与 · 30 秒填好</p>
     </div>
   </section>
   </div>
 </div>
 <div class="rd rd8">
   <div class="rbar"><div class="wrap"><span class="t">2027 · 属猴的求财指南</span><label class="back" for="znone">重新选生肖 ↺</label></div>
-    <nav class="qnav" aria-label="指南章节"><a href="#z8-opp">财运</a><a href="#z8-people">贵人</a><a href="#z8-dir">求财方向</a><a href="#z8-time">月份</a><a href="#z8-check">核对</a><a href="#z8-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <nav class="qnav" aria-label="指南章节"><a href="#z8-opp">财运</a><a href="#z8-people">贵人</a><a href="#z8-dir">求财方向</a><a href="#z8-time">月份</a><a href="#z8-check">核对</a><a href="#z8-plan">行动卡</a><a href="#z8-conf">战略大会</a></nav>
     <div class="prog"><i></i></div></div>
   <div class="prof">
     <div>
@@ -1169,7 +1207,7 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
     </div>
     <p class="note">只在你的手机上，不会提交个人资料。</p>
   </section>
-  <section class="close">
+  <section class="close" id="z8-conf">
     <div class="bridge">
       <span class="pill">你的生肖，是看懂 2027 的第一步</span>
       <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
@@ -1182,15 +1220,16 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
       <h3>2027 年奇门遁甲<br>战略大会</h3>
       <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
       <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
-      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
-      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+      <p class="cdate">2027 年 1 月 8–10 日（五、六、日）<br><span class="g">1 月 8 日 8:30pm ｜</span> <span class="g">1 月 9–10 日 1pm–6pm</span><br>Zoom 线上直播</p>
+      <a class="btn btn-white" href="#signup" data-modal-open="lead">立即报名，提前布局 2027</a>
+      <p class="meta">免费参与 · 30 秒填好</p>
     </div>
   </section>
   </div>
 </div>
 <div class="rd rd9">
   <div class="rbar"><div class="wrap"><span class="t">2027 · 属鸡的求财指南</span><label class="back" for="znone">重新选生肖 ↺</label></div>
-    <nav class="qnav" aria-label="指南章节"><a href="#z9-opp">财运</a><a href="#z9-people">贵人</a><a href="#z9-dir">求财方向</a><a href="#z9-time">月份</a><a href="#z9-check">核对</a><a href="#z9-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <nav class="qnav" aria-label="指南章节"><a href="#z9-opp">财运</a><a href="#z9-people">贵人</a><a href="#z9-dir">求财方向</a><a href="#z9-time">月份</a><a href="#z9-check">核对</a><a href="#z9-plan">行动卡</a><a href="#z9-conf">战略大会</a></nav>
     <div class="prog"><i></i></div></div>
   <div class="prof">
     <div>
@@ -1264,7 +1303,7 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
     </div>
     <p class="note">只在你的手机上，不会提交个人资料。</p>
   </section>
-  <section class="close">
+  <section class="close" id="z9-conf">
     <div class="bridge">
       <span class="pill">你的生肖，是看懂 2027 的第一步</span>
       <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
@@ -1277,15 +1316,16 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
       <h3>2027 年奇门遁甲<br>战略大会</h3>
       <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
       <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
-      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
-      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+      <p class="cdate">2027 年 1 月 8–10 日（五、六、日）<br><span class="g">1 月 8 日 8:30pm ｜</span> <span class="g">1 月 9–10 日 1pm–6pm</span><br>Zoom 线上直播</p>
+      <a class="btn btn-white" href="#signup" data-modal-open="lead">立即报名，提前布局 2027</a>
+      <p class="meta">免费参与 · 30 秒填好</p>
     </div>
   </section>
   </div>
 </div>
 <div class="rd rd10">
   <div class="rbar"><div class="wrap"><span class="t">2027 · 属狗的求财指南</span><label class="back" for="znone">重新选生肖 ↺</label></div>
-    <nav class="qnav" aria-label="指南章节"><a href="#z10-opp">财运</a><a href="#z10-people">贵人</a><a href="#z10-dir">求财方向</a><a href="#z10-time">月份</a><a href="#z10-check">核对</a><a href="#z10-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <nav class="qnav" aria-label="指南章节"><a href="#z10-opp">财运</a><a href="#z10-people">贵人</a><a href="#z10-dir">求财方向</a><a href="#z10-time">月份</a><a href="#z10-check">核对</a><a href="#z10-plan">行动卡</a><a href="#z10-conf">战略大会</a></nav>
     <div class="prog"><i></i></div></div>
   <div class="prof">
     <div>
@@ -1359,7 +1399,7 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
     </div>
     <p class="note">只在你的手机上，不会提交个人资料。</p>
   </section>
-  <section class="close">
+  <section class="close" id="z10-conf">
     <div class="bridge">
       <span class="pill">你的生肖，是看懂 2027 的第一步</span>
       <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
@@ -1372,15 +1412,16 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
       <h3>2027 年奇门遁甲<br>战略大会</h3>
       <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
       <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
-      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
-      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+      <p class="cdate">2027 年 1 月 8–10 日（五、六、日）<br><span class="g">1 月 8 日 8:30pm ｜</span> <span class="g">1 月 9–10 日 1pm–6pm</span><br>Zoom 线上直播</p>
+      <a class="btn btn-white" href="#signup" data-modal-open="lead">立即报名，提前布局 2027</a>
+      <p class="meta">免费参与 · 30 秒填好</p>
     </div>
   </section>
   </div>
 </div>
 <div class="rd rd11">
   <div class="rbar"><div class="wrap"><span class="t">2027 · 属猪的求财指南</span><label class="back" for="znone">重新选生肖 ↺</label></div>
-    <nav class="qnav" aria-label="指南章节"><a href="#z11-opp">财运</a><a href="#z11-people">贵人</a><a href="#z11-dir">求财方向</a><a href="#z11-time">月份</a><a href="#z11-check">核对</a><a href="#z11-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <nav class="qnav" aria-label="指南章节"><a href="#z11-opp">财运</a><a href="#z11-people">贵人</a><a href="#z11-dir">求财方向</a><a href="#z11-time">月份</a><a href="#z11-check">核对</a><a href="#z11-plan">行动卡</a><a href="#z11-conf">战略大会</a></nav>
     <div class="prog"><i></i></div></div>
   <div class="prof">
     <div>
@@ -1454,7 +1495,7 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
     </div>
     <p class="note">只在你的手机上，不会提交个人资料。</p>
   </section>
-  <section class="close">
+  <section class="close" id="z11-conf">
     <div class="bridge">
       <span class="pill">你的生肖，是看懂 2027 的第一步</span>
       <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
@@ -1467,8 +1508,9 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
       <h3>2027 年奇门遁甲<br>战略大会</h3>
       <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
       <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
-      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
-      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+      <p class="cdate">2027 年 1 月 8–10 日（五、六、日）<br><span class="g">1 月 8 日 8:30pm ｜</span> <span class="g">1 月 9–10 日 1pm–6pm</span><br>Zoom 线上直播</p>
+      <a class="btn btn-white" href="#signup" data-modal-open="lead">立即报名，提前布局 2027</a>
+      <p class="meta">免费参与 · 30 秒填好</p>
     </div>
   </section>
   </div>
@@ -1503,36 +1545,47 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
   </div>
 </div></section>
 
-<section class="light" id="claim"><div class="wrap">
-  <h2 class="h2"><span class="g">领取</span><span class="g"><em>图片版指南</em></span></h2>
-  <div class="offer">
-    <div class="gcard" style="margin:0 auto;transform:rotate(-2deg);box-shadow:14px 18px 34px rgba(42,20,24,.25)" role="img" aria-label="《2027 生肖财运指南》">
-      <span class="y">2027</span>
-      <span class="t">生肖<br>财运指南</span>
-      <div class="zz"><span>鼠</span><span>牛</span><span>虎</span><span>兔</span><span>龙</span><span>蛇</span><span>马</span><span>羊</span><span>猴</span><span>鸡</span><span>狗</span><span>猪</span></div>
-      <span class="by">林舒苑 · 人生战略导师<br>十二生肖专属解读</span>
-    </div>
-    <div>
-      <p class="free">免费领取</p>
-      <p class="sub" style="margin-top:6px">想收起来慢慢看？填好资料，图片版指南马上发到你的 WhatsApp，也可以直接下载。</p>
-      <form id="lead" data-aigoal-lead>
-        <input type="hidden" name="funnel" value="caiyun-guide-2027">
-        <label class="field"><span>称呼</span><input name="name" autocomplete="given-name" placeholder="例如：Amy" required></label>
-        <label class="field"><span>WhatsApp 号码</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="例如：012-345 6789" required></label>
-        <label class="field"><span>Email<small>选填</small></span><input name="email" type="email" autocomplete="email" placeholder="you@email.com"></label>
-        <button class="btn" type="submit">立即免费领取</button>
-        <p class="fine">提交资料即表示你同意我们用这些资料与你联系。本指南依据《2027年运势大破解》及生肖求财资料整理，解读供传统文化参考和自我梳理。</p>
-      </form>
-    </div>
-  </div>
-</div></section>
 </div>
-<div class="mbar"><p>免费 · 图片版指南发到你的 WhatsApp</p><a class="btn" href="#claim">立即免费领取</a></div>
-</div>
-<div class="mbar"><p>免费 · 图片版指南发到你的 WhatsApp</p><a class="btn" href="#claim">立即免费领取</a></div>
-</div>
-<div class="mbar"><p>免费 · 图片版指南发到你的 WhatsApp</p><a class="btn" href="#claim">立即免费领取</a></div>
+<div class="mbar"><p>2027 年 1 月 8–10 日 · Zoom 线上直播 · 免费</p><a class="btn" href="#signup" data-modal-open="lead">免费报名 2027 奇门战略大会</a></div>
 </main>
+<div id="signup" class="modal" data-aigoal-modal="lead" aria-labelledby="signup-h">
+  <div class="modal-card">
+    <a class="modal-x" href="#close" data-modal-close aria-label="关闭">&times;</a>
+    <h2 class="mh" id="signup-h">立即报名，提前布局 2027</h2>
+    <p class="modal-sub">2027 年 1 月 8–10 日 · Zoom 线上直播 · 免费参与</p>
+    <form class="form-card" id="enquiry" data-aigoal-lead>
+      <input type="hidden" name="funnel" value="caiyun-guide-2027">
+      <div class="field" id="f-name">
+        <label for="name">姓名<span class="req" aria-hidden="true">*</span></label>
+        <input id="name" name="name" type="text" autocomplete="name" required>
+        <span class="err" id="e-name">请填写你的姓名，方便团队称呼你。</span>
+      </div>
+      <div class="field" id="f-wa">
+        <label for="wa">WhatsApp 号码<span class="req" aria-hidden="true">*</span></label>
+        <input id="wa" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="例如 0123456789" pattern="[0-9]{9,15}" title="请只填数字，例如 0123456789（不需要 + 号、空格或 -）" required>
+        <span class="err" id="e-wa">请填写可以收到 WhatsApp 的号码，至少9位数字。</span>
+      </div>
+      <div class="field">
+        <label for="email">电邮<span class="opt">选填</span></label>
+        <input id="email" name="email" type="email" autocomplete="email">
+      </div>
+      <div class="field">
+        <span class="lb">有参加过 Master Suyen Lim 任何付费或免费<span style="white-space:nowrap">的课程？</span><span class="req" aria-hidden="true">*</span></span><p class="pick-hint">只选一个</p>
+        <div class="pick" role="radiogroup" aria-label="有参加过 Master Suyen Lim 任何付费或免费的课程"><label class="pk"><input type="radio" name="attended" data-label="参加过课程" value="没有" required><span>没有</span></label><label class="pk"><input type="radio" name="attended" data-label="参加过课程" value="有" required><span>有</span></label></div>
+      </div>
+      <div class="field">
+        <span class="lb">这次最想带走什么？<span class="req" aria-hidden="true">*</span></span><p class="pick-hint">只选一个</p>
+        <div class="pick" role="radiogroup" aria-label="这次最想带走什么"><label class="pk"><input type="radio" name="want1" data-label="最想带走" value="事业／生意方向" required><span>事业／生意方向</span></label><label class="pk"><input type="radio" name="want1" data-label="最想带走" value="财运与投资判断" required><span>财运与投资判断</span></label><label class="pk"><input type="radio" name="want1" data-label="最想带走" value="感情与婚姻" required><span>感情与婚姻</span></label><label class="pk"><input type="radio" name="want1" data-label="最想带走" value="健康" required><span>健康</span></label><label class="pk"><input type="radio" name="want1" data-label="最想带走" value="家庭关系" required><span>家庭关系</span></label><label class="pk"><input type="radio" name="want1" data-label="最想带走" value="人际合作与贵人" required><span>人际合作与贵人</span></label><label class="pk"><input type="radio" name="want1" data-label="最想带走" value="我的生肖 2027 运势" required><span>我的生肖 2027 运势</span></label></div>
+      </div>
+      <div class="consent-wrap" id="f-consent">
+        <label class="consent"><input id="consent" type="checkbox" required><span>我同意 Master Suyen Lim 团队使用我提供的联系方式，通过 WhatsApp 发送大会资料与提醒。</span></label>
+        <span class="err" id="e-consent">请先勾选同意，团队才能回复你的咨询。</span>
+      </div>
+      <button class="btn" type="submit">立即报名，提前布局 2027</button>
+      <div class="status" id="status" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</div>
 
 <footer>© 2026 Supreme Fortunity Sdn Bhd · Master Suyen Lim　｜　2027生肖财运指南 · 解读供参考，行动需核实。</footer>
 
