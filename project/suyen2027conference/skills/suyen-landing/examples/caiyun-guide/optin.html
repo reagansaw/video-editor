@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>免费领取《2027 生肖财运指南》· 林舒苑老师</title>
-<meta name="description" content="2027 丁未年生肖财运指南，免费领取：选你的生肖，看懂求财机会、贵人助力、出生年份的求财方向，再写下一张行动卡。">
+<title>2027 生肖财运指南 · 林舒苑老师</title>
+<meta name="description" content="选择你的生肖，逐层了解 2027 求财机会、贵人助力、出生年柱求财方向与行动重点。免费阅读，可领取图片版到 WhatsApp。">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@700;900&family=Noto+Sans+SC:wght@400;700;900&display=swap">
 <style>
@@ -129,227 +129,1344 @@ form .btn{width:100%;margin-top:6px}
 .mbar .btn{width:100%;max-width:520px}
 footer{text-align:center;padding:24px 20px;font-size:13px;color:var(--muted)}
 
-/* ===== 这一页加的：首屏指南卡 + 生肖选择（不用 JS，颜色字体间距都用上面的变数） ===== */
-.gcard{margin:32px auto 0;width:min(72%,300px);aspect-ratio:3/4;border-radius:12px;background:#FFFAEB;color:var(--ink);box-shadow:18px 24px 40px rgba(0,0,0,.35);transform:rotate(-3deg);padding:22px 20px 18px;display:flex;flex-direction:column;text-align:left}
+/* ===== 这一页加的：照 2027生肖财运指南（网页版）的流程，全部用 CSS 做，不用 JS ===== */
+.st{position:fixed;top:40%;left:0;width:1px;height:1px;opacity:0;pointer-events:none;margin:0}
+.hero .l3{font-size:64px}
+@media(min-width:900px){.hero{grid-template-columns:1fr 1fr}.hero .l3{font-size:104px}}
+.hero .l2{margin-top:4px}
+.picker{margin-top:30px;background:#FFFAEB;color:var(--ink);border-radius:var(--radius-md);padding:20px 16px 18px;text-align:left;box-shadow:0 18px 40px rgba(59,15,24,.3)}
+@media(min-width:900px){.picker{margin-top:0;padding:28px 26px 24px}}
+.picker-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+.picker-h b{font-size:20px;font-weight:900}
+.picker-h small{font:700 11px/1 var(--latin);letter-spacing:1.5px;color:var(--muted)}
+.zgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.zgrid label{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:8px 0 7px;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s ease-out,background-color .15s ease-out}
+.zgrid label:active{transform:scale(.96)}
+.zgrid .animal{width:34px;height:34px;margin:0 auto;color:var(--crimson)}
+.zgrid b{display:block;font-size:19px;font-weight:900;line-height:1.3}
+.zgrid i{display:block;font:700 9px/1.3 var(--latin);font-style:normal;letter-spacing:1px;color:var(--muted)}
+@media(min-width:900px){.zgrid{gap:10px}.zgrid .animal{width:42px;height:42px}.zgrid b{font-size:22px}}
+.begin{display:flex;width:100%;margin-top:14px;font-size:18px;pointer-events:none;background:#D9C9CB;box-shadow:none}
+.begin span{display:none}.begin .b0{display:inline}
+.hint{font-size:13px;line-height:1.6;color:var(--muted);text-align:center;margin-top:10px}
+.strip{display:grid;gap:12px;margin-top:20px}
+@media(min-width:900px){.strip{grid-template-columns:repeat(3,1fr);gap:18px}}
+.strip div{display:flex;gap:16px;align-items:center;background:var(--surface);border-radius:var(--radius-sm);box-shadow:var(--shadow-1);padding:18px 20px}
+.strip i{font:900 22px/1 var(--latin);font-style:normal;color:var(--crimson)}
+.strip b{display:block;font-size:17px;font-weight:900;line-height:1.4}
+.strip small{display:block;font-size:14px;line-height:1.6;color:var(--muted)}
+.home-note{font-size:13px;line-height:1.7;color:var(--muted);margin-top:18px}
+.top-intro{padding:28px 0 0}
+
+/* 解读页 */
+.rd{display:none}
+.rbar{position:sticky;top:0;z-index:30;background:rgba(250,245,230,.96);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.rbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px;padding-bottom:6px}
+.rbar .t{font-size:15px;font-weight:900;white-space:nowrap}
+.rbar .back{font-size:13px;font-weight:700;color:var(--crimson-600);text-decoration:none;white-space:nowrap}
+.qnav{display:flex;gap:18px;overflow-x:auto;padding:0 var(--pad) 10px;max-width:1180px;margin:0 auto;scrollbar-width:none}
+.qnav::-webkit-scrollbar{display:none}
+.qnav a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;white-space:nowrap}
+.qnav a:last-child{color:var(--crimson-600)}
+.prog{height:3px;background:var(--line)}
+.prog i{display:block;height:100%;background:var(--crimson);transform-origin:0 50%;transform:scaleX(0)}
+@supports (animation-timeline:scroll()){.prog i{animation:grow linear both;animation-timeline:scroll(root)}}
+@keyframes grow{to{transform:scaleX(1)}}
+.prof{margin:16px var(--pad) 0;border-radius:26px;padding:36px 22px 32px;color:#fff;background:radial-gradient(60% 70% at 85% 30%,#DC4D65 0%,rgba(220,77,101,0) 65%),radial-gradient(60% 70% at 0% 100%,#8E2438 0%,rgba(142,36,56,0) 60%),var(--crimson-600);display:grid;gap:24px}
+@media(min-width:900px){.prof{max-width:1180px;margin:20px auto 0;border-radius:var(--radius-lg);padding:64px 60px;grid-template-columns:1.3fr .7fr;align-items:center}}
+.prof .ey{font-size:14px;font-weight:700;letter-spacing:1px;color:var(--beige)}
+.prof h1{font-size:40px;font-weight:900;line-height:1.3;margin-top:10px}
+.prof h1 em{font-style:normal;color:var(--beige)}
+.prof h1 .g{display:inline-block}
+@media(min-width:900px){.prof h1{font-size:64px}}
+.prof .hl{font-size:17px;font-weight:700;line-height:1.7;margin-top:14px;color:#FFFAEB}
+.kw{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.kw span{font-size:13px;font-weight:800;letter-spacing:1px;color:var(--crimson-900);background:var(--beige);padding:5px 12px;border-radius:999px}
+.rank{display:flex;align-items:baseline;gap:10px;margin-top:18px;font-size:14px;color:rgba(255,250,235,.8)}
+.rank b{font:900 56px/1 var(--latin);color:var(--beige);letter-spacing:-2px}
+.art{display:none}
+@media(min-width:900px){.art{display:grid;place-items:center;gap:8px;text-align:center}.art .animal{width:200px;height:200px;color:var(--beige)}.art span{font:700 13px/1 var(--latin);letter-spacing:5px;color:rgba(255,250,235,.75)}}
+.sec{padding:56px 0 8px;scroll-margin-top:96px}
+@media(min-width:900px){.sec{padding-top:88px}}
+.slab{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:700;letter-spacing:1px;color:var(--crimson-600);margin-bottom:16px}
+.slab i{font:900 13px/1 var(--latin);font-style:normal;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--pill-bg)}
+.sec .h2{margin-bottom:18px}
+.lead2{font-size:17px;line-height:1.8;color:var(--muted);max-width:720px}
+.stars{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:15px;font-weight:700;margin-top:18px}
+.stars b{color:var(--crimson);letter-spacing:2px;margin-left:6px}
+.facts{margin-top:22px;background:var(--surface);border-radius:var(--radius-md);box-shadow:var(--shadow-1);padding:4px 22px}
+.frow{display:grid;grid-template-columns:96px 1fr;gap:16px;padding:18px 0;border-top:1px solid var(--line)}
+.frow:first-child{border-top:0}
+.frow h3{font-size:16px;font-weight:900;line-height:1.6}
+.frow p{font-size:16px;line-height:1.75;color:var(--muted)}
+details.more{margin-top:18px;font-size:15px;color:var(--muted)}
+details.more summary{cursor:pointer;font-weight:700;color:var(--crimson-600);list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::after{content:" ＋"}
+details.more[open] summary::after{content:" －"}
+details.more p{font-size:15px;line-height:1.8;padding-top:10px}
+.q{margin-top:26px;padding:20px 22px;border-left:4px solid var(--crimson);background:var(--pill-bg);border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+.q small{display:block;font-size:13px;font-weight:700;letter-spacing:1px;color:var(--crimson-600);margin-bottom:6px}
+.q p{font-size:18px;font-weight:900;line-height:1.7}
+.nx{display:inline-flex;align-items:center;gap:8px;margin-top:24px;font-size:16px;font-weight:700;color:var(--crimson-600);text-decoration:none}
+.note{font-size:13px;line-height:1.7;color:var(--muted);margin-top:14px}
+.helper{display:grid;grid-template-columns:72px 1fr;gap:18px;align-items:start;margin-top:22px;background:var(--surface);border-radius:var(--radius-md);box-shadow:var(--shadow-1);padding:22px}
+.helper .ic{width:72px;height:72px;border-radius:50%;background:var(--pill-bg);display:grid;place-items:center;color:var(--crimson)}
+.helper .ic svg{width:44px;height:44px}
+.helper h3{font-size:20px;font-weight:900}
+.helper p{font-size:16px;line-height:1.75;color:var(--muted);margin-top:6px}
+.ypanel{margin-top:22px;background:var(--surface);border-radius:var(--radius-md);box-shadow:var(--shadow-1);padding:22px}
+.ypanel>b{display:block;font-size:17px;font-weight:900;margin-bottom:12px}
+.ychips{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(min-width:600px){.ychips{grid-template-columns:repeat(4,1fr)}}
+.ychips label{border:1.5px solid var(--line);border-radius:999px;text-align:center;padding:10px 6px;font-size:15px;font-weight:700;cursor:pointer;background:#FFFDF8;-webkit-tap-highlight-color:transparent}
+.ychips label small{font-weight:400;color:var(--muted);margin-left:4px}
+.yres{margin-top:18px;border-top:1px solid var(--line);padding-top:18px}
+.yc{display:none}
+.yc .yt{font-size:14px;font-weight:700;letter-spacing:1px;color:var(--crimson-600)}
+.yc h3{font-size:22px;font-weight:900;line-height:1.5;margin:6px 0 4px}
+.ri{padding:14px 0;border-top:1px solid var(--line);font-size:16px;line-height:1.8;color:var(--muted)}
+.ri:first-of-type{border-top:0}
+.ri strong{color:var(--ink)}
+.act{background:var(--pill-bg);border-radius:var(--radius-sm);padding:18px 20px;margin-top:10px;font-size:16px;line-height:1.75;font-weight:700}
+.act b{display:block;font-size:13px;letter-spacing:1px;color:var(--crimson-600);margin-bottom:4px}
+.mgrid{display:grid;gap:14px;margin-top:22px}
+@media(min-width:900px){.mgrid{grid-template-columns:1fr 1fr}}
+.mon{background:var(--surface);border-radius:var(--radius-md);box-shadow:var(--shadow-1);padding:22px;border-top:4px solid var(--beige)}
+.mon.cau{border-top-color:var(--crimson)}
+.mon small{font-size:13px;font-weight:700;letter-spacing:1px;color:var(--muted)}
+.mon.cau small{color:var(--crimson-600)}
+.mon h3{font-size:20px;font-weight:900;margin:4px 0 8px}
+.mon p{font-size:16px;line-height:1.75;color:var(--muted)}
+.chk{counter-reset:ok}
+.clist{display:grid;gap:10px;margin-top:22px}
+.crow{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:16px 18px;cursor:pointer}
+.crow input{width:22px;height:22px;margin:3px 0 0;flex-shrink:0;accent-color:var(--crimson)}
+.crow input:checked{counter-increment:ok}
+.crow:has(input:checked){border-color:var(--crimson);background:#FFF7F8}
+.crow b{display:block;font-size:16px;font-weight:900;line-height:1.5}
+.crow small{display:block;font-size:14px;line-height:1.6;color:var(--muted);margin-top:2px}
+.cfb{font-size:15px;font-weight:700;color:var(--crimson-600);margin-top:14px;min-height:27px}
+.cfb::after{content:"已确认 " counter(ok) " / 5 项。把还没勾选的一项，带到下一次沟通里。"}
+.chk:not(:has(input:checked)) .cfb::after{content:"先从一项最重要的条件开始核实。"}
+.chk:not(:has(input:not(:checked))) .cfb::after{content:"5 项已确认。接下来，按已核实的条件安排下一步；勾选不代表收益或结果保证。"}
+.pcard{margin-top:22px;background:#FFFAEB;border:1.5px solid #D9C08E;border-radius:var(--radius-md);padding:24px 22px;box-shadow:var(--shadow-2)}
+.pcard .k{font:900 13px/1 var(--latin);letter-spacing:3px;color:var(--crimson-600)}
+.pcard h3{font-size:22px;font-weight:900;margin:8px 0 14px}
+.pcard label{display:block;font-size:15px;font-weight:900;margin-top:14px}
+.pcard input,.pcard textarea{display:block;width:100%;margin-top:6px;border:0;border-bottom:2px solid #D9C08E;background:transparent;padding:8px 2px;font:400 17px/1.6 var(--sans);color:var(--ink);resize:vertical;border-radius:0}
+.pcard input:focus,.pcard textarea:focus{outline:none;border-bottom-color:var(--crimson)}
+.pcard .by{font-size:13px;color:var(--muted);margin-top:18px;padding-top:12px;border-top:1px dashed #D9C08E}
+.gcard{margin:0 auto;width:min(72%,280px);aspect-ratio:3/4;border-radius:12px;background:#FFFAEB;color:var(--ink);box-shadow:14px 18px 34px rgba(42,20,24,.25);transform:rotate(-2deg);padding:22px 20px 18px;display:flex;flex-direction:column;text-align:left;border:1px solid var(--line)}
 .gcard .y{font:900 46px/1 var(--latin);color:var(--crimson);letter-spacing:-1px}
 .gcard .t{font-size:23px;font-weight:900;line-height:1.3;margin-top:6px}
 .gcard .zz{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:auto 0 0}
 .gcard .zz span{aspect-ratio:1;display:grid;place-items:center;border:1.5px solid var(--line);border-radius:8px;font-size:17px;font-weight:900;line-height:1;color:var(--crimson-700)}
 .gcard .by{font-size:12px;font-weight:700;line-height:1.5;color:var(--muted);margin-top:14px;padding-top:10px;border-top:1.5px solid var(--line)}
-@media(min-width:900px){.gcard{width:100%;max-width:380px;margin:0 auto;padding:34px 30px 26px}.gcard .y{font-size:64px}.gcard .t{font-size:32px}.gcard .zz{gap:9px}.gcard .zz span{font-size:24px}.gcard .by{font-size:14px}}
-
-.zpick{position:relative;margin-top:36px;display:grid;gap:18px}
-@media(min-width:900px){.zpick{grid-template-columns:1fr 1fr;align-items:start;gap:28px}}
-.zpick input{position:absolute;top:140px;left:50%;width:1px;height:1px;opacity:0;pointer-events:none}
-.zgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.zgrid label{background:var(--surface);border-radius:var(--radius-sm);box-shadow:var(--shadow-1);padding:14px 0 11px;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s ease-out}
-.zgrid label:active{transform:scale(.96)}
-.zgrid b{display:block;font-size:34px;font-weight:900;line-height:1.15}
-.zgrid i{display:block;font:700 10px/1.4 var(--latin);font-style:normal;letter-spacing:1.2px;color:var(--muted);margin-top:3px}
-#z0:checked~.zgrid label[for=z0],#z1:checked~.zgrid label[for=z1],#z2:checked~.zgrid label[for=z2],#z3:checked~.zgrid label[for=z3],#z4:checked~.zgrid label[for=z4],#z5:checked~.zgrid label[for=z5],#z6:checked~.zgrid label[for=z6],#z7:checked~.zgrid label[for=z7],#z8:checked~.zgrid label[for=z8],#z9:checked~.zgrid label[for=z9],#z10:checked~.zgrid label[for=z10],#z11:checked~.zgrid label[for=z11]{background:linear-gradient(150deg,#C94A60 0%,var(--crimson-700) 100%);color:var(--beige);box-shadow:var(--shadow-2)}
-#z0:checked~.zgrid label[for=z0] i,#z1:checked~.zgrid label[for=z1] i,#z2:checked~.zgrid label[for=z2] i,#z3:checked~.zgrid label[for=z3] i,#z4:checked~.zgrid label[for=z4] i,#z5:checked~.zgrid label[for=z5] i,#z6:checked~.zgrid label[for=z6] i,#z7:checked~.zgrid label[for=z7] i,#z8:checked~.zgrid label[for=z8] i,#z9:checked~.zgrid label[for=z9] i,#z10:checked~.zgrid label[for=z10] i,#z11:checked~.zgrid label[for=z11] i{color:rgba(255,250,235,.8)}
-#z0:focus-visible~.zgrid label[for=z0],#z1:focus-visible~.zgrid label[for=z1],#z2:focus-visible~.zgrid label[for=z2],#z3:focus-visible~.zgrid label[for=z3],#z4:focus-visible~.zgrid label[for=z4],#z5:focus-visible~.zgrid label[for=z5],#z6:focus-visible~.zgrid label[for=z6],#z7:focus-visible~.zgrid label[for=z7],#z8:focus-visible~.zgrid label[for=z8],#z9:focus-visible~.zgrid label[for=z9],#z10:focus-visible~.zgrid label[for=z10],#z11:focus-visible~.zgrid label[for=z11]{outline:3px solid var(--crimson-900);outline-offset:3px}
-@media(min-width:900px){.zgrid{gap:14px}.zgrid label{padding:22px 0 18px}.zgrid b{font-size:44px}.zgrid i{font-size:11px}}
-.zpanels{background:var(--crimson-900);color:#fff;border-radius:var(--radius-md);padding:28px 24px;min-height:100%}
-.zp{display:none}
-#z0:checked~.zpanels .zp0,#z1:checked~.zpanels .zp1,#z2:checked~.zpanels .zp2,#z3:checked~.zpanels .zp3,#z4:checked~.zpanels .zp4,#z5:checked~.zpanels .zp5,#z6:checked~.zpanels .zp6,#z7:checked~.zpanels .zp7,#z8:checked~.zpanels .zp8,#z9:checked~.zpanels .zp9,#z10:checked~.zpanels .zp10,#z11:checked~.zpanels .zp11{display:block}
-input:checked~.zpanels .zhint{display:none}
-.zhint .k{font:900 13px/1 var(--latin);letter-spacing:3px;color:var(--beige);opacity:.8}
-.zhint h3{font-size:24px;font-weight:900;line-height:1.4;margin-top:10px}
-.zhint p{font-size:16px;line-height:1.75;color:rgba(255,250,235,.85);margin-top:10px}
-.zrank{display:flex;align-items:baseline;gap:10px;color:rgba(255,250,235,.75);font-size:14px}
-.zrank b{font:900 64px/1 var(--latin);color:var(--beige);letter-spacing:-2px}
-.zp h3{font-size:24px;font-weight:900;line-height:1.4;margin-top:14px}
-.zp h3 em{font-style:normal;color:var(--beige)}
-.ztags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.ztags span{font-size:13px;font-weight:800;letter-spacing:1px;color:var(--crimson-900);background:var(--beige);padding:5px 12px;border-radius:999px}
-.zq{font-size:17px;font-weight:700;line-height:1.7;margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,.14)}
-.zstars{font-size:14px;line-height:1.9;color:rgba(255,250,235,.85);margin-top:10px}
-.zstars b{color:var(--beige);letter-spacing:2px;font-weight:400;margin-left:6px}
-.zmore{font-size:16px;line-height:1.75;color:rgba(255,250,235,.85);margin-top:14px}
-.zp .btn{width:100%;margin-top:20px}
-.src{font-size:13px;line-height:1.6;color:var(--muted);margin-top:16px}
+.close{padding:64px 0 0}
+.bridge{max-width:760px;text-align:left}
+.bridge p{font-size:17px;line-height:1.8;color:var(--muted);margin-top:14px}
+.bridge strong{color:var(--ink)}
+.conf{position:relative;overflow:hidden;margin-top:30px;border-radius:var(--radius-lg);padding:36px 24px;color:#fff;background:linear-gradient(150deg,#C94A60 0%,var(--crimson-700) 100%);box-shadow:var(--shadow-2)}
+@media(min-width:900px){.conf{padding:56px}}
+.conf::after{content:"2027";position:absolute;right:-14px;bottom:-34px;font:900 150px/1 var(--latin);letter-spacing:-8px;color:rgba(255,255,255,.07);pointer-events:none}
+.conf .k{font:900 13px/1 var(--latin);letter-spacing:3px;color:var(--beige)}
+.conf h3{font-size:36px;font-weight:900;line-height:1.3;margin:12px 0}
+@media(min-width:900px){.conf h3{font-size:52px}}
+.conf p{font-size:16px;line-height:1.75;color:rgba(255,250,235,.88);max-width:620px}
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.flow div{border-top:1px solid rgba(255,255,255,.25);padding-top:12px}
+.flow b{font-size:22px;font-weight:900;color:var(--beige)}
+.flow small{display:block;font-size:13px;line-height:1.6;color:rgba(255,250,235,.8);margin-top:4px}
+.conf .btn{position:relative;z-index:1;width:100%;max-width:420px}
+.conf .meta{font-size:13px;color:rgba(255,250,235,.75);margin-top:10px}
+#z0:checked~.home label[for=z0],#z1:checked~.home label[for=z1],#z2:checked~.home label[for=z2],#z3:checked~.home label[for=z3],#z4:checked~.home label[for=z4],#z5:checked~.home label[for=z5],#z6:checked~.home label[for=z6],#z7:checked~.home label[for=z7],#z8:checked~.home label[for=z8],#z9:checked~.home label[for=z9],#z10:checked~.home label[for=z10],#z11:checked~.home label[for=z11]{background:linear-gradient(150deg,#C94A60 0%,var(--crimson-700) 100%);border-color:var(--crimson-700);color:var(--beige)}
+#z0:checked~.home label[for=z0] .animal,#z0:checked~.home label[for=z0] i,#z1:checked~.home label[for=z1] .animal,#z1:checked~.home label[for=z1] i,#z2:checked~.home label[for=z2] .animal,#z2:checked~.home label[for=z2] i,#z3:checked~.home label[for=z3] .animal,#z3:checked~.home label[for=z3] i,#z4:checked~.home label[for=z4] .animal,#z4:checked~.home label[for=z4] i,#z5:checked~.home label[for=z5] .animal,#z5:checked~.home label[for=z5] i,#z6:checked~.home label[for=z6] .animal,#z6:checked~.home label[for=z6] i,#z7:checked~.home label[for=z7] .animal,#z7:checked~.home label[for=z7] i,#z8:checked~.home label[for=z8] .animal,#z8:checked~.home label[for=z8] i,#z9:checked~.home label[for=z9] .animal,#z9:checked~.home label[for=z9] i,#z10:checked~.home label[for=z10] .animal,#z10:checked~.home label[for=z10] i,#z11:checked~.home label[for=z11] .animal,#z11:checked~.home label[for=z11] i{color:rgba(255,250,235,.85)}
+#z0:focus-visible~.home label[for=z0],#z1:focus-visible~.home label[for=z1],#z2:focus-visible~.home label[for=z2],#z3:focus-visible~.home label[for=z3],#z4:focus-visible~.home label[for=z4],#z5:focus-visible~.home label[for=z5],#z6:focus-visible~.home label[for=z6],#z7:focus-visible~.home label[for=z7],#z8:focus-visible~.home label[for=z8],#z9:focus-visible~.home label[for=z9],#z10:focus-visible~.home label[for=z10],#z11:focus-visible~.home label[for=z11]{outline:3px solid var(--crimson-900);outline-offset:2px}
+.zr:checked~.home .begin{pointer-events:auto;background:var(--crimson);box-shadow:0 10px 24px rgba(208,63,88,.28)}
+.zr:checked~.home .begin .b0{display:none}
+#z0:checked~.home .begin .b1,#z1:checked~.home .begin .b2,#z2:checked~.home .begin .b3,#z3:checked~.home .begin .b4,#z4:checked~.home .begin .b5,#z5:checked~.home .begin .b6,#z6:checked~.home .begin .b7,#z7:checked~.home .begin .b8,#z8:checked~.home .begin .b9,#z9:checked~.home .begin .b10,#z10:checked~.home .begin .b11,#z11:checked~.home .begin .b12{display:inline}
+#z0:checked~#read .rd0,#z1:checked~#read .rd1,#z2:checked~#read .rd2,#z3:checked~#read .rd3,#z4:checked~#read .rd4,#z5:checked~#read .rd5,#z6:checked~#read .rd6,#z7:checked~#read .rd7,#z8:checked~#read .rd8,#z9:checked~#read .rd9,#z10:checked~#read .rd10,#z11:checked~#read .rd11{display:block}
+#y0_2020:checked~#read .yc0_2020,#y0_2008:checked~#read .yc0_2008,#y0_1996:checked~#read .yc0_1996,#y0_1984:checked~#read .yc0_1984,#y0_1972:checked~#read .yc0_1972,#y0_1960:checked~#read .yc0_1960,#y0_1948:checked~#read .yc0_1948,#y0_1936:checked~#read .yc0_1936,#y1_2021:checked~#read .yc1_2021,#y1_2009:checked~#read .yc1_2009,#y1_1997:checked~#read .yc1_1997,#y1_1985:checked~#read .yc1_1985,#y1_1973:checked~#read .yc1_1973,#y1_1961:checked~#read .yc1_1961,#y1_1949:checked~#read .yc1_1949,#y1_1937:checked~#read .yc1_1937,#y2_2022:checked~#read .yc2_2022,#y2_2010:checked~#read .yc2_2010,#y2_1998:checked~#read .yc2_1998,#y2_1986:checked~#read .yc2_1986,#y2_1974:checked~#read .yc2_1974,#y2_1962:checked~#read .yc2_1962,#y2_1950:checked~#read .yc2_1950,#y2_1938:checked~#read .yc2_1938,#y3_2023:checked~#read .yc3_2023,#y3_2011:checked~#read .yc3_2011,#y3_1999:checked~#read .yc3_1999,#y3_1987:checked~#read .yc3_1987,#y3_1975:checked~#read .yc3_1975,#y3_1963:checked~#read .yc3_1963,#y3_1951:checked~#read .yc3_1951,#y3_1939:checked~#read .yc3_1939,#y4_2024:checked~#read .yc4_2024,#y4_2012:checked~#read .yc4_2012,#y4_2000:checked~#read .yc4_2000,#y4_1988:checked~#read .yc4_1988,#y4_1976:checked~#read .yc4_1976,#y4_1964:checked~#read .yc4_1964,#y4_1952:checked~#read .yc4_1952,#y4_1940:checked~#read .yc4_1940,#y5_2025:checked~#read .yc5_2025,#y5_2013:checked~#read .yc5_2013,#y5_2001:checked~#read .yc5_2001,#y5_1989:checked~#read .yc5_1989,#y5_1977:checked~#read .yc5_1977,#y5_1965:checked~#read .yc5_1965,#y5_1953:checked~#read .yc5_1953,#y5_1941:checked~#read .yc5_1941,#y6_2026:checked~#read .yc6_2026,#y6_2014:checked~#read .yc6_2014,#y6_2002:checked~#read .yc6_2002,#y6_1990:checked~#read .yc6_1990,#y6_1978:checked~#read .yc6_1978,#y6_1966:checked~#read .yc6_1966,#y6_1954:checked~#read .yc6_1954,#y6_1942:checked~#read .yc6_1942,#y6_1930:checked~#read .yc6_1930,#y7_2027:checked~#read .yc7_2027,#y7_2015:checked~#read .yc7_2015,#y7_2003:checked~#read .yc7_2003,#y7_1991:checked~#read .yc7_1991,#y7_1979:checked~#read .yc7_1979,#y7_1967:checked~#read .yc7_1967,#y7_1955:checked~#read .yc7_1955,#y7_1943:checked~#read .yc7_1943,#y7_1931:checked~#read .yc7_1931,#y8_2016:checked~#read .yc8_2016,#y8_2004:checked~#read .yc8_2004,#y8_1992:checked~#read .yc8_1992,#y8_1980:checked~#read .yc8_1980,#y8_1968:checked~#read .yc8_1968,#y8_1956:checked~#read .yc8_1956,#y8_1944:checked~#read .yc8_1944,#y8_1932:checked~#read .yc8_1932,#y9_2017:checked~#read .yc9_2017,#y9_2005:checked~#read .yc9_2005,#y9_1993:checked~#read .yc9_1993,#y9_1981:checked~#read .yc9_1981,#y9_1969:checked~#read .yc9_1969,#y9_1957:checked~#read .yc9_1957,#y9_1945:checked~#read .yc9_1945,#y9_1933:checked~#read .yc9_1933,#y10_2018:checked~#read .yc10_2018,#y10_2006:checked~#read .yc10_2006,#y10_1994:checked~#read .yc10_1994,#y10_1982:checked~#read .yc10_1982,#y10_1970:checked~#read .yc10_1970,#y10_1958:checked~#read .yc10_1958,#y10_1946:checked~#read .yc10_1946,#y10_1934:checked~#read .yc10_1934,#y11_2019:checked~#read .yc11_2019,#y11_2007:checked~#read .yc11_2007,#y11_1995:checked~#read .yc11_1995,#y11_1983:checked~#read .yc11_1983,#y11_1971:checked~#read .yc11_1971,#y11_1959:checked~#read .yc11_1959,#y11_1947:checked~#read .yc11_1947,#y11_1935:checked~#read .yc11_1935{display:block}
+#y0_2020:checked~#read .yd0,#y0_2008:checked~#read .yd0,#y0_1996:checked~#read .yd0,#y0_1984:checked~#read .yd0,#y0_1972:checked~#read .yd0,#y0_1960:checked~#read .yd0,#y0_1948:checked~#read .yd0,#y0_1936:checked~#read .yd0,#y1_2021:checked~#read .yd1,#y1_2009:checked~#read .yd1,#y1_1997:checked~#read .yd1,#y1_1985:checked~#read .yd1,#y1_1973:checked~#read .yd1,#y1_1961:checked~#read .yd1,#y1_1949:checked~#read .yd1,#y1_1937:checked~#read .yd1,#y2_2022:checked~#read .yd2,#y2_2010:checked~#read .yd2,#y2_1998:checked~#read .yd2,#y2_1986:checked~#read .yd2,#y2_1974:checked~#read .yd2,#y2_1962:checked~#read .yd2,#y2_1950:checked~#read .yd2,#y2_1938:checked~#read .yd2,#y3_2023:checked~#read .yd3,#y3_2011:checked~#read .yd3,#y3_1999:checked~#read .yd3,#y3_1987:checked~#read .yd3,#y3_1975:checked~#read .yd3,#y3_1963:checked~#read .yd3,#y3_1951:checked~#read .yd3,#y3_1939:checked~#read .yd3,#y4_2024:checked~#read .yd4,#y4_2012:checked~#read .yd4,#y4_2000:checked~#read .yd4,#y4_1988:checked~#read .yd4,#y4_1976:checked~#read .yd4,#y4_1964:checked~#read .yd4,#y4_1952:checked~#read .yd4,#y4_1940:checked~#read .yd4,#y5_2025:checked~#read .yd5,#y5_2013:checked~#read .yd5,#y5_2001:checked~#read .yd5,#y5_1989:checked~#read .yd5,#y5_1977:checked~#read .yd5,#y5_1965:checked~#read .yd5,#y5_1953:checked~#read .yd5,#y5_1941:checked~#read .yd5,#y6_2026:checked~#read .yd6,#y6_2014:checked~#read .yd6,#y6_2002:checked~#read .yd6,#y6_1990:checked~#read .yd6,#y6_1978:checked~#read .yd6,#y6_1966:checked~#read .yd6,#y6_1954:checked~#read .yd6,#y6_1942:checked~#read .yd6,#y6_1930:checked~#read .yd6,#y7_2027:checked~#read .yd7,#y7_2015:checked~#read .yd7,#y7_2003:checked~#read .yd7,#y7_1991:checked~#read .yd7,#y7_1979:checked~#read .yd7,#y7_1967:checked~#read .yd7,#y7_1955:checked~#read .yd7,#y7_1943:checked~#read .yd7,#y7_1931:checked~#read .yd7,#y8_2016:checked~#read .yd8,#y8_2004:checked~#read .yd8,#y8_1992:checked~#read .yd8,#y8_1980:checked~#read .yd8,#y8_1968:checked~#read .yd8,#y8_1956:checked~#read .yd8,#y8_1944:checked~#read .yd8,#y8_1932:checked~#read .yd8,#y9_2017:checked~#read .yd9,#y9_2005:checked~#read .yd9,#y9_1993:checked~#read .yd9,#y9_1981:checked~#read .yd9,#y9_1969:checked~#read .yd9,#y9_1957:checked~#read .yd9,#y9_1945:checked~#read .yd9,#y9_1933:checked~#read .yd9,#y10_2018:checked~#read .yd10,#y10_2006:checked~#read .yd10,#y10_1994:checked~#read .yd10,#y10_1982:checked~#read .yd10,#y10_1970:checked~#read .yd10,#y10_1958:checked~#read .yd10,#y10_1946:checked~#read .yd10,#y10_1934:checked~#read .yd10,#y11_2019:checked~#read .yd11,#y11_2007:checked~#read .yd11,#y11_1995:checked~#read .yd11,#y11_1983:checked~#read .yd11,#y11_1971:checked~#read .yd11,#y11_1959:checked~#read .yd11,#y11_1947:checked~#read .yd11,#y11_1935:checked~#read .yd11{display:none}
+#y0_2020:checked~#read label[for=y0_2020],#y0_2008:checked~#read label[for=y0_2008],#y0_1996:checked~#read label[for=y0_1996],#y0_1984:checked~#read label[for=y0_1984],#y0_1972:checked~#read label[for=y0_1972],#y0_1960:checked~#read label[for=y0_1960],#y0_1948:checked~#read label[for=y0_1948],#y0_1936:checked~#read label[for=y0_1936],#y1_2021:checked~#read label[for=y1_2021],#y1_2009:checked~#read label[for=y1_2009],#y1_1997:checked~#read label[for=y1_1997],#y1_1985:checked~#read label[for=y1_1985],#y1_1973:checked~#read label[for=y1_1973],#y1_1961:checked~#read label[for=y1_1961],#y1_1949:checked~#read label[for=y1_1949],#y1_1937:checked~#read label[for=y1_1937],#y2_2022:checked~#read label[for=y2_2022],#y2_2010:checked~#read label[for=y2_2010],#y2_1998:checked~#read label[for=y2_1998],#y2_1986:checked~#read label[for=y2_1986],#y2_1974:checked~#read label[for=y2_1974],#y2_1962:checked~#read label[for=y2_1962],#y2_1950:checked~#read label[for=y2_1950],#y2_1938:checked~#read label[for=y2_1938],#y3_2023:checked~#read label[for=y3_2023],#y3_2011:checked~#read label[for=y3_2011],#y3_1999:checked~#read label[for=y3_1999],#y3_1987:checked~#read label[for=y3_1987],#y3_1975:checked~#read label[for=y3_1975],#y3_1963:checked~#read label[for=y3_1963],#y3_1951:checked~#read label[for=y3_1951],#y3_1939:checked~#read label[for=y3_1939],#y4_2024:checked~#read label[for=y4_2024],#y4_2012:checked~#read label[for=y4_2012],#y4_2000:checked~#read label[for=y4_2000],#y4_1988:checked~#read label[for=y4_1988],#y4_1976:checked~#read label[for=y4_1976],#y4_1964:checked~#read label[for=y4_1964],#y4_1952:checked~#read label[for=y4_1952],#y4_1940:checked~#read label[for=y4_1940],#y5_2025:checked~#read label[for=y5_2025],#y5_2013:checked~#read label[for=y5_2013],#y5_2001:checked~#read label[for=y5_2001],#y5_1989:checked~#read label[for=y5_1989],#y5_1977:checked~#read label[for=y5_1977],#y5_1965:checked~#read label[for=y5_1965],#y5_1953:checked~#read label[for=y5_1953],#y5_1941:checked~#read label[for=y5_1941],#y6_2026:checked~#read label[for=y6_2026],#y6_2014:checked~#read label[for=y6_2014],#y6_2002:checked~#read label[for=y6_2002],#y6_1990:checked~#read label[for=y6_1990],#y6_1978:checked~#read label[for=y6_1978],#y6_1966:checked~#read label[for=y6_1966],#y6_1954:checked~#read label[for=y6_1954],#y6_1942:checked~#read label[for=y6_1942],#y6_1930:checked~#read label[for=y6_1930],#y7_2027:checked~#read label[for=y7_2027],#y7_2015:checked~#read label[for=y7_2015],#y7_2003:checked~#read label[for=y7_2003],#y7_1991:checked~#read label[for=y7_1991],#y7_1979:checked~#read label[for=y7_1979],#y7_1967:checked~#read label[for=y7_1967],#y7_1955:checked~#read label[for=y7_1955],#y7_1943:checked~#read label[for=y7_1943],#y7_1931:checked~#read label[for=y7_1931],#y8_2016:checked~#read label[for=y8_2016],#y8_2004:checked~#read label[for=y8_2004],#y8_1992:checked~#read label[for=y8_1992],#y8_1980:checked~#read label[for=y8_1980],#y8_1968:checked~#read label[for=y8_1968],#y8_1956:checked~#read label[for=y8_1956],#y8_1944:checked~#read label[for=y8_1944],#y8_1932:checked~#read label[for=y8_1932],#y9_2017:checked~#read label[for=y9_2017],#y9_2005:checked~#read label[for=y9_2005],#y9_1993:checked~#read label[for=y9_1993],#y9_1981:checked~#read label[for=y9_1981],#y9_1969:checked~#read label[for=y9_1969],#y9_1957:checked~#read label[for=y9_1957],#y9_1945:checked~#read label[for=y9_1945],#y9_1933:checked~#read label[for=y9_1933],#y10_2018:checked~#read label[for=y10_2018],#y10_2006:checked~#read label[for=y10_2006],#y10_1994:checked~#read label[for=y10_1994],#y10_1982:checked~#read label[for=y10_1982],#y10_1970:checked~#read label[for=y10_1970],#y10_1958:checked~#read label[for=y10_1958],#y10_1946:checked~#read label[for=y10_1946],#y10_1934:checked~#read label[for=y10_1934],#y11_2019:checked~#read label[for=y11_2019],#y11_2007:checked~#read label[for=y11_2007],#y11_1995:checked~#read label[for=y11_1995],#y11_1983:checked~#read label[for=y11_1983],#y11_1971:checked~#read label[for=y11_1971],#y11_1959:checked~#read label[for=y11_1959],#y11_1947:checked~#read label[for=y11_1947],#y11_1935:checked~#read label[for=y11_1935]{background:var(--crimson);border-color:var(--crimson);color:#fff}
+#y0_2020:checked~#read label[for=y0_2020] small,#y0_2008:checked~#read label[for=y0_2008] small,#y0_1996:checked~#read label[for=y0_1996] small,#y0_1984:checked~#read label[for=y0_1984] small,#y0_1972:checked~#read label[for=y0_1972] small,#y0_1960:checked~#read label[for=y0_1960] small,#y0_1948:checked~#read label[for=y0_1948] small,#y0_1936:checked~#read label[for=y0_1936] small,#y1_2021:checked~#read label[for=y1_2021] small,#y1_2009:checked~#read label[for=y1_2009] small,#y1_1997:checked~#read label[for=y1_1997] small,#y1_1985:checked~#read label[for=y1_1985] small,#y1_1973:checked~#read label[for=y1_1973] small,#y1_1961:checked~#read label[for=y1_1961] small,#y1_1949:checked~#read label[for=y1_1949] small,#y1_1937:checked~#read label[for=y1_1937] small,#y2_2022:checked~#read label[for=y2_2022] small,#y2_2010:checked~#read label[for=y2_2010] small,#y2_1998:checked~#read label[for=y2_1998] small,#y2_1986:checked~#read label[for=y2_1986] small,#y2_1974:checked~#read label[for=y2_1974] small,#y2_1962:checked~#read label[for=y2_1962] small,#y2_1950:checked~#read label[for=y2_1950] small,#y2_1938:checked~#read label[for=y2_1938] small,#y3_2023:checked~#read label[for=y3_2023] small,#y3_2011:checked~#read label[for=y3_2011] small,#y3_1999:checked~#read label[for=y3_1999] small,#y3_1987:checked~#read label[for=y3_1987] small,#y3_1975:checked~#read label[for=y3_1975] small,#y3_1963:checked~#read label[for=y3_1963] small,#y3_1951:checked~#read label[for=y3_1951] small,#y3_1939:checked~#read label[for=y3_1939] small,#y4_2024:checked~#read label[for=y4_2024] small,#y4_2012:checked~#read label[for=y4_2012] small,#y4_2000:checked~#read label[for=y4_2000] small,#y4_1988:checked~#read label[for=y4_1988] small,#y4_1976:checked~#read label[for=y4_1976] small,#y4_1964:checked~#read label[for=y4_1964] small,#y4_1952:checked~#read label[for=y4_1952] small,#y4_1940:checked~#read label[for=y4_1940] small,#y5_2025:checked~#read label[for=y5_2025] small,#y5_2013:checked~#read label[for=y5_2013] small,#y5_2001:checked~#read label[for=y5_2001] small,#y5_1989:checked~#read label[for=y5_1989] small,#y5_1977:checked~#read label[for=y5_1977] small,#y5_1965:checked~#read label[for=y5_1965] small,#y5_1953:checked~#read label[for=y5_1953] small,#y5_1941:checked~#read label[for=y5_1941] small,#y6_2026:checked~#read label[for=y6_2026] small,#y6_2014:checked~#read label[for=y6_2014] small,#y6_2002:checked~#read label[for=y6_2002] small,#y6_1990:checked~#read label[for=y6_1990] small,#y6_1978:checked~#read label[for=y6_1978] small,#y6_1966:checked~#read label[for=y6_1966] small,#y6_1954:checked~#read label[for=y6_1954] small,#y6_1942:checked~#read label[for=y6_1942] small,#y6_1930:checked~#read label[for=y6_1930] small,#y7_2027:checked~#read label[for=y7_2027] small,#y7_2015:checked~#read label[for=y7_2015] small,#y7_2003:checked~#read label[for=y7_2003] small,#y7_1991:checked~#read label[for=y7_1991] small,#y7_1979:checked~#read label[for=y7_1979] small,#y7_1967:checked~#read label[for=y7_1967] small,#y7_1955:checked~#read label[for=y7_1955] small,#y7_1943:checked~#read label[for=y7_1943] small,#y7_1931:checked~#read label[for=y7_1931] small,#y8_2016:checked~#read label[for=y8_2016] small,#y8_2004:checked~#read label[for=y8_2004] small,#y8_1992:checked~#read label[for=y8_1992] small,#y8_1980:checked~#read label[for=y8_1980] small,#y8_1968:checked~#read label[for=y8_1968] small,#y8_1956:checked~#read label[for=y8_1956] small,#y8_1944:checked~#read label[for=y8_1944] small,#y8_1932:checked~#read label[for=y8_1932] small,#y9_2017:checked~#read label[for=y9_2017] small,#y9_2005:checked~#read label[for=y9_2005] small,#y9_1993:checked~#read label[for=y9_1993] small,#y9_1981:checked~#read label[for=y9_1981] small,#y9_1969:checked~#read label[for=y9_1969] small,#y9_1957:checked~#read label[for=y9_1957] small,#y9_1945:checked~#read label[for=y9_1945] small,#y9_1933:checked~#read label[for=y9_1933] small,#y10_2018:checked~#read label[for=y10_2018] small,#y10_2006:checked~#read label[for=y10_2006] small,#y10_1994:checked~#read label[for=y10_1994] small,#y10_1982:checked~#read label[for=y10_1982] small,#y10_1970:checked~#read label[for=y10_1970] small,#y10_1958:checked~#read label[for=y10_1958] small,#y10_1946:checked~#read label[for=y10_1946] small,#y10_1934:checked~#read label[for=y10_1934] small,#y11_2019:checked~#read label[for=y11_2019] small,#y11_2007:checked~#read label[for=y11_2007] small,#y11_1995:checked~#read label[for=y11_1995] small,#y11_1983:checked~#read label[for=y11_1983] small,#y11_1971:checked~#read label[for=y11_1971] small,#y11_1959:checked~#read label[for=y11_1959] small,#y11_1947:checked~#read label[for=y11_1947] small,#y11_1935:checked~#read label[for=y11_1935] small{color:rgba(255,255,255,.8)}
+#y0_2020:focus-visible~#read label[for=y0_2020],#y0_2008:focus-visible~#read label[for=y0_2008],#y0_1996:focus-visible~#read label[for=y0_1996],#y0_1984:focus-visible~#read label[for=y0_1984],#y0_1972:focus-visible~#read label[for=y0_1972],#y0_1960:focus-visible~#read label[for=y0_1960],#y0_1948:focus-visible~#read label[for=y0_1948],#y0_1936:focus-visible~#read label[for=y0_1936],#y1_2021:focus-visible~#read label[for=y1_2021],#y1_2009:focus-visible~#read label[for=y1_2009],#y1_1997:focus-visible~#read label[for=y1_1997],#y1_1985:focus-visible~#read label[for=y1_1985],#y1_1973:focus-visible~#read label[for=y1_1973],#y1_1961:focus-visible~#read label[for=y1_1961],#y1_1949:focus-visible~#read label[for=y1_1949],#y1_1937:focus-visible~#read label[for=y1_1937],#y2_2022:focus-visible~#read label[for=y2_2022],#y2_2010:focus-visible~#read label[for=y2_2010],#y2_1998:focus-visible~#read label[for=y2_1998],#y2_1986:focus-visible~#read label[for=y2_1986],#y2_1974:focus-visible~#read label[for=y2_1974],#y2_1962:focus-visible~#read label[for=y2_1962],#y2_1950:focus-visible~#read label[for=y2_1950],#y2_1938:focus-visible~#read label[for=y2_1938],#y3_2023:focus-visible~#read label[for=y3_2023],#y3_2011:focus-visible~#read label[for=y3_2011],#y3_1999:focus-visible~#read label[for=y3_1999],#y3_1987:focus-visible~#read label[for=y3_1987],#y3_1975:focus-visible~#read label[for=y3_1975],#y3_1963:focus-visible~#read label[for=y3_1963],#y3_1951:focus-visible~#read label[for=y3_1951],#y3_1939:focus-visible~#read label[for=y3_1939],#y4_2024:focus-visible~#read label[for=y4_2024],#y4_2012:focus-visible~#read label[for=y4_2012],#y4_2000:focus-visible~#read label[for=y4_2000],#y4_1988:focus-visible~#read label[for=y4_1988],#y4_1976:focus-visible~#read label[for=y4_1976],#y4_1964:focus-visible~#read label[for=y4_1964],#y4_1952:focus-visible~#read label[for=y4_1952],#y4_1940:focus-visible~#read label[for=y4_1940],#y5_2025:focus-visible~#read label[for=y5_2025],#y5_2013:focus-visible~#read label[for=y5_2013],#y5_2001:focus-visible~#read label[for=y5_2001],#y5_1989:focus-visible~#read label[for=y5_1989],#y5_1977:focus-visible~#read label[for=y5_1977],#y5_1965:focus-visible~#read label[for=y5_1965],#y5_1953:focus-visible~#read label[for=y5_1953],#y5_1941:focus-visible~#read label[for=y5_1941],#y6_2026:focus-visible~#read label[for=y6_2026],#y6_2014:focus-visible~#read label[for=y6_2014],#y6_2002:focus-visible~#read label[for=y6_2002],#y6_1990:focus-visible~#read label[for=y6_1990],#y6_1978:focus-visible~#read label[for=y6_1978],#y6_1966:focus-visible~#read label[for=y6_1966],#y6_1954:focus-visible~#read label[for=y6_1954],#y6_1942:focus-visible~#read label[for=y6_1942],#y6_1930:focus-visible~#read label[for=y6_1930],#y7_2027:focus-visible~#read label[for=y7_2027],#y7_2015:focus-visible~#read label[for=y7_2015],#y7_2003:focus-visible~#read label[for=y7_2003],#y7_1991:focus-visible~#read label[for=y7_1991],#y7_1979:focus-visible~#read label[for=y7_1979],#y7_1967:focus-visible~#read label[for=y7_1967],#y7_1955:focus-visible~#read label[for=y7_1955],#y7_1943:focus-visible~#read label[for=y7_1943],#y7_1931:focus-visible~#read label[for=y7_1931],#y8_2016:focus-visible~#read label[for=y8_2016],#y8_2004:focus-visible~#read label[for=y8_2004],#y8_1992:focus-visible~#read label[for=y8_1992],#y8_1980:focus-visible~#read label[for=y8_1980],#y8_1968:focus-visible~#read label[for=y8_1968],#y8_1956:focus-visible~#read label[for=y8_1956],#y8_1944:focus-visible~#read label[for=y8_1944],#y8_1932:focus-visible~#read label[for=y8_1932],#y9_2017:focus-visible~#read label[for=y9_2017],#y9_2005:focus-visible~#read label[for=y9_2005],#y9_1993:focus-visible~#read label[for=y9_1993],#y9_1981:focus-visible~#read label[for=y9_1981],#y9_1969:focus-visible~#read label[for=y9_1969],#y9_1957:focus-visible~#read label[for=y9_1957],#y9_1945:focus-visible~#read label[for=y9_1945],#y9_1933:focus-visible~#read label[for=y9_1933],#y10_2018:focus-visible~#read label[for=y10_2018],#y10_2006:focus-visible~#read label[for=y10_2006],#y10_1994:focus-visible~#read label[for=y10_1994],#y10_1982:focus-visible~#read label[for=y10_1982],#y10_1970:focus-visible~#read label[for=y10_1970],#y10_1958:focus-visible~#read label[for=y10_1958],#y10_1946:focus-visible~#read label[for=y10_1946],#y10_1934:focus-visible~#read label[for=y10_1934],#y11_2019:focus-visible~#read label[for=y11_2019],#y11_2007:focus-visible~#read label[for=y11_2007],#y11_1995:focus-visible~#read label[for=y11_1995],#y11_1983:focus-visible~#read label[for=y11_1983],#y11_1971:focus-visible~#read label[for=y11_1971],#y11_1959:focus-visible~#read label[for=y11_1959],#y11_1947:focus-visible~#read label[for=y11_1947],#y11_1935:focus-visible~#read label[for=y11_1935]{outline:3px solid var(--crimson-900);outline-offset:2px}
 </style>
 </head>
-<body>
-<!-- 提案稿：文案照 Canva 模板 8 块写，内容和流程取自 2027生肖财运指南（网页版）。【待补】的地方上线前要补 -->
-
+<body id="top">
+<!-- 流程照 2027生肖财运指南（网页版）：选生肖 → 6 段解读 → 战略大会；全部 CSS，不用 JS。内容出自《2027年运势大破解》 -->
 <div class="topban"><b>2027</b> 丁未年，十二生肖的财路都不一样</div>
-
+<main>
+<input class="st zr" type="radio" name="zpick" id="z0" aria-label="属鼠"><input class="st zr" type="radio" name="zpick" id="z1" aria-label="属牛"><input class="st zr" type="radio" name="zpick" id="z2" aria-label="属虎"><input class="st zr" type="radio" name="zpick" id="z3" aria-label="属兔"><input class="st zr" type="radio" name="zpick" id="z4" aria-label="属龙"><input class="st zr" type="radio" name="zpick" id="z5" aria-label="属蛇"><input class="st zr" type="radio" name="zpick" id="z6" aria-label="属马"><input class="st zr" type="radio" name="zpick" id="z7" aria-label="属羊"><input class="st zr" type="radio" name="zpick" id="z8" aria-label="属猴"><input class="st zr" type="radio" name="zpick" id="z9" aria-label="属鸡"><input class="st zr" type="radio" name="zpick" id="z10" aria-label="属狗"><input class="st zr" type="radio" name="zpick" id="z11" aria-label="属猪"><input class="st" type="radio" name="yr0" id="y0_2020" aria-label="2020年出生"><input class="st" type="radio" name="yr0" id="y0_2008" aria-label="2008年出生"><input class="st" type="radio" name="yr0" id="y0_1996" aria-label="1996年出生"><input class="st" type="radio" name="yr0" id="y0_1984" aria-label="1984年出生"><input class="st" type="radio" name="yr0" id="y0_1972" aria-label="1972年出生"><input class="st" type="radio" name="yr0" id="y0_1960" aria-label="1960年出生"><input class="st" type="radio" name="yr0" id="y0_1948" aria-label="1948年出生"><input class="st" type="radio" name="yr0" id="y0_1936" aria-label="1936年出生"><input class="st" type="radio" name="yr1" id="y1_2021" aria-label="2021年出生"><input class="st" type="radio" name="yr1" id="y1_2009" aria-label="2009年出生"><input class="st" type="radio" name="yr1" id="y1_1997" aria-label="1997年出生"><input class="st" type="radio" name="yr1" id="y1_1985" aria-label="1985年出生"><input class="st" type="radio" name="yr1" id="y1_1973" aria-label="1973年出生"><input class="st" type="radio" name="yr1" id="y1_1961" aria-label="1961年出生"><input class="st" type="radio" name="yr1" id="y1_1949" aria-label="1949年出生"><input class="st" type="radio" name="yr1" id="y1_1937" aria-label="1937年出生"><input class="st" type="radio" name="yr2" id="y2_2022" aria-label="2022年出生"><input class="st" type="radio" name="yr2" id="y2_2010" aria-label="2010年出生"><input class="st" type="radio" name="yr2" id="y2_1998" aria-label="1998年出生"><input class="st" type="radio" name="yr2" id="y2_1986" aria-label="1986年出生"><input class="st" type="radio" name="yr2" id="y2_1974" aria-label="1974年出生"><input class="st" type="radio" name="yr2" id="y2_1962" aria-label="1962年出生"><input class="st" type="radio" name="yr2" id="y2_1950" aria-label="1950年出生"><input class="st" type="radio" name="yr2" id="y2_1938" aria-label="1938年出生"><input class="st" type="radio" name="yr3" id="y3_2023" aria-label="2023年出生"><input class="st" type="radio" name="yr3" id="y3_2011" aria-label="2011年出生"><input class="st" type="radio" name="yr3" id="y3_1999" aria-label="1999年出生"><input class="st" type="radio" name="yr3" id="y3_1987" aria-label="1987年出生"><input class="st" type="radio" name="yr3" id="y3_1975" aria-label="1975年出生"><input class="st" type="radio" name="yr3" id="y3_1963" aria-label="1963年出生"><input class="st" type="radio" name="yr3" id="y3_1951" aria-label="1951年出生"><input class="st" type="radio" name="yr3" id="y3_1939" aria-label="1939年出生"><input class="st" type="radio" name="yr4" id="y4_2024" aria-label="2024年出生"><input class="st" type="radio" name="yr4" id="y4_2012" aria-label="2012年出生"><input class="st" type="radio" name="yr4" id="y4_2000" aria-label="2000年出生"><input class="st" type="radio" name="yr4" id="y4_1988" aria-label="1988年出生"><input class="st" type="radio" name="yr4" id="y4_1976" aria-label="1976年出生"><input class="st" type="radio" name="yr4" id="y4_1964" aria-label="1964年出生"><input class="st" type="radio" name="yr4" id="y4_1952" aria-label="1952年出生"><input class="st" type="radio" name="yr4" id="y4_1940" aria-label="1940年出生"><input class="st" type="radio" name="yr5" id="y5_2025" aria-label="2025年出生"><input class="st" type="radio" name="yr5" id="y5_2013" aria-label="2013年出生"><input class="st" type="radio" name="yr5" id="y5_2001" aria-label="2001年出生"><input class="st" type="radio" name="yr5" id="y5_1989" aria-label="1989年出生"><input class="st" type="radio" name="yr5" id="y5_1977" aria-label="1977年出生"><input class="st" type="radio" name="yr5" id="y5_1965" aria-label="1965年出生"><input class="st" type="radio" name="yr5" id="y5_1953" aria-label="1953年出生"><input class="st" type="radio" name="yr5" id="y5_1941" aria-label="1941年出生"><input class="st" type="radio" name="yr6" id="y6_2026" aria-label="2026年出生"><input class="st" type="radio" name="yr6" id="y6_2014" aria-label="2014年出生"><input class="st" type="radio" name="yr6" id="y6_2002" aria-label="2002年出生"><input class="st" type="radio" name="yr6" id="y6_1990" aria-label="1990年出生"><input class="st" type="radio" name="yr6" id="y6_1978" aria-label="1978年出生"><input class="st" type="radio" name="yr6" id="y6_1966" aria-label="1966年出生"><input class="st" type="radio" name="yr6" id="y6_1954" aria-label="1954年出生"><input class="st" type="radio" name="yr6" id="y6_1942" aria-label="1942年出生"><input class="st" type="radio" name="yr6" id="y6_1930" aria-label="1930年出生"><input class="st" type="radio" name="yr7" id="y7_2027" aria-label="2027年出生"><input class="st" type="radio" name="yr7" id="y7_2015" aria-label="2015年出生"><input class="st" type="radio" name="yr7" id="y7_2003" aria-label="2003年出生"><input class="st" type="radio" name="yr7" id="y7_1991" aria-label="1991年出生"><input class="st" type="radio" name="yr7" id="y7_1979" aria-label="1979年出生"><input class="st" type="radio" name="yr7" id="y7_1967" aria-label="1967年出生"><input class="st" type="radio" name="yr7" id="y7_1955" aria-label="1955年出生"><input class="st" type="radio" name="yr7" id="y7_1943" aria-label="1943年出生"><input class="st" type="radio" name="yr7" id="y7_1931" aria-label="1931年出生"><input class="st" type="radio" name="yr8" id="y8_2016" aria-label="2016年出生"><input class="st" type="radio" name="yr8" id="y8_2004" aria-label="2004年出生"><input class="st" type="radio" name="yr8" id="y8_1992" aria-label="1992年出生"><input class="st" type="radio" name="yr8" id="y8_1980" aria-label="1980年出生"><input class="st" type="radio" name="yr8" id="y8_1968" aria-label="1968年出生"><input class="st" type="radio" name="yr8" id="y8_1956" aria-label="1956年出生"><input class="st" type="radio" name="yr8" id="y8_1944" aria-label="1944年出生"><input class="st" type="radio" name="yr8" id="y8_1932" aria-label="1932年出生"><input class="st" type="radio" name="yr9" id="y9_2017" aria-label="2017年出生"><input class="st" type="radio" name="yr9" id="y9_2005" aria-label="2005年出生"><input class="st" type="radio" name="yr9" id="y9_1993" aria-label="1993年出生"><input class="st" type="radio" name="yr9" id="y9_1981" aria-label="1981年出生"><input class="st" type="radio" name="yr9" id="y9_1969" aria-label="1969年出生"><input class="st" type="radio" name="yr9" id="y9_1957" aria-label="1957年出生"><input class="st" type="radio" name="yr9" id="y9_1945" aria-label="1945年出生"><input class="st" type="radio" name="yr9" id="y9_1933" aria-label="1933年出生"><input class="st" type="radio" name="yr10" id="y10_2018" aria-label="2018年出生"><input class="st" type="radio" name="yr10" id="y10_2006" aria-label="2006年出生"><input class="st" type="radio" name="yr10" id="y10_1994" aria-label="1994年出生"><input class="st" type="radio" name="yr10" id="y10_1982" aria-label="1982年出生"><input class="st" type="radio" name="yr10" id="y10_1970" aria-label="1970年出生"><input class="st" type="radio" name="yr10" id="y10_1958" aria-label="1958年出生"><input class="st" type="radio" name="yr10" id="y10_1946" aria-label="1946年出生"><input class="st" type="radio" name="yr10" id="y10_1934" aria-label="1934年出生"><input class="st" type="radio" name="yr11" id="y11_2019" aria-label="2019年出生"><input class="st" type="radio" name="yr11" id="y11_2007" aria-label="2007年出生"><input class="st" type="radio" name="yr11" id="y11_1995" aria-label="1995年出生"><input class="st" type="radio" name="yr11" id="y11_1983" aria-label="1983年出生"><input class="st" type="radio" name="yr11" id="y11_1971" aria-label="1971年出生"><input class="st" type="radio" name="yr11" id="y11_1959" aria-label="1959年出生"><input class="st" type="radio" name="yr11" id="y11_1947" aria-label="1947年出生"><input class="st" type="radio" name="yr11" id="y11_1935" aria-label="1935年出生">
+<div class="home">
 <header class="hero">
   <div>
     <h1>
-      <span class="l1"><span class="g">免费领取 ·</span> <span class="g">2027 生肖财运指南</span></span>
-      <span class="l3"><span class="g">你的财</span><span class="g">从哪里来</span></span>
-      <span class="l2"><span class="g">不用花钱算命，</span><span class="g">也能先看懂你 2027 的财路</span></span>
+      <span class="l1"><span class="g">送给你的</span> <span class="g">2027 第一份方向</span></span>
+      <span class="l3"><span class="g">先选择</span><span class="g">你的生肖</span></span>
+      <span class="l2"><span class="g">你的财，从哪里来？</span><span class="g">什么样的人，</span><span class="g">值得你主动接近？</span></span>
     </h1>
-    <p class="lead">尤其是今年想<b>换方向、谈合作、多开一条收入线</b>的你：先看清财从哪里来、谁能帮你，再决定下一步。</p>
-    <div class="cta-row"><a class="btn btn-white btn-big" href="#claim">立即免费领取</a></div>
+    <p class="lead">从你的生肖出发，看懂<b>求财机会、贵人助力</b>，再找到一个现在就能落实的行动。</p>
   </div>
-  <!-- 【待补】有真的指南封面图，就把下面这张卡换成 <img class="cover" src="cover.jpg" alt="…"> -->
-  <div class="gcard" role="img" aria-label="《2027 生肖财运指南》：十二生肖专属解读，林舒苑老师">
-    <span class="y">2027</span>
-    <span class="t">生肖<br>财运指南</span>
-    <div class="zz"><span>鼠</span><span>牛</span><span>虎</span><span>兔</span><span>龙</span><span>蛇</span><span>马</span><span>羊</span><span>猴</span><span>鸡</span><span>狗</span><span>猪</span></div>
-    <span class="by">林舒苑 · 人生战略导师<br>十二生肖专属解读</span>
+  <div class="picker">
+    <div class="picker-h"><b>你属什么？</b><small>01 / 选择你的生肖</small></div>
+    <div class="zgrid"><label for="z0"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="27" cy="27" r="13"/><circle cx="69" cy="27" r="13"/><path d="M24 39Q24 24 48 27Q72 24 72 40L65 68Q48 87 31 68Z"/><path d="M39 62L48 70L57 62M18 53L34 57M16 64L33 63M62 57L78 53M63 64L80 65"/><circle cx="36" cy="47" r="2"/><circle cx="60" cy="47" r="2"/></svg><b>鼠</b><i>RAT</i></label><label for="z1"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M29 31Q12 33 13 14Q22 26 34 21M67 31Q84 33 83 14Q74 26 62 21M25 39L12 34L20 47M71 39L84 34L76 47M27 30Q48 21 69 30L70 62Q69 79 48 81Q27 79 26 62Z"/><rect x="29" y="56" width="38" height="21" rx="10"/><path d="M38 65V68M58 65V68M34 45H38M58 45H62M48 28V39"/></svg><b>牛</b><i>OX</i></label><label for="z2"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M26 31Q13 15 23 13Q37 9 39 28M57 28Q60 9 73 13Q83 15 70 31M23 45Q22 26 48 25Q74 26 73 45V58Q71 80 48 82Q25 80 23 58Z"/><path d="M40 30L48 40L56 30M48 26V40M25 44L36 49M24 57L35 59M71 44L60 49M72 57L61 59M40 62L48 68L56 62M48 68V74M39 76L48 73L57 76"/><path d="M36 47H39M57 47H60"/></svg><b>虎</b><i>TIGER</i></label><label for="z3"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M30 43Q18 9 28 7Q38 5 40 38M54 38Q57 5 67 7Q78 9 66 43M24 57Q23 37 48 37Q73 37 72 57Q73 80 48 82Q23 80 24 57Z"/><path d="M30 16L35 33M64 16L60 33M41 65L48 70L55 65M48 70L43 75M48 70L53 75"/><circle cx="36" cy="56" r="2"/><circle cx="60" cy="56" r="2"/></svg><b>兔</b><i>RABBIT</i></label><label for="z4"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M33 28L26 10L39 18L46 8L50 26M58 24L67 10L70 26L82 24L72 39M31 31Q54 18 69 36L67 52L79 59L75 72Q56 84 36 73L26 55Z"/><path d="M27 38L15 33L18 47L27 49M31 65L19 69L25 79M48 37L57 42L46 46M55 59L68 62M45 73Q43 87 57 87M71 70L85 73"/><circle cx="70" cy="59" r="2"/></svg><b>龙</b><i>DRAGON</i></label><label for="z5"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M61 30Q61 14 47 14Q31 14 33 30Q35 41 49 45Q76 52 71 67Q65 83 36 80Q18 78 19 67Q20 58 38 58Q61 57 58 68Q56 73 44 71M32 24Q45 29 60 24"/><circle cx="42" cy="23" r="1.5"/><circle cx="54" cy="23" r="1.5"/><path d="M49 33V41M49 40L45 44M49 40L53 44M26 77Q49 90 72 78"/></svg><b>蛇</b><i>SNAKE</i></label><label for="z6"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M31 31L29 10L43 25L59 23L69 12L67 36L76 56L66 71L48 73L40 85L24 80L25 49Z"/><path d="M42 25Q21 31 17 53L21 54M36 35L31 53L35 69M54 39L61 42M53 60L66 64M28 73L39 75M48 29L45 43"/><circle cx="67" cy="57" r="2"/></svg><b>马</b><i>HORSE</i></label><label for="z7"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M30 35Q7 31 17 13Q30 5 35 30M66 35Q89 31 79 13Q66 5 61 30M26 38L13 37L20 48M70 38L83 37L76 48M30 31Q48 24 66 31L65 59L55 75L48 86L41 75L31 59Z"/><path d="M35 46H39M57 46H61M41 61L48 66L55 61M48 66V75M23 17Q19 27 29 28M73 17Q77 27 67 28"/></svg><b>羊</b><i>GOAT</i></label><label for="z8"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="19" cy="49" r="10"/><circle cx="77" cy="49" r="10"/><path d="M23 44Q19 19 48 18Q77 19 73 44V60Q70 81 48 82Q26 81 23 60Z"/><path d="M48 42Q35 25 27 42Q21 55 33 65Q31 78 48 77Q65 78 63 65Q75 55 69 42Q61 25 48 42Z"/><circle cx="36" cy="48" r="2"/><circle cx="60" cy="48" r="2"/><path d="M42 62L48 65L54 62M40 70Q48 74 56 70M38 20L44 12L50 19"/></svg><b>猴</b><i>MONKEY</i></label><label for="z9"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M34 32Q21 10 34 12Q41 3 47 17Q58 3 62 15Q77 13 66 34M30 42Q32 26 52 29Q70 32 67 50L79 54L66 62Q60 80 37 80L25 68Z"/><path d="M48 59L62 56L58 65Z M39 77Q38 91 48 86Q58 88 56 76M27 42L17 51L27 55"/><circle cx="54" cy="44" r="2"/></svg><b>鸡</b><i>ROOSTER</i></label><label for="z10"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M29 29Q14 23 13 47Q12 66 26 60L32 41M67 29Q82 23 83 47Q84 66 70 60L64 41M28 35Q30 23 48 24Q66 23 68 35L69 60Q65 80 48 81Q31 80 27 60Z"/><path d="M39 61Q48 55 57 61L48 69Z M48 69V76M37 48H40M56 48H59"/></svg><b>狗</b><i>DOG</i></label><label for="z11"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M28 34L19 14L38 23M68 34L77 14L58 23M22 49Q22 25 48 26Q74 25 74 49V60Q70 81 48 81Q26 81 22 60Z"/><rect x="32" y="54" width="32" height="21" rx="10"/><path d="M41 62V67M55 62V67"/><circle cx="34" cy="46" r="2"/><circle cx="62" cy="46" r="2"/></svg><b>猪</b><i>PIG</i></label></div>
+    <a class="btn begin" href="#read"><span class="b0">请先选一个生肖</span><span class="b1">查看属鼠的财运指南 →</span><span class="b2">查看属牛的财运指南 →</span><span class="b3">查看属虎的财运指南 →</span><span class="b4">查看属兔的财运指南 →</span><span class="b5">查看属龙的财运指南 →</span><span class="b6">查看属蛇的财运指南 →</span><span class="b7">查看属马的财运指南 →</span><span class="b8">查看属羊的财运指南 →</span><span class="b9">查看属猴的财运指南 →</span><span class="b10">查看属鸡的财运指南 →</span><span class="b11">查看属狗的财运指南 →</span><span class="b12">查看属猪的财运指南 →</span></a>
+    <p class="hint">免费阅读 · 看完可领取图片版到 WhatsApp</p>
   </div>
 </header>
-
-<main>
-<section class="light"><div class="wrap">
-  <span class="pill">这是你吗？</span>
-  <h2 class="h2"><span class="g">机会来了，</span><span class="g">却<em>接不住</em></span></h2>
-  <p class="sub">很多人一年忙到尾，机会不是没有，是来的时候没看清楚。</p>
-  <div class="grid c3">
-    <div class="card"><h3>邀约一来就答应，钱和时间都花掉</h3><p>朋友介绍客户、有人约你一起做项目，每一个都说好。忙了一整年，户口里的数字还是差不多。</p></div>
-    <div class="card"><h3>分不清谁是贵人，谁在画大饼</h3><p>对方讲到很好听，客户、资源、分红都答应你。等你钱出了、力也出了，才发现没有一样落实。</p></div>
-    <div class="card"><h3>想换方向，又怕伤到现金流</h3><p>旧的做法越做越累，新的又不敢踏出去。想了很久，一年就这样拖过去。</p></div>
+<div class="wrap top-intro">
+  <div class="strip">
+    <div><i>01</i><span><b>看见机会</b><small>今年的财，更值得往哪里找</small></span></div>
+    <div><i>02</i><span><b>找对助力</b><small>谁能帮你，把机会往前推进</small></span></div>
+    <div><i>03</i><span><b>落实一步</b><small>带着自己的问题，找到行动</small></span></div>
   </div>
-  <p class="closer">不是你不够努力，是没先看清今年的财该往哪里找。不管你是老板、做销售还是上班族，都可以透过这份指南，先看懂你的生肖 2027 的求财机会、贵人，和现在就能做的一步。</p>
-</div></section>
-
-<section class="light" style="padding-top:0"><div class="wrap">
-  <span class="pill">先看一眼</span>
-  <h2 class="h2"><span class="g">你属</span><span class="g"><em>什么</em>？</span></h2>
-  <p class="sub">点你的生肖，先看 2027 你排第几、今年要问自己的一个问题。</p>
-  <div class="zpick">
-    <input type="radio" name="zpick" id="z0" aria-label="属鼠"><input type="radio" name="zpick" id="z1" aria-label="属牛"><input type="radio" name="zpick" id="z2" aria-label="属虎"><input type="radio" name="zpick" id="z3" aria-label="属兔"><input type="radio" name="zpick" id="z4" aria-label="属龙"><input type="radio" name="zpick" id="z5" aria-label="属蛇"><input type="radio" name="zpick" id="z6" aria-label="属马"><input type="radio" name="zpick" id="z7" aria-label="属羊"><input type="radio" name="zpick" id="z8" aria-label="属猴"><input type="radio" name="zpick" id="z9" aria-label="属鸡"><input type="radio" name="zpick" id="z10" aria-label="属狗"><input type="radio" name="zpick" id="z11" aria-label="属猪">
-    <div class="zgrid"><label for="z0"><b>鼠</b><i>RAT</i></label><label for="z1"><b>牛</b><i>OX</i></label><label for="z2"><b>虎</b><i>TIGER</i></label><label for="z3"><b>兔</b><i>RABBIT</i></label><label for="z4"><b>龙</b><i>DRAGON</i></label><label for="z5"><b>蛇</b><i>SNAKE</i></label><label for="z6"><b>马</b><i>HORSE</i></label><label for="z7"><b>羊</b><i>GOAT</i></label><label for="z8"><b>猴</b><i>MONKEY</i></label><label for="z9"><b>鸡</b><i>ROOSTER</i></label><label for="z10"><b>狗</b><i>DOG</i></label><label for="z11"><b>猪</b><i>PIG</i></label></div>
-    <div class="zpanels" aria-live="polite">
-      <div class="zhint"><p class="k">12 生肖 · 2027</p><h3>点上面的生肖，这里会出现你的 2027 重点</h3><p>排名、今年的三个关键词，和一个值得你停下来想的问题。</p></div>
-      <div class="zp zp0">
-        <p class="zrank"><b>08</b><span>/ 12 · 2027 年度总排名</span></p>
-        <h3>属鼠的你，<em>人缘里找机会。</em></h3>
-        <p class="ztags"><span>人缘旺</span><span>财易漏</span><span>守边界</span></p>
-        <p class="zq">人缘带来机会，赚到的钱怎样留得住？</p>
-        <p class="zstars">财富运<b>★★★☆☆</b><br>事业运<b>★★★★☆</b></p>
-        <p class="zmore">属鼠的财从哪里找、谁是你的贵人、哪几个月要主动，完整的写在指南里。</p>
-        <a class="btn" href="#claim">立即免费领取</a>
-      </div>
-      <div class="zp zp1">
-        <p class="zrank"><b>12</b><span>/ 12 · 2027 年度总排名</span></p>
-        <h3>属牛的你，<em>变动中留余地。</em></h3>
-        <p class="ztags"><span>主动变</span><span>防大耗</span><span>破旧局</span></p>
-        <p class="zq">旧局该变了，怎样调整才不会伤到现金流？</p>
-        <p class="zstars">财富运<b>★★☆☆☆</b><br>事业运<b>★★★☆☆</b></p>
-        <p class="zmore">属牛的财从哪里找、谁是你的贵人、哪几个月要主动，完整的写在指南里。</p>
-        <a class="btn" href="#claim">立即免费领取</a>
-      </div>
-      <div class="zp zp2">
-        <p class="zrank"><b>02</b><span>/ 12 · 2027 年度总排名</span></p>
-        <h3>属虎的你，<em>把机会接稳。</em></h3>
-        <p class="ztags"><span>贵人起</span><span>权位升</span><span>防盛转衰</span></p>
-        <p class="zq">属虎排第2，怎样把贵人机会变成收入？</p>
-        <p class="zstars">财富运<b>★★★★☆</b></p>
-        <p class="zmore">属虎的财从哪里找、谁是你的贵人、哪几个月要主动，完整的写在指南里。</p>
-        <a class="btn" href="#claim">立即免费领取</a>
-      </div>
-      <div class="zp zp3">
-        <p class="zrank"><b>04</b><span>/ 12 · 2027 年度总排名</span></p>
-        <h3>属兔的你，<em>让成果留下来。</em></h3>
-        <p class="ztags"><span>掌权</span><span>聚财</span><span>防伤</span></p>
-        <p class="zq">属兔排第4，怎样把能力变成位置，把收入留成资产？</p>
-        <p class="zstars">财富运<b>★★★★☆</b><br>事业运<b>★★★★★</b></p>
-        <p class="zmore">属兔的财从哪里找、谁是你的贵人、哪几个月要主动，完整的写在指南里。</p>
-        <a class="btn" href="#claim">立即免费领取</a>
-      </div>
-      <div class="zp zp4">
-        <p class="zrank"><b>03</b><span>/ 12 · 2027 年度总排名</span></p>
-        <h3>属龙的你，<em>走出去，看机会。</em></h3>
-        <p class="ztags"><span>走出去</span><span>贵人扶</span><span>防口舌</span></p>
-        <p class="zq">属龙排第3，走出去，怎样把机会做成收入？</p>
-        <p class="zstars">财富运<b>★★★★☆</b></p>
-        <p class="zmore">属龙的财从哪里找、谁是你的贵人、哪几个月要主动，完整的写在指南里。</p>
-        <a class="btn" href="#claim">立即免费领取</a>
-      </div>
-      <div class="zp zp5">
-        <p class="zrank"><b>07</b><span>/ 12 · 2027 年度总排名</span></p>
-        <h3>属蛇的你，<em>为收入多找条路。</em></h3>
-        <p class="ztags"><span>动中求机</span><span>贵人助力</span><span>安全第一</span></p>
-        <p class="zq">想开第二条收入线，第一步该往哪里走？</p>
-        <p class="zstars">财富运<b>★★★☆☆</b><br>事业运<b>★★★★☆</b></p>
-        <p class="zmore">属蛇的财从哪里找、谁是你的贵人、哪几个月要主动，完整的写在指南里。</p>
-        <a class="btn" href="#claim">立即免费领取</a>
-      </div>
-      <div class="zp zp6">
-        <p class="zrank"><b>01</b><span>/ 12 · 2027 年度总排名</span></p>
-        <h3>属马的你，<em>把好运做成事。</em></h3>
-        <p class="ztags"><span>贵人合</span><span>财禄进</span><span>养精蓄锐</span></p>
-        <p class="zq">属马排第1，你的财从哪里来？</p>
-        <p class="zstars">财富运<b>★★★★★</b></p>
-        <p class="zmore">属马的财从哪里找、谁是你的贵人、哪几个月要主动，完整的写在指南里。</p>
-        <a class="btn" href="#claim">立即免费领取</a>
-      </div>
-      <div class="zp zp7">
-        <p class="zrank"><b>10</b><span>/ 12 · 2027 年度总排名</span></p>
-        <h3>属羊的你，<em>先稳住，再出发。</em></h3>
-        <p class="ztags"><span>本命重整</span><span>守住自己</span><span>先稳后进</span></p>
-        <p class="zq">本命年想换方向？先稳住收入，再试下一步。</p>
-        <p class="zstars">财富运<b>★★★☆☆</b><br>事业运<b>★★★☆☆</b></p>
-        <p class="zmore">属羊的财从哪里找、谁是你的贵人、哪几个月要主动，完整的写在指南里。</p>
-        <a class="btn" href="#claim">立即免费领取</a>
-      </div>
-      <div class="zp zp8">
-        <p class="zrank"><b>06</b><span>/ 12 · 2027 年度总排名</span></p>
-        <h3>属猴的你，<em>让实力被看见。</em></h3>
-        <p class="ztags"><span>贵人照</span><span>喜事来</span><span>防财劫</span></p>
-        <p class="zq">有人赏识你，也有人画大饼。你怎么分辨？</p>
-        <p class="zstars">财富运<b>★★★☆☆</b><br>事业运<b>★★★★☆</b></p>
-        <p class="zmore">属猴的财从哪里找、谁是你的贵人、哪几个月要主动，完整的写在指南里。</p>
-        <a class="btn" href="#claim">立即免费领取</a>
-      </div>
-      <div class="zp zp9">
-        <p class="zrank"><b>09</b><span>/ 12 · 2027 年度总排名</span></p>
-        <h3>属鸡的你，<em>把专业用出来。</em></h3>
-        <p class="ztags"><span>专业升级</span><span>谨言守规</span><span>先守后进</span></p>
-        <p class="zq">过去的方法还能用吗？今年靠专业打开新收入。</p>
-        <p class="zstars">财富运<b>★★★☆☆</b><br>事业运<b>★★★☆☆</b></p>
-        <p class="zmore">属鸡的财从哪里找、谁是你的贵人、哪几个月要主动，完整的写在指南里。</p>
-        <a class="btn" href="#claim">立即免费领取</a>
-      </div>
-      <div class="zp zp10">
-        <p class="zrank"><b>11</b><span>/ 12 · 2027 年度总排名</span></p>
-        <h3>属狗的你，<em>把合作说清楚。</em></h3>
-        <p class="ztags"><span>关系考验</span><span>破旧重整</span><span>守界避争</span></p>
-        <p class="zq">合作有变化，怎样守住责任边界和现金流？</p>
-        <p class="zstars">财富运<b>★★☆☆☆</b><br>事业运<b>★★☆☆☆</b></p>
-        <p class="zmore">属狗的财从哪里找、谁是你的贵人、哪几个月要主动，完整的写在指南里。</p>
-        <a class="btn" href="#claim">立即免费领取</a>
-      </div>
-      <div class="zp zp11">
-        <p class="zrank"><b>05</b><span>/ 12 · 2027 年度总排名</span></p>
-        <h3>属猪的你，<em>让人脉走近一步。</em></h3>
-        <p class="ztags"><span>贵人聚</span><span>福气升</span><span>防是非</span></p>
-        <p class="zq">贵人把门打开，怎样把人脉变成收入？</p>
-        <p class="zstars">财富运<b>★★★★☆</b><br>事业运<b>★★★★☆</b></p>
-        <p class="zmore">属猪的财从哪里找、谁是你的贵人、哪几个月要主动，完整的写在指南里。</p>
-        <a class="btn" href="#claim">立即免费领取</a>
-      </div>
+  <p class="home-note">本指南由林舒苑依据《2027年运势大破解》及生肖求财资料整理。生肖解读与奇门方向供传统文化参考和自我梳理；真正推进合作，仍需核实需求、资源与条件。</p>
+</div>
+</div>
+<div id="read">
+<div class="rd rd0">
+  <div class="rbar"><div class="wrap"><span class="t">2027 · 属鼠的求财指南</span><a class="back" href="#top">重新选生肖 ↺</a></div>
+    <nav class="qnav" aria-label="指南章节"><a href="#z0-opp">财运</a><a href="#z0-people">贵人</a><a href="#z0-dir">求财方向</a><a href="#z0-time">月份</a><a href="#z0-check">核对</a><a href="#z0-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <div class="prog"><i></i></div></div>
+  <div class="prof">
+    <div>
+      <p class="ey">2027 · 你的生肖求财指南</p>
+      <h1><span class="g">属鼠的你，</span><span class="g"><em>人缘里找机会。</em></span></h1>
+      <p class="hl">人缘带来机会，赚到的钱怎样留得住？</p>
+      <p class="kw"><span>人缘旺</span><span>财易漏</span><span>守边界</span></p>
+      <p class="rank"><b>08</b><span>/ 12 生肖 · 原书年度总排名</span></p>
     </div>
+    <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="27" cy="27" r="13"/><circle cx="69" cy="27" r="13"/><path d="M24 39Q24 24 48 27Q72 24 72 40L65 68Q48 87 31 68Z"/><path d="M39 62L48 70L57 62M18 53L34 57M16 64L33 63M62 57L78 53M63 64L80 65"/><circle cx="36" cy="47" r="2"/><circle cx="60" cy="47" r="2"/></svg><span>RAT · 2027</span></div>
   </div>
-  <p class="src">排名与解读依据《2027年运势大破解》整理。</p>
-</div></section>
-
-<section class="light"><div class="wrap">
-  <span class="pill">里面有什么</span>
-  <h2 class="h2"><span class="g">一份指南，</span><span class="g">看懂 <em>3 件事</em></span></h2>
-  <p class="sub">十二生肖每个都有专属解读，同一个生肖再按出生年份细分。</p>
-  <div class="grid c3">
-    <div class="card hot"><span class="no">01</span><h3>看见机会</h3><p>今年的财更值得往哪里找：正财靠什么来，钱最容易漏在哪里。</p></div>
-    <div class="card"><span class="no">02</span><h3>找对助力</h3><p>什么样的人值得你主动接近，谁能帮你把机会往前推。</p></div>
-    <div class="card"><span class="no">03</span><h3>落实一步</h3><p>按出生年份查求财方向，看哪几个月主动、哪几个月小心，最后写成一张行动卡。</p></div>
+  <div class="wrap">
+  <section class="sec" id="z0-opp">
+    <p class="slab"><i>01</i>先看你的年度重点</p>
+    <h2 class="h2"><span class="g">今年的财，</span><span class="g">更值得</span><span class="g">从<em>哪里找</em>？</span></h2>
+    <p class="lead2">属鼠的朋友，2027年，你在十二生肖年度总排名中排第8。今年可能有朋友介绍客户，也可能有人约你一起做项目。人缘旺起来，机会确实会多；如果每一次邀约都答应，钱和时间也可能在不知不觉中用掉。</p>
+    <p class="stars"><span>财富运<b>★★★☆☆</b></span><span>事业运<b>★★★★☆</b></span></p>
+    <div class="facts"><div class="frow"><h3>正财</h3><p>主动见客户，经营销售、服务和专业转介，把接触变成明确的需求或报价。</p></div><div class="frow"><h3>钱容易漏在哪里</h3><p>应酬、人情、订阅与零碎开销都值得查；每月看一次账单，找出最常重复的一类。</p></div></div>
+    <details class="more"><summary>为什么会有这些提醒？看原稿中的星曜解读</summary><p>子未相害。按《2027年运势大破解》的解读，【月德】提示遇事可找人协调，【桃花】带动客户缘与曝光；【小耗】【六害】提醒小额开销与合作边界。</p></details>
+    <div class="q"><small>停一下，想一想</small><p>最近的邀约里，哪一个值得你认真跟进？</p></div>
+    <a class="nx" href="#z0-people">再看看，谁能给你实际帮助 ↓</a>
+  </section>
+  <section class="sec" id="z0-people">
+    <p class="slab"><i>02</i>找到能帮你的人</p>
+    <h2 class="h2"><span class="g">贵人来了，</span><span class="g">你知道</span><span class="g"><em>怎么接住</em>吗？</span></h2>
+    <div class="helper"><div class="ic"><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="28" cy="24" r="10"/><circle cx="56" cy="30" r="8"/><path d="M9 64V57Q9 39 28 39Q46 39 46 57V64M48 44Q70 42 70 62M19 58H38M52 58H62"/></svg></div><div><h3>留意这样的人</h3><p>留意愿意帮忙协调、给具体建议，或把你介绍给真实客户的人。</p></div></div>
+    <div class="q"><small>停一下，想一想</small><p>读到这里，你脑中有没有浮现一个人？如果主动联系他，你想请他帮你推进哪一件具体的事？</p></div>
+    <p class="note">这里说的是能提供实际助力的人与合作方式，并非按对方生肖决定是否合作。</p>
+    <a class="nx" href="#z0-dir">同样属鼠，我的求财路线有什么不同？ ↓</a>
+  </section>
+  <section class="sec" id="z0-dir">
+    <p class="slab"><i>03</i>再看出生年份</p>
+    <h2 class="h2"><span class="g">同样属鼠，</span><span class="g">你的下一步</span><span class="g"><em>也可能不同</em>。</span></h2>
+    <p class="lead2">先找到出生年份，再看对应的奇门求财卡。带着一个正在考虑的工作、客户或合作来读，会更有感觉。</p>
+    <div class="ypanel"><b>你是哪一年出生的？</b>
+      <div class="ychips"><label for="y0_2020">2020<small>庚子</small></label><label for="y0_2008">2008<small>戊子</small></label><label for="y0_1996">1996<small>丙子</small></label><label for="y0_1984">1984<small>甲子</small></label><label for="y0_1972">1972<small>壬子</small></label><label for="y0_1960">1960<small>庚子</small></label><label for="y0_1948">1948<small>戊子</small></label><label for="y0_1936">1936<small>丙子</small></label></div>
+      <div class="yres"><p class="note yd0" style="margin-top:0">点你的出生年份，这里会展开你的求财方向、需要确认的条件，以及一个马上能做的行动。</p><div class="yc yc0_2020"><p class="yt">2020 · 庚子鼠的求财路线</p><h3>少跑无效应酬，多约有目的的会面</h3><div class="ri">自身落东南巽宫，见杜门、九天、天柱、驿马。可观察外部客户和专业渠道；北方坎水生巽木，可留意资料或专业意见。</div><div class="act"><b>现在可以做的一步</b>挑一个与业务目标最相关的邀约。赴约前确定要问的问题，会后定下一次跟进时间。</div></div><div class="yc yc0_2008"><p class="yt">2008 · 戊子鼠的求财路线</p><h3>营业额之外，还要看实际留下多少</h3><div class="ri">自身落东北艮宫，与生门同宫而见空亡。西北开门可观察新业务；南方离火生艮土，可找懂成本和运营的人把关。</div><div class="act"><b>现在可以做的一步</b>从最近一笔订单里扣掉折扣、交通、赠品和服务时间，看看类似订单还有没有必要接。</div></div><div class="yc yc0_1996"><p class="yt">1996 · 丙子鼠的求财路线</p><h3>把曝光接成一笔有条件的生意</h3><div class="ri">自身落东方震宫，见空亡。东南同属木，可观察专业推广；西北开门可观察业务机会，但要同时计入协调和交付压力。</div><div class="act"><b>现在可以做的一步</b>挑一条近期收到的询问，先确认对方需求，再发一份写明范围和费用的报价。</div></div><div class="yc yc0_1984"><p class="yt">1984 · 甲子鼠的求财路线</p><h3>人情归人情，转介条件要确认</h3><div class="ri">甲子遁戊，查东北艮宫。生门与戊土同宫，见空亡。熟人说有客户，可先核实需求和预算；西北开门可观察合作，南方离火生艮土，可请有经验的人帮你看条款。</div><div class="act"><b>现在可以做的一步</b>请介绍人安排三方沟通，确认是谁决定、由谁付款、转介费用怎么结。</div></div><div class="yc yc0_1972"><p class="yt">1972 · 壬子鼠的求财路线</p><h3>能帮忙协调的人，比只会传话的人有用</h3><div class="ri">按壬组寄东方震宫，见空亡。北方坎水生震木，可观察专业意见或可靠资讯；东南同属木，可观察业务拓展。西北开门可见合作线索，也要预留协调成本。</div><div class="ri">东北生门与戊土同宫，见空亡。多人参与的项目，先确认预算、人手和回款条件，别用自己的钱填补没人认领的成本。</div><div class="act"><b>现在可以做的一步</b>把分歧带回给能决定的人，确认谁负责跟进、谁承担费用，然后发一则书面确认。</div></div><div class="yc yc0_1960"><p class="yt">1960 · 庚子鼠的求财路线</p><h3>少跑无效应酬，多约有目的的会面</h3><div class="ri">自身落东南巽宫，见杜门、九天、天柱、驿马。可观察外部客户和专业渠道；北方坎水生巽木，可留意资料或专业意见。</div><div class="act"><b>现在可以做的一步</b>挑一个与业务目标最相关的邀约。赴约前确定要问的问题，会后定下一次跟进时间。</div></div><div class="yc yc0_1948"><p class="yt">1948 · 戊子鼠的求财路线</p><h3>营业额之外，还要看实际留下多少</h3><div class="ri">自身落东北艮宫，与生门同宫而见空亡。西北开门可观察新业务；南方离火生艮土，可找懂成本和运营的人把关。</div><div class="act"><b>现在可以做的一步</b>从最近一笔订单里扣掉折扣、交通、赠品和服务时间，看看类似订单还有没有必要接。</div></div><div class="yc yc0_1936"><p class="yt">1936 · 丙子鼠的求财路线</p><h3>把曝光接成一笔有条件的生意</h3><div class="ri">自身落东方震宫，见空亡。东南同属木，可观察专业推广；西北开门可观察业务机会，但要同时计入协调和交付压力。</div><div class="act"><b>现在可以做的一步</b>挑一条近期收到的询问，先确认对方需求，再发一份写明范围和费用的报价。</div></div></div>
+      <p class="note">此处按常见出生年份查出生年柱，并非八字日主。1月至立春前后出生，请按实际出生日期与时间核对年柱。本页不作精确八字排盘。</p>
+    </div>
+    <details class="more"><summary>这些方向，应该怎样理解？</summary><p>方位是奇门年盘中观察机会、支持和压力的参考，与流年风水的东南财富位用途不同。先看方向对应的资源和行动，再对照你的实际情况；并非走到某个方位就会得财。</p><p>「空亡」在这份指南里，提醒你核实承诺能否兑现；「开门」「生门」用于观察业务与收入线索。它们不能代替真实需求、预算与回款记录。</p></details>
+    <a class="nx" href="#z0-time">接着看，哪些时间值得多留意 ↓</a>
+  </section>
+  <section class="sec" id="z0-time">
+    <p class="slab"><i>04</i>机会也要配合时机</p>
+    <h2 class="h2"><span class="g">什么时候</span><span class="g">往前一步，</span><span class="g">什么时候</span><span class="g"><em>先看清楚</em>？</span></h2>
+    <p class="lead2">把这些提醒放回你正在安排的一年：什么时候约人谈、什么时候做准备，什么时候把条件再核对一次。</p>
+    <div class="mgrid"><div class="mon"><small>留意机会</small><h3>这些时段，主动一点</h3><p>2月段打开人脉，3月段增加曝光，4月段主动求助，8月段重启有基础的项目。</p></div><div class="mon cau"><small>留意关卡</small><h3>这些地方，仔细一点</h3><p>6月段管好支出，7月段少介入纠纷，10月段把重要沟通和条款写清楚。</p></div></div>
+    <p class="note">流月以节气交接为参考，与公历月份不完全重合；以上沿用原稿的月份口径。</p>
+    <a class="nx" href="#z0-check">把我正在考虑的事，拿来对照一下 ↓</a>
+  </section>
+  <section class="sec chk" id="z0-check">
+    <p class="slab"><i>05</i>真 · 假 · 混，先问清楚</p>
+    <h2 class="h2"><span class="g">这份机会，</span><span class="g">哪些条件</span><span class="g"><em>真的落实了</em>？</span></h2>
+    <p class="lead2">选一件正在考虑的事：参加应酬、接熟人介绍的单、答应帮忙垫款，或再开一项订阅。 已经亲自确认的，就勾选；还没确定的，留下来作为下一次沟通的问题。</p>
+    <div class="clist"><label class="crow"><input type="checkbox"><span><b>人缘带来什么？</b><small>这是可跟进的客户机会，还是单纯的社交邀约？</small></span></label><label class="crow"><input type="checkbox"><span><b>是不是在漏小钱？</b><small>上个月我为类似事项一共花了多少钱？</small></span></label><label class="crow"><input type="checkbox"><span><b>合作分工清楚吗？</b><small>谁承诺、谁跟进、谁承担额外费用？</small></span></label><label class="crow"><input type="checkbox"><span><b>关键条件求证了吗？</b><small>我问过当事人，还是只听别人转述？</small></span></label><label class="crow"><input type="checkbox"><span><b>可以先做哪一步？</b><small>能否先约一次电话、发一份报价，或取消一个重复扣款？</small></span></label></div>
+    <p class="cfb" role="status"></p>
+    <a class="nx" href="#z0-plan">我想把下一步写下来 ↓</a>
+  </section>
+  <section class="sec" id="z0-plan">
+    <p class="slab"><i>06</i>把方向变成行动</p>
+    <h2 class="h2"><span class="g">不用一次</span><span class="g">改变全部。</span><span class="g"><em>先落实</em></span><span class="g"><em>这一步</em>。</span></h2>
+    <p class="lead2">看完以后，你最想推进什么？直接写在下面这张卡上，写好截图保存。</p>
+    <div class="pcard">
+      <p class="k">2027 · MY ACTION CARD</p>
+      <h3>属鼠的我，先落实这一步。</h3>
+      <label>我最想推进的一件事<textarea rows="2" maxlength="250" placeholder="例如：把谈了很久的合作，约出来确认条件。"></textarea></label>
+      <label>我准备联系谁<input maxlength="100" placeholder="写下一个人，或对方的角色"></label>
+      <label>我准备什么时候行动<input type="date"></label>
+      <label>答应之前，我要先确认<input maxlength="200" placeholder="例如：谁付款、什么时候付款、由谁负责交付。"></label>
+      <p class="by">林舒苑 · 2027生肖财运指南　｜　截图保存，提醒自己把这一步落实。</p>
+    </div>
+    <p class="note">只在你的手机上，不会提交个人资料。</p>
+  </section>
+  <section class="close">
+    <div class="bridge">
+      <span class="pill">你的生肖，是看懂 2027 的第一步</span>
+      <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
+      <p>你已经看到了属鼠的求财重点，也开始思考谁能帮助你、下一步该怎么做。</p>
+      <p>但当一个真实决定来到面前——要不要换方向、接下一项合作，或进入一个新市场——你还会想知道：<strong>这个选择，放在 2027 全年的趋势里，时机合适吗？</strong></p>
+      <p>把个人的方向，放进全年趋势，再结合奇门的判断，才能更完整地梳理：<strong>什么时候准备、什么时候推进、哪些条件要先看清。</strong></p>
+    </div>
+    <div class="conf">
+      <p class="k">MASTER SUYEN · 2027</p>
+      <h3>2027 年奇门遁甲<br>战略大会</h3>
+      <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
+      <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
+      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
+      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+    </div>
+  </section>
   </div>
-</div></section>
-
-<section class="light"><div class="wrap">
-  <h2 class="h2"><span class="g">看之前，</span><span class="g">看之后</span></h2>
-  <div class="ba">
-    <div class="before"><p class="k">BEFORE</p><h3>之前</h3><ul><li>邀约来了就答应，忙完才算账</li><li>听别人转述，就当作是真的</li><li>不知道谁能帮，什么都自己扛</li><li>想到就做，没看时机</li></ul></div>
-    <div class="after"><p class="k">AFTER</p><h3>之后</h3><ul><li>先分清是客户机会，还是纯应酬</li><li>条件亲自问清楚：谁决定、谁付款</li><li>知道该主动去找哪一类人</li><li>知道哪几个月主动，哪几个月先看清</li></ul></div>
+</div>
+<div class="rd rd1">
+  <div class="rbar"><div class="wrap"><span class="t">2027 · 属牛的求财指南</span><a class="back" href="#top">重新选生肖 ↺</a></div>
+    <nav class="qnav" aria-label="指南章节"><a href="#z1-opp">财运</a><a href="#z1-people">贵人</a><a href="#z1-dir">求财方向</a><a href="#z1-time">月份</a><a href="#z1-check">核对</a><a href="#z1-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <div class="prog"><i></i></div></div>
+  <div class="prof">
+    <div>
+      <p class="ey">2027 · 你的生肖求财指南</p>
+      <h1><span class="g">属牛的你，</span><span class="g"><em>变动中留余地。</em></span></h1>
+      <p class="hl">旧局该变了，怎样调整才不会伤到现金流？</p>
+      <p class="kw"><span>主动变</span><span>防大耗</span><span>破旧局</span></p>
+      <p class="rank"><b>12</b><span>/ 12 生肖 · 原书年度总排名</span></p>
+    </div>
+    <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M29 31Q12 33 13 14Q22 26 34 21M67 31Q84 33 83 14Q74 26 62 21M25 39L12 34L20 47M71 39L84 34L76 47M27 30Q48 21 69 30L70 62Q69 79 48 81Q27 79 26 62Z"/><rect x="29" y="56" width="38" height="21" rx="10"/><path d="M38 65V68M58 65V68M34 45H38M58 45H62M48 28V39"/></svg><span>OX · 2027</span></div>
   </div>
-  <div class="cta-row"><a class="btn" href="#claim">立即免费领取</a></div>
-</div></section>
-
+  <div class="wrap">
+  <section class="sec" id="z1-opp">
+    <p class="slab"><i>01</i>先看你的年度重点</p>
+    <h2 class="h2"><span class="g">今年的财，</span><span class="g">更值得</span><span class="g">从<em>哪里找</em>？</span></h2>
+    <p class="lead2">属牛的朋友，2027年，你在十二生肖年度总排名中排第12。丑未相冲又见刑，工作、合作和生活安排可能需要调整。排名提示今年要多做准备；你仍然可以决定先动哪一步。</p>
+    <p class="stars"><span>财富运<b>★★☆☆☆</b></span><span>事业运<b>★★★☆☆</b></span></p>
+    <div class="facts"><div class="frow"><h3>正财</h3><p>用已有专业争取有清楚职责的岗位或项目；保留稳定收入，再验证新的经营方式。</p></div><div class="frow"><h3>大额支出</h3><p>装修、设备、车辆或扩张先算总成本、付款时间和延迟回款时的缺口。</p></div></div>
+    <details class="more"><summary>为什么会有这些提醒？看原稿中的星曜解读</summary><p>丑未相冲兼见刑。【唐符】提示专业、管理与领导机会，【月空】提示难题仍可有转圜，【大耗】提醒留心大笔资金流出。</p></details>
+    <div class="q"><small>停一下，想一想</small><p>你想改变的，是方向，还是一个一直消耗你的旧做法？</p></div>
+    <a class="nx" href="#z1-people">再看看，谁能给你实际帮助 ↓</a>
+  </section>
+  <section class="sec" id="z1-people">
+    <p class="slab"><i>02</i>找到能帮你的人</p>
+    <h2 class="h2"><span class="g">贵人来了，</span><span class="g">你知道</span><span class="g"><em>怎么接住</em>吗？</span></h2>
+    <div class="helper"><div class="ic"><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="28" cy="24" r="10"/><circle cx="56" cy="30" r="8"/><path d="M9 64V57Q9 39 28 39Q46 39 46 57V64M48 44Q70 42 70 62M19 58H38M52 58H62"/></svg></div><div><h3>留意这样的人</h3><p>留意能看出成本漏洞、帮助重整流程或提供专业意见的人。</p></div></div>
+    <div class="q"><small>停一下，想一想</small><p>读到这里，你脑中有没有浮现一个人？如果主动联系他，你想请他帮你推进哪一件具体的事？</p></div>
+    <p class="note">这里说的是能提供实际助力的人与合作方式，并非按对方生肖决定是否合作。</p>
+    <a class="nx" href="#z1-dir">同样属牛，我的求财路线有什么不同？ ↓</a>
+  </section>
+  <section class="sec" id="z1-dir">
+    <p class="slab"><i>03</i>再看出生年份</p>
+    <h2 class="h2"><span class="g">同样属牛，</span><span class="g">你的下一步</span><span class="g"><em>也可能不同</em>。</span></h2>
+    <p class="lead2">先找到出生年份，再看对应的奇门求财卡。带着一个正在考虑的工作、客户或合作来读，会更有感觉。</p>
+    <div class="ypanel"><b>你是哪一年出生的？</b>
+      <div class="ychips"><label for="y1_2021">2021<small>辛丑</small></label><label for="y1_2009">2009<small>己丑</small></label><label for="y1_1997">1997<small>丁丑</small></label><label for="y1_1985">1985<small>乙丑</small></label><label for="y1_1973">1973<small>癸丑</small></label><label for="y1_1961">1961<small>辛丑</small></label><label for="y1_1949">1949<small>己丑</small></label><label for="y1_1937">1937<small>丁丑</small></label></div>
+      <div class="yres"><p class="note yd1" style="margin-top:0">点你的出生年份，这里会展开你的求财方向、需要确认的条件，以及一个马上能做的行动。</p><div class="yc yc1_2021"><p class="yt">2021 · 辛丑牛的求财路线</p><h3>用成果谈新位置</h3><div class="ri">自身落正南离宫，见景门、九地、天心，辛有击刑。适合展示专业成果，尤其要复核提案和对外承诺。</div><div class="ri">东南巽木生离火，见九天，可观察外部渠道。先了解新岗位或平台需要的成果及实际权限。</div><div class="act"><b>现在可以做的一步</b>整理一个能证明你带过项目的案例，并写下新职责需要的权限和支持。</div></div><div class="yc yc1_2009"><p class="yt">2009 · 己丑牛的求财路线</p><h3>重谈合作时，把成本和责任拆开</h3><div class="ri">自身落正西兑宫。换团队或调整经营模式前，先确定谁承担设备、人工和额外费用。</div><div class="ri">西北开门可观察合作线索；东北土生兑金，生门与戊土同宫又见空亡，先核实人手及回款。</div><div class="act"><b>现在可以做的一步</b>把一份拟签方案分成固定费用和追加费用两栏，请对方逐项确认。</div></div><div class="yc yc1_1997"><p class="yt">1997 · 丁丑牛的求财路线</p><h3>想换跑道，先验证有人买单</h3><div class="ri">自身落西北乾宫，与开门同宫。适合用提案或面谈确认新角色、新客户的真实需求。</div><div class="ri">东北土生乾金，生门与戊土同宫但见空亡。新项目说有团队或预算，先问何时到位。</div><div class="act"><b>现在可以做的一步</b>做一页试单方案，设定交付范围、投入上限和验收方式。</div></div><div class="yc yc1_1985"><p class="yt">1985 · 乙丑牛的求财路线</p><h3>先处理最耗资源的一环</h3><div class="ri">自身落西南坤宫，乙入墓。适合盘点拖延的工作，找出占钱又占时间的部分。</div><div class="ri">西北开门可观察业务线索；东北生门与戊土同宫，见空亡，先核对预算和到账条件。南方离火生坤土，可请懂流程的人检查替代方案。</div><div class="act"><b>现在可以做的一步</b>挑一项长期消耗的业务，列出维持、缩小和暂停的成本。</div></div><div class="yc yc1_1973"><p class="yt">1973 · 癸丑牛的求财路线</p><h3>把每笔大钱放到日历上再看</h3><div class="ri">自身落正北坎宫，与休门同宫。可先稳住旧客户、续约和已验证的收入。</div><div class="ri">西北乾金生坎水，开门可观察业务资源；东北土克坎水，生门与戊土又见空亡，留意大额垫资和回款压力。</div><div class="act"><b>现在可以做的一步</b>列未来三个月的收入、必要支出和大额付款。把一笔预计到账的收入往后移，看看哪项开支需要分期或延后。</div></div><div class="yc yc1_1961"><p class="yt">1961 · 辛丑牛的求财路线</p><h3>用成果谈新位置</h3><div class="ri">自身落正南离宫，见景门、九地、天心，辛有击刑。适合展示专业成果，尤其要复核提案和对外承诺。</div><div class="ri">东南巽木生离火，见九天，可观察外部渠道。先了解新岗位或平台需要的成果及实际权限。</div><div class="act"><b>现在可以做的一步</b>整理一个能证明你带过项目的案例，并写下新职责需要的权限和支持。</div></div><div class="yc yc1_1949"><p class="yt">1949 · 己丑牛的求财路线</p><h3>重谈合作时，把成本和责任拆开</h3><div class="ri">自身落正西兑宫。换团队或调整经营模式前，先确定谁承担设备、人工和额外费用。</div><div class="ri">西北开门可观察合作线索；东北土生兑金，生门与戊土同宫又见空亡，先核实人手及回款。</div><div class="act"><b>现在可以做的一步</b>把一份拟签方案分成固定费用和追加费用两栏，请对方逐项确认。</div></div><div class="yc yc1_1937"><p class="yt">1937 · 丁丑牛的求财路线</p><h3>想换跑道，先验证有人买单</h3><div class="ri">自身落西北乾宫，与开门同宫。适合用提案或面谈确认新角色、新客户的真实需求。</div><div class="ri">东北土生乾金，生门与戊土同宫但见空亡。新项目说有团队或预算，先问何时到位。</div><div class="act"><b>现在可以做的一步</b>做一页试单方案，设定交付范围、投入上限和验收方式。</div></div></div>
+      <p class="note">此处按常见出生年份查出生年柱，并非八字日主。1月至立春前后出生，请按实际出生日期与时间核对年柱。本页不作精确八字排盘。</p>
+    </div>
+    <details class="more"><summary>这些方向，应该怎样理解？</summary><p>方位是奇门年盘中观察机会、支持和压力的参考，与流年风水的东南财富位用途不同。先看方向对应的资源和行动，再对照你的实际情况；并非走到某个方位就会得财。</p><p>「空亡」在这份指南里，提醒你核实承诺能否兑现；「开门」「生门」用于观察业务与收入线索。它们不能代替真实需求、预算与回款记录。</p></details>
+    <a class="nx" href="#z1-time">接着看，哪些时间值得多留意 ↓</a>
+  </section>
+  <section class="sec" id="z1-time">
+    <p class="slab"><i>04</i>机会也要配合时机</p>
+    <h2 class="h2"><span class="g">什么时候</span><span class="g">往前一步，</span><span class="g">什么时候</span><span class="g"><em>先看清楚</em>？</span></h2>
+    <p class="lead2">把这些提醒放回你正在安排的一年：什么时候约人谈、什么时候做准备，什么时候把条件再核对一次。</p>
+    <div class="mgrid"><div class="mon"><small>留意机会</small><h3>这些时段，主动一点</h3><p>2月段接触新领域，8月段重谈合作或找资源，9月段用专业争取机会。</p></div><div class="mon cau"><small>留意关卡</small><h3>这些地方，仔细一点</h3><p>4月段谨慎处理大额支出；7月段重大决定留后路；10月段核对合同；11月段把注意力放回现金流。</p></div></div>
+    <p class="note">流月以节气交接为参考，与公历月份不完全重合；以上沿用原稿的月份口径。</p>
+    <a class="nx" href="#z1-check">把我正在考虑的事，拿来对照一下 ↓</a>
+  </section>
+  <section class="sec chk" id="z1-check">
+    <p class="slab"><i>05</i>真 · 假 · 混，先问清楚</p>
+    <h2 class="h2"><span class="g">这份机会，</span><span class="g">哪些条件</span><span class="g"><em>真的落实了</em>？</span></h2>
+    <p class="lead2">选一项正在考虑的大决定：添置设备、承接新项目、转换岗位，或调整原有经营模式。 已经亲自确认的，就勾选；还没确定的，留下来作为下一次沟通的问题。</p>
+    <div class="clist"><label class="crow"><input type="checkbox"><span><b>为什么现在要变？</b><small>我解决的是真问题，还是被催着作决定？</small></span></label><label class="crow"><input type="checkbox"><span><b>一共会花多少？</b><small>定金、后续付款、运行和退出成本算清了吗？</small></span></label><label class="crow"><input type="checkbox"><span><b>收入能兑现吗？</b><small>预算是谁确认的？预计什么时候到账？</small></span></label><label class="crow"><input type="checkbox"><span><b>回款延误怎么办？</b><small>如果需要先垫钱，我能承受多少？</small></span></label><label class="crow"><input type="checkbox"><span><b>能否先小规模试做？</b><small>什么结果值得继续，什么情况应该暂停？</small></span></label></div>
+    <p class="cfb" role="status"></p>
+    <a class="nx" href="#z1-plan">我想把下一步写下来 ↓</a>
+  </section>
+  <section class="sec" id="z1-plan">
+    <p class="slab"><i>06</i>把方向变成行动</p>
+    <h2 class="h2"><span class="g">不用一次</span><span class="g">改变全部。</span><span class="g"><em>先落实</em></span><span class="g"><em>这一步</em>。</span></h2>
+    <p class="lead2">看完以后，你最想推进什么？直接写在下面这张卡上，写好截图保存。</p>
+    <div class="pcard">
+      <p class="k">2027 · MY ACTION CARD</p>
+      <h3>属牛的我，先落实这一步。</h3>
+      <label>我最想推进的一件事<textarea rows="2" maxlength="250" placeholder="例如：把谈了很久的合作，约出来确认条件。"></textarea></label>
+      <label>我准备联系谁<input maxlength="100" placeholder="写下一个人，或对方的角色"></label>
+      <label>我准备什么时候行动<input type="date"></label>
+      <label>答应之前，我要先确认<input maxlength="200" placeholder="例如：谁付款、什么时候付款、由谁负责交付。"></label>
+      <p class="by">林舒苑 · 2027生肖财运指南　｜　截图保存，提醒自己把这一步落实。</p>
+    </div>
+    <p class="note">只在你的手机上，不会提交个人资料。</p>
+  </section>
+  <section class="close">
+    <div class="bridge">
+      <span class="pill">你的生肖，是看懂 2027 的第一步</span>
+      <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
+      <p>你已经看到了属牛的求财重点，也开始思考谁能帮助你、下一步该怎么做。</p>
+      <p>但当一个真实决定来到面前——要不要换方向、接下一项合作，或进入一个新市场——你还会想知道：<strong>这个选择，放在 2027 全年的趋势里，时机合适吗？</strong></p>
+      <p>把个人的方向，放进全年趋势，再结合奇门的判断，才能更完整地梳理：<strong>什么时候准备、什么时候推进、哪些条件要先看清。</strong></p>
+    </div>
+    <div class="conf">
+      <p class="k">MASTER SUYEN · 2027</p>
+      <h3>2027 年奇门遁甲<br>战略大会</h3>
+      <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
+      <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
+      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
+      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+    </div>
+  </section>
+  </div>
+</div>
+<div class="rd rd2">
+  <div class="rbar"><div class="wrap"><span class="t">2027 · 属虎的求财指南</span><a class="back" href="#top">重新选生肖 ↺</a></div>
+    <nav class="qnav" aria-label="指南章节"><a href="#z2-opp">财运</a><a href="#z2-people">贵人</a><a href="#z2-dir">求财方向</a><a href="#z2-time">月份</a><a href="#z2-check">核对</a><a href="#z2-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <div class="prog"><i></i></div></div>
+  <div class="prof">
+    <div>
+      <p class="ey">2027 · 你的生肖求财指南</p>
+      <h1><span class="g">属虎的你，</span><span class="g"><em>把机会接稳。</em></span></h1>
+      <p class="hl">属虎排第2，怎样把贵人机会变成收入？</p>
+      <p class="kw"><span>贵人起</span><span>权位升</span><span>防盛转衰</span></p>
+      <p class="rank"><b>02</b><span>/ 12 生肖 · 原书年度总排名</span></p>
+    </div>
+    <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M26 31Q13 15 23 13Q37 9 39 28M57 28Q60 9 73 13Q83 15 70 31M23 45Q22 26 48 25Q74 26 73 45V58Q71 80 48 82Q25 80 23 58Z"/><path d="M40 30L48 40L56 30M48 26V40M25 44L36 49M24 57L35 59M71 44L60 49M72 57L61 59M40 62L48 68L56 62M48 68V74M39 76L48 73L57 76"/><path d="M36 47H39M57 47H60"/></svg><span>TIGER · 2027</span></div>
+  </div>
+  <div class="wrap">
+  <section class="sec" id="z2-opp">
+    <p class="slab"><i>01</i>先看你的年度重点</p>
+    <h2 class="h2"><span class="g">今年的财，</span><span class="g">更值得</span><span class="g">从<em>哪里找</em>？</span></h2>
+    <p class="lead2">属虎的朋友，2027年，你在十二生肖年度总排名中排第2。有人愿意引荐你，有人邀你负责更大的项目，也可能有人看见了你做事的能力。机会到了面前，你要争取的，究竟是一个头衔，还是一个能让收入和实力一起增长的位置？</p>
+    <p class="stars"><span>财富运<b>★★★★☆</b></span></p>
+    <div class="facts"><div class="frow"><h3>正财</h3><p>有机会通过升职、争取重点项目或提高专业服务价值带动收入。谈职责时，也把待遇及评估标准谈清楚。</p></div><div class="frow"><h3>偏财</h3><p>先看自己熟悉、能核实的项目机会。原书以事业带财与长期累积为主；不要把连续成功当成短期投机或仓促加码的理由。</p></div></div>
+    <details class="more"><summary>为什么会有这些提醒？看原稿中的星曜解读</summary><p>按《2027年运势大破解》的解读，生肖虎有【五富】助力，财富机会较多来自职位、专业价值、客户及项目的成长。【暴败】提醒你，越顺的时候，越要留意扩张速度和固定成本。</p></details>
+    <div class="q"><small>停一下，想一想</small><p>有人愿意给你更大的位置，你需要的权限也到位了吗？</p></div>
+    <a class="nx" href="#z2-people">再看看，谁能给你实际帮助 ↓</a>
+  </section>
+  <section class="sec" id="z2-people">
+    <p class="slab"><i>02</i>找到能帮你的人</p>
+    <h2 class="h2"><span class="g">贵人来了，</span><span class="g">你知道</span><span class="g"><em>怎么接住</em>吗？</span></h2>
+    <div class="helper"><div class="ic"><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="28" cy="24" r="10"/><circle cx="56" cy="30" r="8"/><path d="M9 64V57Q9 39 28 39Q46 39 46 57V64M48 44Q70 42 70 62M19 58H38M52 58H62"/></svg></div><div><h3>留意这样的人</h3><p>留意愿意给你机会、位置、资讯或关键建议的上司、行业前辈和专业人士。</p></div></div>
+    <div class="q"><small>停一下，想一想</small><p>读到这里，你脑中有没有浮现一个人？如果主动联系他，你想请他帮你推进哪一件具体的事？</p></div>
+    <p class="note">这里说的是能提供实际助力的人与合作方式，并非按对方生肖决定是否合作。</p>
+    <a class="nx" href="#z2-dir">同样属虎，我的求财路线有什么不同？ ↓</a>
+  </section>
+  <section class="sec" id="z2-dir">
+    <p class="slab"><i>03</i>再看出生年份</p>
+    <h2 class="h2"><span class="g">同样属虎，</span><span class="g">你的下一步</span><span class="g"><em>也可能不同</em>。</span></h2>
+    <p class="lead2">先找到出生年份，再看对应的奇门求财卡。带着一个正在考虑的工作、客户或合作来读，会更有感觉。</p>
+    <div class="ypanel"><b>你是哪一年出生的？</b>
+      <div class="ychips"><label for="y2_2022">2022<small>壬寅</small></label><label for="y2_2010">2010<small>庚寅</small></label><label for="y2_1998">1998<small>戊寅</small></label><label for="y2_1986">1986<small>丙寅</small></label><label for="y2_1974">1974<small>甲寅</small></label><label for="y2_1962">1962<small>壬寅</small></label><label for="y2_1950">1950<small>庚寅</small></label><label for="y2_1938">1938<small>戊寅</small></label></div>
+      <div class="yres"><p class="note yd2" style="margin-top:0">点你的出生年份，这里会展开你的求财方向、需要确认的条件，以及一个马上能做的行动。</p><div class="yc yc2_2022"><p class="yt">2022 · 壬寅虎的求财路线</p><h3>拿到更大的项目，先确认资源能不能调动</h3><div class="ri"><strong>北方：</strong>按壬组寄震宫的规则，北方是资料、研究与专业意见的支持方向。可以先请了解客户或流程的人帮你找出缺口。</div><div class="ri"><strong>东南：</strong>可观察专业拓展，但先确定目标客户和进入条件。</div><div class="ri"><strong>西北：</strong>可留意合作入口，也要算进由此增加的协调与交付责任。</div><div class="ri"><strong>兑现关卡：</strong>自身寄宫及东北生门、戊土有空亡提醒。对方说已有团队和预算，仍要确认谁负责、资金何时到位、你能调动哪些资源。</div><div class="act"><b>现在可以做的一步</b>在答应带项目之前，列出已确认的人员、预算和决定权，把未确认的条件单独拿去谈。</div></div><div class="yc yc2_2010"><p class="yt">2010 · 庚寅虎的求财路线</p><h3>把贵人的引荐变成一次有成果的拜访</h3><div class="ri"><strong>东南：</strong>自身巽宫逢驿马，提示可以关注跨区域客户、外部合作与专业拓展。东南是自身落宫，不直接等同固定催财方。</div><div class="ri"><strong>北方：</strong>可观察市场资料、专业意见和可靠资讯。有人介绍你进入新圈层，先了解对方真正需要什么。</div><div class="ri"><strong>兑现关卡：</strong>把人脉名单误当成订单，或为一场还没有明确议题的拜访投入过多时间与成本。</div><div class="act"><b>现在可以做的一步</b>请一位前辈引荐一个明确对象；拜访前准备一个能解决对方问题的小方案，并约好跟进时间。</div></div><div class="yc yc2_1998"><p class="yt">1998 · 戊寅虎的求财路线</p><h3>有增长机会，先看回款再扩张</h3><div class="ri"><strong>西北：</strong>留意方案、专业服务及合作带来的收入机会，同时计算交付的实际成本。</div><div class="ri"><strong>南方：</strong>可观察专业支持。遇到要加人、租新场地或扩大业务的提议，先请懂成本与流程的人看方案。</div><div class="ri"><strong>兑现关卡：</strong>年盘戊与生门同在艮宫，又见空亡。有人愿意谈大单，仍要分清意向、签单和到账。</div><div class="act"><b>现在可以做的一步</b>拿出一个拟扩张的计划，先写明新增固定支出，再核对哪笔订单、哪笔回款可以支持这项开支。</div></div><div class="yc yc2_1986"><p class="yt">1986 · 丙寅虎的求财路线</p><h3>争取更大的位置，先谈清楚权责</h3><div class="ri"><strong>东南：</strong>可观察需要专业能力、深入沟通或对外拓展的工作，把以往解决难题的成果整理出来。</div><div class="ri"><strong>西北：</strong>可留意业务合作，也要看随之增加的标准、进度和交付责任。</div><div class="ri"><strong>兑现关卡：</strong>主管愿意推你带新项目，但谁能调人、批预算、决定验收，可能还没谈清楚。</div><div class="act"><b>现在可以做的一步</b>在接受新任务前，把权限、人手和考核标准列成三项，约负责人逐项确认。</div></div><div class="yc yc2_1974"><p class="yt">1974 · 甲寅虎的求财路线</p><h3>把经验做成能交付的服务</h3><div class="ri">甲寅遁癸，按癸组查阅。</div><div class="ri"><strong>北方：</strong>自身坎宫，提示可以从研究、经验和细致服务着手，先整理出一个别人用得上的方案。</div><div class="ri"><strong>西北：</strong>可观察平台、客户或伙伴的连接机会。有人愿意引荐你时，把能够解决的问题和交付内容说清楚。</div><div class="ri"><strong>兑现关卡：</strong>资料准备得越来越多，却迟迟没有给真实客户试用。东北增长线索见空亡，先验证需求，再增加投入。</div><div class="act"><b>现在可以做的一步</b>选一个别人常来请教你的问题，写成一页服务方案，约一位可能用得上的人给具体反馈。</div></div><div class="yc yc2_1962"><p class="yt">1962 · 壬寅虎的求财路线</p><h3>拿到更大的项目，先确认资源能不能调动</h3><div class="ri"><strong>北方：</strong>按壬组寄震宫的规则，北方是资料、研究与专业意见的支持方向。可以先请了解客户或流程的人帮你找出缺口。</div><div class="ri"><strong>东南：</strong>可观察专业拓展，但先确定目标客户和进入条件。</div><div class="ri"><strong>西北：</strong>可留意合作入口，也要算进由此增加的协调与交付责任。</div><div class="ri"><strong>兑现关卡：</strong>自身寄宫及东北生门、戊土有空亡提醒。对方说已有团队和预算，仍要确认谁负责、资金何时到位、你能调动哪些资源。</div><div class="act"><b>现在可以做的一步</b>在答应带项目之前，列出已确认的人员、预算和决定权，把未确认的条件单独拿去谈。</div></div><div class="yc yc2_1950"><p class="yt">1950 · 庚寅虎的求财路线</p><h3>把贵人的引荐变成一次有成果的拜访</h3><div class="ri"><strong>东南：</strong>自身巽宫逢驿马，提示可以关注跨区域客户、外部合作与专业拓展。东南是自身落宫，不直接等同固定催财方。</div><div class="ri"><strong>北方：</strong>可观察市场资料、专业意见和可靠资讯。有人介绍你进入新圈层，先了解对方真正需要什么。</div><div class="ri"><strong>兑现关卡：</strong>把人脉名单误当成订单，或为一场还没有明确议题的拜访投入过多时间与成本。</div><div class="act"><b>现在可以做的一步</b>请一位前辈引荐一个明确对象；拜访前准备一个能解决对方问题的小方案，并约好跟进时间。</div></div><div class="yc yc2_1938"><p class="yt">1938 · 戊寅虎的求财路线</p><h3>有增长机会，先看回款再扩张</h3><div class="ri"><strong>西北：</strong>留意方案、专业服务及合作带来的收入机会，同时计算交付的实际成本。</div><div class="ri"><strong>南方：</strong>可观察专业支持。遇到要加人、租新场地或扩大业务的提议，先请懂成本与流程的人看方案。</div><div class="ri"><strong>兑现关卡：</strong>年盘戊与生门同在艮宫，又见空亡。有人愿意谈大单，仍要分清意向、签单和到账。</div><div class="act"><b>现在可以做的一步</b>拿出一个拟扩张的计划，先写明新增固定支出，再核对哪笔订单、哪笔回款可以支持这项开支。</div></div></div>
+      <p class="note">此处按常见出生年份查出生年柱，并非八字日主。1月至立春前后出生，请按实际出生日期与时间核对年柱。本页不作精确八字排盘。</p>
+    </div>
+    <details class="more"><summary>这些方向，应该怎样理解？</summary><p>方位是奇门年盘中观察机会、支持和压力的参考，与流年风水的东南财富位用途不同。先看方向对应的资源和行动，再对照你的实际情况；并非走到某个方位就会得财。</p><p>「空亡」在这份指南里，提醒你核实承诺能否兑现；「开门」「生门」用于观察业务与收入线索。它们不能代替真实需求、预算与回款记录。</p></details>
+    <a class="nx" href="#z2-time">接着看，哪些时间值得多留意 ↓</a>
+  </section>
+  <section class="sec" id="z2-time">
+    <p class="slab"><i>04</i>机会也要配合时机</p>
+    <h2 class="h2"><span class="g">什么时候</span><span class="g">往前一步，</span><span class="g">什么时候</span><span class="g"><em>先看清楚</em>？</span></h2>
+    <p class="lead2">把这些提醒放回你正在安排的一年：什么时候约人谈、什么时候做准备，什么时候把条件再核对一次。</p>
+    <div class="mgrid"><div class="mon"><small>留意机会</small><h3>这些时段，主动一点</h3><p>原书5月段适合留意谈薪资、价格和项目回报；9月段虽仍有机会，更要防过度乐观。流月以节气交接为参考。</p></div><div class="mon cau"><small>留意关卡</small><h3>这些地方，仔细一点</h3><p>有财要积，有赚要留。增加固定支出之前，先看看新增收入是否能持续。</p></div></div>
+    <p class="note">流月以节气交接为参考，与公历月份不完全重合；以上沿用原稿的月份口径。</p>
+    <a class="nx" href="#z2-check">把我正在考虑的事，拿来对照一下 ↓</a>
+  </section>
+  <section class="sec chk" id="z2-check">
+    <p class="slab"><i>05</i>真 · 假 · 混，先问清楚</p>
+    <h2 class="h2"><span class="g">这份机会，</span><span class="g">哪些条件</span><span class="g"><em>真的落实了</em>？</span></h2>
+    <p class="lead2">挑一件你正在考虑的事：争取新职位、接大客户、接受引荐，或扩大业务。看看哪些条件已经落实。 已经亲自确认的，就勾选；还没确定的，留下来作为下一次沟通的问题。</p>
+    <div class="clist"><label class="crow"><input type="checkbox"><span><b>贵人能帮什么？</b><small>对方能做具体引荐、提供专业意见，还是只有口头鼓励？下一步由谁跟进？</small></span></label><label class="crow"><input type="checkbox"><span><b>权责对等吗？</b><small>谁能批预算、调人和确认验收？新增责任是否有相应的权限？</small></span></label><label class="crow"><input type="checkbox"><span><b>收入可兑现吗？</b><small>薪资调整何时确认？项目由谁付款，满足什么条件才结算？</small></span></label><label class="crow"><input type="checkbox"><span><b>扩大后接得住吗？</b><small>人手和交付会不会超负荷？收入未到账前，新增开销能撑多久？</small></span></label><label class="crow"><input type="checkbox"><span><b>成果留得下来吗？</b><small>这一笔做成后，哪些资源可以累积？哪些支出不必跟着增加？</small></span></label></div>
+    <p class="cfb" role="status"></p>
+    <a class="nx" href="#z2-plan">我想把下一步写下来 ↓</a>
+  </section>
+  <section class="sec" id="z2-plan">
+    <p class="slab"><i>06</i>把方向变成行动</p>
+    <h2 class="h2"><span class="g">不用一次</span><span class="g">改变全部。</span><span class="g"><em>先落实</em></span><span class="g"><em>这一步</em>。</span></h2>
+    <p class="lead2">看完以后，你最想推进什么？直接写在下面这张卡上，写好截图保存。</p>
+    <div class="pcard">
+      <p class="k">2027 · MY ACTION CARD</p>
+      <h3>属虎的我，先落实这一步。</h3>
+      <label>我最想推进的一件事<textarea rows="2" maxlength="250" placeholder="例如：把谈了很久的合作，约出来确认条件。"></textarea></label>
+      <label>我准备联系谁<input maxlength="100" placeholder="写下一个人，或对方的角色"></label>
+      <label>我准备什么时候行动<input type="date"></label>
+      <label>答应之前，我要先确认<input maxlength="200" placeholder="例如：谁付款、什么时候付款、由谁负责交付。"></label>
+      <p class="by">林舒苑 · 2027生肖财运指南　｜　截图保存，提醒自己把这一步落实。</p>
+    </div>
+    <p class="note">只在你的手机上，不会提交个人资料。</p>
+  </section>
+  <section class="close">
+    <div class="bridge">
+      <span class="pill">你的生肖，是看懂 2027 的第一步</span>
+      <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
+      <p>你已经看到了属虎的求财重点，也开始思考谁能帮助你、下一步该怎么做。</p>
+      <p>但当一个真实决定来到面前——要不要换方向、接下一项合作，或进入一个新市场——你还会想知道：<strong>这个选择，放在 2027 全年的趋势里，时机合适吗？</strong></p>
+      <p>把个人的方向，放进全年趋势，再结合奇门的判断，才能更完整地梳理：<strong>什么时候准备、什么时候推进、哪些条件要先看清。</strong></p>
+    </div>
+    <div class="conf">
+      <p class="k">MASTER SUYEN · 2027</p>
+      <h3>2027 年奇门遁甲<br>战略大会</h3>
+      <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
+      <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
+      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
+      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+    </div>
+  </section>
+  </div>
+</div>
+<div class="rd rd3">
+  <div class="rbar"><div class="wrap"><span class="t">2027 · 属兔的求财指南</span><a class="back" href="#top">重新选生肖 ↺</a></div>
+    <nav class="qnav" aria-label="指南章节"><a href="#z3-opp">财运</a><a href="#z3-people">贵人</a><a href="#z3-dir">求财方向</a><a href="#z3-time">月份</a><a href="#z3-check">核对</a><a href="#z3-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <div class="prog"><i></i></div></div>
+  <div class="prof">
+    <div>
+      <p class="ey">2027 · 你的生肖求财指南</p>
+      <h1><span class="g">属兔的你，</span><span class="g"><em>让成果留下来。</em></span></h1>
+      <p class="hl">属兔排第4，怎样把能力变成位置，把收入留成资产？</p>
+      <p class="kw"><span>掌权</span><span>聚财</span><span>防伤</span></p>
+      <p class="rank"><b>04</b><span>/ 12 生肖 · 原书年度总排名</span></p>
+    </div>
+    <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M30 43Q18 9 28 7Q38 5 40 38M54 38Q57 5 67 7Q78 9 66 43M24 57Q23 37 48 37Q73 37 72 57Q73 80 48 82Q23 80 24 57Z"/><path d="M30 16L35 33M64 16L60 33M41 65L48 70L55 65M48 70L43 75M48 70L53 75"/><circle cx="36" cy="56" r="2"/><circle cx="60" cy="56" r="2"/></svg><span>RABBIT · 2027</span></div>
+  </div>
+  <div class="wrap">
+  <section class="sec" id="z3-opp">
+    <p class="slab"><i>01</i>先看你的年度重点</p>
+    <h2 class="h2"><span class="g">今年的财，</span><span class="g">更值得</span><span class="g">从<em>哪里找</em>？</span></h2>
+    <p class="lead2">属兔的朋友，2027年，你在十二生肖年度总排名中排第4。也许公司请你带一个团队，也许客户愿意把更大的项目交给你。问题是：事情做完，你留下的是更稳的位置、更好的收入，还是一整年的疲惫？</p>
+    <p class="stars"><span>财富运<b>★★★★☆</b></span><span>事业运<b>★★★★★</b></span></p>
+    <div class="facts"><div class="frow"><h3>正财</h3><p>争取与新职责相称的薪资、服务价格或项目费用；先说清楚权责和考核标准。</p></div><div class="frow"><h3>额外收入</h3><p>有额外项目时，先看实际交付成本、付款节点和到账金额，再决定是否扩大。</p></div></div>
+    <details class="more"><summary>为什么会有这些提醒？看原稿中的星曜解读</summary><p>【将星】利于带人、带项目、承担决策；【金匮】重在财富积累。【浮沉】提醒收入可能有起伏，别把旺月当常态。</p></details>
+    <div class="q"><small>停一下，想一想</small><p>忙完一个大项目，你希望真正留下什么？</p></div>
+    <a class="nx" href="#z3-people">再看看，谁能给你实际帮助 ↓</a>
+  </section>
+  <section class="sec" id="z3-people">
+    <p class="slab"><i>02</i>找到能帮你的人</p>
+    <h2 class="h2"><span class="g">贵人来了，</span><span class="g">你知道</span><span class="g"><em>怎么接住</em>吗？</span></h2>
+    <div class="helper"><div class="ic"><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="28" cy="24" r="10"/><circle cx="56" cy="30" r="8"/><path d="M9 64V57Q9 39 28 39Q46 39 46 57V64M48 44Q70 42 70 62M19 58H38M52 58H62"/></svg></div><div><h3>留意这样的人</h3><p>遇到卡点，可留意能解决流程问题、给清晰反馈或提供专业协助的人。</p></div></div>
+    <div class="q"><small>停一下，想一想</small><p>读到这里，你脑中有没有浮现一个人？如果主动联系他，你想请他帮你推进哪一件具体的事？</p></div>
+    <p class="note">这里说的是能提供实际助力的人与合作方式，并非按对方生肖决定是否合作。</p>
+    <a class="nx" href="#z3-dir">同样属兔，我的求财路线有什么不同？ ↓</a>
+  </section>
+  <section class="sec" id="z3-dir">
+    <p class="slab"><i>03</i>再看出生年份</p>
+    <h2 class="h2"><span class="g">同样属兔，</span><span class="g">你的下一步</span><span class="g"><em>也可能不同</em>。</span></h2>
+    <p class="lead2">先找到出生年份，再看对应的奇门求财卡。带着一个正在考虑的工作、客户或合作来读，会更有感觉。</p>
+    <div class="ypanel"><b>你是哪一年出生的？</b>
+      <div class="ychips"><label for="y3_2023">2023<small>癸卯</small></label><label for="y3_2011">2011<small>辛卯</small></label><label for="y3_1999">1999<small>己卯</small></label><label for="y3_1987">1987<small>丁卯</small></label><label for="y3_1975">1975<small>乙卯</small></label><label for="y3_1963">1963<small>癸卯</small></label><label for="y3_1951">1951<small>辛卯</small></label><label for="y3_1939">1939<small>己卯</small></label></div>
+      <div class="yres"><p class="note yd3" style="margin-top:0">点你的出生年份，这里会展开你的求财方向、需要确认的条件，以及一个马上能做的行动。</p><div class="yc yc3_2023"><p class="yt">2023 · 癸卯兔的求财路线</p><h3>先看账，再决定哪些成果值得放大</h3><div class="ri">自身落正北坎宫，休门在同宫。可从旧客户、续约、既有服务或已经验证过的方法入手，观察稳定收入。</div><div class="ri">西北乾金生坎水，开门可观察业务与客户资源。东北土克坎水，生门与戊土又逢空亡，需留意成本、时间和到账条件。</div><div class="act"><b>现在可以做的一步</b>列出三笔重复收入，确认哪一笔值得续做、哪一笔需要重谈价格、哪一笔应该停止。</div></div><div class="yc yc3_2011"><p class="yt">2011 · 辛卯兔的求财路线</p><h3>专业要被看见，细节也要经得起查</h3><div class="ri">自身落正南离宫，景门、九地、天心，辛见击刑。适合把专业成果整理成可验证的记录，特别留意文件细节。</div><div class="ri">东南巽木生离火，有九天，可观察外部渠道与专业拓展；有介绍时，先清楚界定服务范围。</div><div class="act"><b>现在可以做的一步</b>把一项可量化的成果与一份合作条款一起整理，交给可信任的同行复核。</div></div><div class="yc yc3_1999"><p class="yt">1999 · 己卯兔的求财路线</p><h3>多承担之前，先说清责任</h3><div class="ri">自身落正西兑宫。项目有压力时，先确认谁审批、谁交付、谁负责处理临时变更。</div><div class="ri">东北土生兑金，生门与戊土同宫又见空亡，适合先验证资源与回款。西北同属金，开门可观察业务机会。</div><div class="act"><b>现在可以做的一步</b>接下额外职责之前，和主管或伙伴确认分工、期限及什么情况需要重新报价。</div></div><div class="yc yc3_1987"><p class="yt">1987 · 丁卯兔的求财路线</p><h3>让别人看见你能承担什么</h3><div class="ri">自身落西北乾宫，开门在同宫。适合把专业做成清楚的服务方案，或把负责新项目所需的权限谈出来。</div><div class="ri">东北土生乾金，见生门、戊土，也见空亡。可观察资源与收入线索，但要验证人手、预算能否到位。</div><div class="act"><b>现在可以做的一步</b>把你想争取的职责写成一页，列出目标、授权、资源和成果验收方式。</div></div><div class="yc yc3_1975"><p class="yt">1975 · 乙卯兔的求财路线</p><h3>先把手头的机会谈清楚</h3><div class="ri">自身落西南坤宫，乙入墓。适合先盘点已有客户、资源和承诺，将搁置的事情逐件拆开处理。</div><div class="ri">西北开门可观察业务线索，东北生门与戊土同宫，但见空亡。看见意向后，仍要核对预算、交付和回款。南方离火生坤土，可观察谁能提供专业审查与把关。</div><div class="act"><b>现在可以做的一步</b>选一个谈了很久的项目，问清决策人、正式报价日和首款条件。</div></div><div class="yc yc3_1963"><p class="yt">1963 · 癸卯兔的求财路线</p><h3>先看账，再决定哪些成果值得放大</h3><div class="ri">自身落正北坎宫，休门在同宫。可从旧客户、续约、既有服务或已经验证过的方法入手，观察稳定收入。</div><div class="ri">西北乾金生坎水，开门可观察业务与客户资源。东北土克坎水，生门与戊土又逢空亡，需留意成本、时间和到账条件。</div><div class="act"><b>现在可以做的一步</b>列出三笔重复收入，确认哪一笔值得续做、哪一笔需要重谈价格、哪一笔应该停止。</div></div><div class="yc yc3_1951"><p class="yt">1951 · 辛卯兔的求财路线</p><h3>专业要被看见，细节也要经得起查</h3><div class="ri">自身落正南离宫，景门、九地、天心，辛见击刑。适合把专业成果整理成可验证的记录，特别留意文件细节。</div><div class="ri">东南巽木生离火，有九天，可观察外部渠道与专业拓展；有介绍时，先清楚界定服务范围。</div><div class="act"><b>现在可以做的一步</b>把一项可量化的成果与一份合作条款一起整理，交给可信任的同行复核。</div></div><div class="yc yc3_1939"><p class="yt">1939 · 己卯兔的求财路线</p><h3>多承担之前，先说清责任</h3><div class="ri">自身落正西兑宫。项目有压力时，先确认谁审批、谁交付、谁负责处理临时变更。</div><div class="ri">东北土生兑金，生门与戊土同宫又见空亡，适合先验证资源与回款。西北同属金，开门可观察业务机会。</div><div class="act"><b>现在可以做的一步</b>接下额外职责之前，和主管或伙伴确认分工、期限及什么情况需要重新报价。</div></div></div>
+      <p class="note">此处按常见出生年份查出生年柱，并非八字日主。1月至立春前后出生，请按实际出生日期与时间核对年柱。本页不作精确八字排盘。</p>
+    </div>
+    <details class="more"><summary>这些方向，应该怎样理解？</summary><p>方位是奇门年盘中观察机会、支持和压力的参考，与流年风水的东南财富位用途不同。先看方向对应的资源和行动，再对照你的实际情况；并非走到某个方位就会得财。</p><p>「空亡」在这份指南里，提醒你核实承诺能否兑现；「开门」「生门」用于观察业务与收入线索。它们不能代替真实需求、预算与回款记录。</p></details>
+    <a class="nx" href="#z3-time">接着看，哪些时间值得多留意 ↓</a>
+  </section>
+  <section class="sec" id="z3-time">
+    <p class="slab"><i>04</i>机会也要配合时机</p>
+    <h2 class="h2"><span class="g">什么时候</span><span class="g">往前一步，</span><span class="g">什么时候</span><span class="g"><em>先看清楚</em>？</span></h2>
+    <p class="lead2">把这些提醒放回你正在安排的一年：什么时候约人谈、什么时候做准备，什么时候把条件再核对一次。</p>
+    <div class="mgrid"><div class="mon"><small>留意机会</small><h3>这些时段，主动一点</h3><p>3月段展现专业，4月段整理储蓄与资产，7月段整合资源，12月段盘点成果。</p></div><div class="mon cau"><small>留意关卡</small><h3>这些地方，仔细一点</h3><p>5月段少赶行程，10月段把合同与分工谈清楚。流月以节气交接为参考。</p></div></div>
+    <p class="note">流月以节气交接为参考，与公历月份不完全重合；以上沿用原稿的月份口径。</p>
+    <a class="nx" href="#z3-check">把我正在考虑的事，拿来对照一下 ↓</a>
+  </section>
+  <section class="sec chk" id="z3-check">
+    <p class="slab"><i>05</i>真 · 假 · 混，先问清楚</p>
+    <h2 class="h2"><span class="g">这份机会，</span><span class="g">哪些条件</span><span class="g"><em>真的落实了</em>？</span></h2>
+    <p class="lead2">选一件正在考虑的事：接受新职责、接大项目、提高报价，或把收入留作长期储备。 已经亲自确认的，就勾选；还没确定的，留下来作为下一次沟通的问题。</p>
+    <div class="clist"><label class="crow"><input type="checkbox"><span><b>有责也有权吗？</b><small>谁能拍板？我获准调配什么资源？</small></span></label><label class="crow"><input type="checkbox"><span><b>这笔收入算得清吗？</b><small>扣掉额外人手、时间与交付成本，还剩多少？</small></span></label><label class="crow"><input type="checkbox"><span><b>钱什么时候进来？</b><small>首款、验收与尾款有没有写清楚？</small></span></label><label class="crow"><input type="checkbox"><span><b>成果怎样留住？</b><small>是否有固定复盘日，以及可执行的留存安排？</small></span></label><label class="crow"><input type="checkbox"><span><b>执行会不会太赶？</b><small>设备、人员和时间是否足够？能否预留缓冲？</small></span></label></div>
+    <p class="cfb" role="status"></p>
+    <a class="nx" href="#z3-plan">我想把下一步写下来 ↓</a>
+  </section>
+  <section class="sec" id="z3-plan">
+    <p class="slab"><i>06</i>把方向变成行动</p>
+    <h2 class="h2"><span class="g">不用一次</span><span class="g">改变全部。</span><span class="g"><em>先落实</em></span><span class="g"><em>这一步</em>。</span></h2>
+    <p class="lead2">看完以后，你最想推进什么？直接写在下面这张卡上，写好截图保存。</p>
+    <div class="pcard">
+      <p class="k">2027 · MY ACTION CARD</p>
+      <h3>属兔的我，先落实这一步。</h3>
+      <label>我最想推进的一件事<textarea rows="2" maxlength="250" placeholder="例如：把谈了很久的合作，约出来确认条件。"></textarea></label>
+      <label>我准备联系谁<input maxlength="100" placeholder="写下一个人，或对方的角色"></label>
+      <label>我准备什么时候行动<input type="date"></label>
+      <label>答应之前，我要先确认<input maxlength="200" placeholder="例如：谁付款、什么时候付款、由谁负责交付。"></label>
+      <p class="by">林舒苑 · 2027生肖财运指南　｜　截图保存，提醒自己把这一步落实。</p>
+    </div>
+    <p class="note">只在你的手机上，不会提交个人资料。</p>
+  </section>
+  <section class="close">
+    <div class="bridge">
+      <span class="pill">你的生肖，是看懂 2027 的第一步</span>
+      <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
+      <p>你已经看到了属兔的求财重点，也开始思考谁能帮助你、下一步该怎么做。</p>
+      <p>但当一个真实决定来到面前——要不要换方向、接下一项合作，或进入一个新市场——你还会想知道：<strong>这个选择，放在 2027 全年的趋势里，时机合适吗？</strong></p>
+      <p>把个人的方向，放进全年趋势，再结合奇门的判断，才能更完整地梳理：<strong>什么时候准备、什么时候推进、哪些条件要先看清。</strong></p>
+    </div>
+    <div class="conf">
+      <p class="k">MASTER SUYEN · 2027</p>
+      <h3>2027 年奇门遁甲<br>战略大会</h3>
+      <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
+      <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
+      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
+      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+    </div>
+  </section>
+  </div>
+</div>
+<div class="rd rd4">
+  <div class="rbar"><div class="wrap"><span class="t">2027 · 属龙的求财指南</span><a class="back" href="#top">重新选生肖 ↺</a></div>
+    <nav class="qnav" aria-label="指南章节"><a href="#z4-opp">财运</a><a href="#z4-people">贵人</a><a href="#z4-dir">求财方向</a><a href="#z4-time">月份</a><a href="#z4-check">核对</a><a href="#z4-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <div class="prog"><i></i></div></div>
+  <div class="prof">
+    <div>
+      <p class="ey">2027 · 你的生肖求财指南</p>
+      <h1><span class="g">属龙的你，</span><span class="g"><em>走出去，</em></span><span class="g"><em>看机会。</em></span></h1>
+      <p class="hl">属龙排第3，走出去，怎样把机会做成收入？</p>
+      <p class="kw"><span>走出去</span><span>贵人扶</span><span>防口舌</span></p>
+      <p class="rank"><b>03</b><span>/ 12 生肖 · 原书年度总排名</span></p>
+    </div>
+    <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M33 28L26 10L39 18L46 8L50 26M58 24L67 10L70 26L82 24L72 39M31 31Q54 18 69 36L67 52L79 59L75 72Q56 84 36 73L26 55Z"/><path d="M27 38L15 33L18 47L27 49M31 65L19 69L25 79M48 37L57 42L46 46M55 59L68 62M45 73Q43 87 57 87M71 70L85 73"/><circle cx="70" cy="59" r="2"/></svg><span>DRAGON · 2027</span></div>
+  </div>
+  <div class="wrap">
+  <section class="sec" id="z4-opp">
+    <p class="slab"><i>01</i>先看你的年度重点</p>
+    <h2 class="h2"><span class="g">今年的财，</span><span class="g">更值得</span><span class="g">从<em>哪里找</em>？</span></h2>
+    <p class="lead2">属龙的朋友，2027年，你在十二生肖年度总排名中排第3。有人邀请你去外地看市场，有人愿意介绍客户，也可能有一个新平台，让你接触到原来圈子以外的人。机会来了，你最想把哪一件事做成？</p>
+    <p class="stars"><span>财富运<b>★★★★☆</b></span></p>
+    <div class="facts"><div class="frow"><h3>正财</h3><p>通过出差、跨区服务、接触新客户或拓展线上业务，增加工作与生意的收入来源。</p></div><div class="frow"><h3>偏财</h3><p>可观察转介、佣金或额外项目的收入线索。遇到分账、借贷或共同出资，先核实条件和责任。</p></div></div>
+    <details class="more"><summary>为什么会有这些提醒？看原稿中的星曜解读</summary><p>按《2027年运势大破解》的解读，生肖龙今年的财富主题是动中求财。【岁马】提示外地客户、跨区域业务与新市场值得关注；【福德】【福星】也提醒你留意转介、合作和资讯。</p></details>
+    <div class="q"><small>停一下，想一想</small><p>如果走进一个新市场，你最想带回哪一个成果？</p></div>
+    <a class="nx" href="#z4-people">再看看，谁能给你实际帮助 ↓</a>
+  </section>
+  <section class="sec" id="z4-people">
+    <p class="slab"><i>02</i>找到能帮你的人</p>
+    <h2 class="h2"><span class="g">贵人来了，</span><span class="g">你知道</span><span class="g"><em>怎么接住</em>吗？</span></h2>
+    <div class="helper"><div class="ic"><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="28" cy="24" r="10"/><circle cx="56" cy="30" r="8"/><path d="M9 64V57Q9 39 28 39Q46 39 46 57V64M48 44Q70 42 70 62M19 58H38M52 58H62"/></svg></div><div><h3>留意这样的人</h3><p>留意愿意分享可靠资讯、引荐关键客户，或在遇到难题时提供实际协助的人。</p></div></div>
+    <div class="q"><small>停一下，想一想</small><p>读到这里，你脑中有没有浮现一个人？如果主动联系他，你想请他帮你推进哪一件具体的事？</p></div>
+    <p class="note">这里说的是能提供实际助力的人与合作方式，并非按对方生肖决定是否合作。</p>
+    <a class="nx" href="#z4-dir">同样属龙，我的求财路线有什么不同？ ↓</a>
+  </section>
+  <section class="sec" id="z4-dir">
+    <p class="slab"><i>03</i>再看出生年份</p>
+    <h2 class="h2"><span class="g">同样属龙，</span><span class="g">你的下一步</span><span class="g"><em>也可能不同</em>。</span></h2>
+    <p class="lead2">先找到出生年份，再看对应的奇门求财卡。带着一个正在考虑的工作、客户或合作来读，会更有感觉。</p>
+    <div class="ypanel"><b>你是哪一年出生的？</b>
+      <div class="ychips"><label for="y4_2024">2024<small>甲辰</small></label><label for="y4_2012">2012<small>壬辰</small></label><label for="y4_2000">2000<small>庚辰</small></label><label for="y4_1988">1988<small>戊辰</small></label><label for="y4_1976">1976<small>丙辰</small></label><label for="y4_1964">1964<small>甲辰</small></label><label for="y4_1952">1952<small>壬辰</small></label><label for="y4_1940">1940<small>庚辰</small></label></div>
+      <div class="yres"><p class="note yd4" style="margin-top:0">点你的出生年份，这里会展开你的求财方向、需要确认的条件，以及一个马上能做的行动。</p><div class="yc yc4_2024"><p class="yt">2024 · 甲辰龙的求财路线</p><h3>接到外部转介，先确认能不能做</h3><div class="ri">甲辰遁壬，按壬组寄震宫查阅。</div><div class="ri"><strong>北方：</strong>可观察资料、研究与专业意见。接到外地客户介绍时，先了解需求和当地交付条件。</div><div class="ri"><strong>东南：</strong>可观察专业拓展；西北：可留意合作，但要把协调与交付责任一起算进去。</div><div class="ri"><strong>兑现关卡：</strong>有人牵线，不代表预算已批或执行人已确定。自身寄宫与东北生门、戊土所在宫位均有空亡提醒。</div><div class="act"><b>现在可以做的一步</b>请介绍人安排一次三方沟通，当面确认客户需求、预算负责人和下一次跟进日期。</div></div><div class="yc yc4_2012"><p class="yt">2012 · 壬辰龙的求财路线</p><h3>多方合作，先把团队和分账理清</h3><div class="ri"><strong>北方：</strong>按壬组寄震宫的规则，可观察资料、研究与专业意见的支持。</div><div class="ri"><strong>东南：</strong>可观察专业拓展，先确定目标客户与进入条件。</div><div class="ri"><strong>西北：</strong>有合作线索，也可能增加协调与交付责任。跨区项目有几方参与时，要明确谁对客户负责。</div><div class="ri"><strong>兑现关卡：</strong>自身寄宫与东北生门、戊土所在宫位有空亡提醒。看起来人手不少，仍要确认谁能按期交付、费用由谁承担。</div><div class="act"><b>现在可以做的一步</b>拉出一张合作清单，逐项写下主联络人、交付负责人、费用与分账，再请各方书面确认。</div></div><div class="yc yc4_2000"><p class="yt">2000 · 庚辰龙的求财路线</p><h3>把一次外出变成一个明确商机</h3><div class="ri"><strong>东南：</strong>自身巽宫逢驿马，可关注跨区客户与专业拓展。东南是自身落宫，不等于固定催财方。</div><div class="ri"><strong>北方：</strong>可观察市场资讯、专业意见与研究支持。出差前先了解对方的采购条件和需要解决的问题。</div><div class="ri"><strong>兑现关卡：</strong>跑了几座城市，见了很多人，却没有锁定报价对象、试单条件或跟进时间。</div><div class="act"><b>现在可以做的一步</b>出发前只定一个成果，例如确认样品测试；拜访结束前，把负责人和答复日期写下来。</div></div><div class="yc yc4_1988"><p class="yt">1988 · 戊辰龙的求财路线</p><h3>先让一笔跨区生意跑完整</h3><div class="ri"><strong>西北：</strong>可观察方案、服务或合作带来的收入机会，同时算清交通、人员与交付成本。</div><div class="ri"><strong>南方：</strong>可观察专业支持。准备进入外地市场时，让熟悉运营或成本的人一起检查报价。</div><div class="ri"><strong>兑现关卡：</strong>年盘戊与生门同在艮宫，又见空亡。市场看起来热闹，仍要分清有人问价、有人签约和钱真正到账。</div><div class="act"><b>现在可以做的一步</b>挑一个新市场，先做一次收费试单，记录交付成本和到账时间，再决定下一步。</div></div><div class="yc yc4_1976"><p class="yt">1976 · 丙辰龙的求财路线</p><h3>把解决难题的能力带进新市场</h3><div class="ri"><strong>东南：</strong>可关注有专业门槛、需要深入沟通或对外拓展的工作。整理一个能说明你如何解决难题的案例。</div><div class="ri"><strong>西北：</strong>可留意业务合作线索；对方提出更高标准时，要同时谈清交付范围、期限和验收方式。</div><div class="ri"><strong>兑现关卡：</strong>为了进入新市场答应过多，最后修改、协调和出差都掉在自己身上。</div><div class="act"><b>现在可以做的一步</b>给一位新客户发一页方案，写清能解决的问题、试做范围及验收标准。</div></div><div class="yc yc4_1964"><p class="yt">1964 · 甲辰龙的求财路线</p><h3>接到外部转介，先确认能不能做</h3><div class="ri">甲辰遁壬，按壬组寄震宫查阅。</div><div class="ri"><strong>北方：</strong>可观察资料、研究与专业意见。接到外地客户介绍时，先了解需求和当地交付条件。</div><div class="ri"><strong>东南：</strong>可观察专业拓展；西北：可留意合作，但要把协调与交付责任一起算进去。</div><div class="ri"><strong>兑现关卡：</strong>有人牵线，不代表预算已批或执行人已确定。自身寄宫与东北生门、戊土所在宫位均有空亡提醒。</div><div class="act"><b>现在可以做的一步</b>请介绍人安排一次三方沟通，当面确认客户需求、预算负责人和下一次跟进日期。</div></div><div class="yc yc4_1952"><p class="yt">1952 · 壬辰龙的求财路线</p><h3>多方合作，先把团队和分账理清</h3><div class="ri"><strong>北方：</strong>按壬组寄震宫的规则，可观察资料、研究与专业意见的支持。</div><div class="ri"><strong>东南：</strong>可观察专业拓展，先确定目标客户与进入条件。</div><div class="ri"><strong>西北：</strong>有合作线索，也可能增加协调与交付责任。跨区项目有几方参与时，要明确谁对客户负责。</div><div class="ri"><strong>兑现关卡：</strong>自身寄宫与东北生门、戊土所在宫位有空亡提醒。看起来人手不少，仍要确认谁能按期交付、费用由谁承担。</div><div class="act"><b>现在可以做的一步</b>拉出一张合作清单，逐项写下主联络人、交付负责人、费用与分账，再请各方书面确认。</div></div><div class="yc yc4_1940"><p class="yt">1940 · 庚辰龙的求财路线</p><h3>把一次外出变成一个明确商机</h3><div class="ri"><strong>东南：</strong>自身巽宫逢驿马，可关注跨区客户与专业拓展。东南是自身落宫，不等于固定催财方。</div><div class="ri"><strong>北方：</strong>可观察市场资讯、专业意见与研究支持。出差前先了解对方的采购条件和需要解决的问题。</div><div class="ri"><strong>兑现关卡：</strong>跑了几座城市，见了很多人，却没有锁定报价对象、试单条件或跟进时间。</div><div class="act"><b>现在可以做的一步</b>出发前只定一个成果，例如确认样品测试；拜访结束前，把负责人和答复日期写下来。</div></div></div>
+      <p class="note">此处按常见出生年份查出生年柱，并非八字日主。1月至立春前后出生，请按实际出生日期与时间核对年柱。本页不作精确八字排盘。</p>
+    </div>
+    <details class="more"><summary>这些方向，应该怎样理解？</summary><p>方位是奇门年盘中观察机会、支持和压力的参考，与流年风水的东南财富位用途不同。先看方向对应的资源和行动，再对照你的实际情况；并非走到某个方位就会得财。</p><p>「空亡」在这份指南里，提醒你核实承诺能否兑现；「开门」「生门」用于观察业务与收入线索。它们不能代替真实需求、预算与回款记录。</p></details>
+    <a class="nx" href="#z4-time">接着看，哪些时间值得多留意 ↓</a>
+  </section>
+  <section class="sec" id="z4-time">
+    <p class="slab"><i>04</i>机会也要配合时机</p>
+    <h2 class="h2"><span class="g">什么时候</span><span class="g">往前一步，</span><span class="g">什么时候</span><span class="g"><em>先看清楚</em>？</span></h2>
+    <p class="lead2">把这些提醒放回你正在安排的一年：什么时候约人谈、什么时候做准备，什么时候把条件再核对一次。</p>
+    <div class="mgrid"><div class="mon"><small>留意机会</small><h3>这些时段，主动一点</h3><p>原书5月段可关注出差、客户拜访和跨区合作；8月段可留意新市场与事业连接。流月以节气交接为参考。</p></div><div class="mon cau"><small>留意关卡</small><h3>这些地方，仔细一点</h3><p>9月段尤其注意口舌与利益纠纷。把报价、佣金、分账和责任写下来，避免各自理解。</p></div></div>
+    <p class="note">流月以节气交接为参考，与公历月份不完全重合；以上沿用原稿的月份口径。</p>
+    <a class="nx" href="#z4-check">把我正在考虑的事，拿来对照一下 ↓</a>
+  </section>
+  <section class="sec chk" id="z4-check">
+    <p class="slab"><i>05</i>真 · 假 · 混，先问清楚</p>
+    <h2 class="h2"><span class="g">这份机会，</span><span class="g">哪些条件</span><span class="g"><em>真的落实了</em>？</span></h2>
+    <p class="lead2">挑一件你正在考虑的事：外地拜访、跨区接单、加入新平台，或与人分账。先检查下面五项。 已经亲自确认的，就勾选；还没确定的，留下来作为下一次沟通的问题。</p>
+    <div class="clist"><label class="crow"><input type="checkbox"><span><b>客户需求明确吗？</b><small>客户本人确认了吗？谁有决定权？</small></span></label><label class="crow"><input type="checkbox"><span><b>外出值得吗？</b><small>这次拜访要达成什么？如果没谈成，时间与费用是否可控？</small></span></label><label class="crow"><input type="checkbox"><span><b>谁负责交付？</b><small>客户找谁？变更范围时，谁确认费用与时间？</small></span></label><label class="crow"><input type="checkbox"><span><b>怎么算钱？</b><small>谁开单、谁收款、佣金或分账按什么条件结算？</small></span></label><label class="crow"><input type="checkbox"><span><b>口头约定有记录吗？</b><small>报价、分工和跟进日期，是否已发给各方确认？</small></span></label></div>
+    <p class="cfb" role="status"></p>
+    <a class="nx" href="#z4-plan">我想把下一步写下来 ↓</a>
+  </section>
+  <section class="sec" id="z4-plan">
+    <p class="slab"><i>06</i>把方向变成行动</p>
+    <h2 class="h2"><span class="g">不用一次</span><span class="g">改变全部。</span><span class="g"><em>先落实</em></span><span class="g"><em>这一步</em>。</span></h2>
+    <p class="lead2">看完以后，你最想推进什么？直接写在下面这张卡上，写好截图保存。</p>
+    <div class="pcard">
+      <p class="k">2027 · MY ACTION CARD</p>
+      <h3>属龙的我，先落实这一步。</h3>
+      <label>我最想推进的一件事<textarea rows="2" maxlength="250" placeholder="例如：把谈了很久的合作，约出来确认条件。"></textarea></label>
+      <label>我准备联系谁<input maxlength="100" placeholder="写下一个人，或对方的角色"></label>
+      <label>我准备什么时候行动<input type="date"></label>
+      <label>答应之前，我要先确认<input maxlength="200" placeholder="例如：谁付款、什么时候付款、由谁负责交付。"></label>
+      <p class="by">林舒苑 · 2027生肖财运指南　｜　截图保存，提醒自己把这一步落实。</p>
+    </div>
+    <p class="note">只在你的手机上，不会提交个人资料。</p>
+  </section>
+  <section class="close">
+    <div class="bridge">
+      <span class="pill">你的生肖，是看懂 2027 的第一步</span>
+      <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
+      <p>你已经看到了属龙的求财重点，也开始思考谁能帮助你、下一步该怎么做。</p>
+      <p>但当一个真实决定来到面前——要不要换方向、接下一项合作，或进入一个新市场——你还会想知道：<strong>这个选择，放在 2027 全年的趋势里，时机合适吗？</strong></p>
+      <p>把个人的方向，放进全年趋势，再结合奇门的判断，才能更完整地梳理：<strong>什么时候准备、什么时候推进、哪些条件要先看清。</strong></p>
+    </div>
+    <div class="conf">
+      <p class="k">MASTER SUYEN · 2027</p>
+      <h3>2027 年奇门遁甲<br>战略大会</h3>
+      <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
+      <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
+      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
+      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+    </div>
+  </section>
+  </div>
+</div>
+<div class="rd rd5">
+  <div class="rbar"><div class="wrap"><span class="t">2027 · 属蛇的求财指南</span><a class="back" href="#top">重新选生肖 ↺</a></div>
+    <nav class="qnav" aria-label="指南章节"><a href="#z5-opp">财运</a><a href="#z5-people">贵人</a><a href="#z5-dir">求财方向</a><a href="#z5-time">月份</a><a href="#z5-check">核对</a><a href="#z5-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <div class="prog"><i></i></div></div>
+  <div class="prof">
+    <div>
+      <p class="ey">2027 · 你的生肖求财指南</p>
+      <h1><span class="g">属蛇的你，</span><span class="g"><em>为收入多找条路。</em></span></h1>
+      <p class="hl">想开第二条收入线，第一步该往哪里走？</p>
+      <p class="kw"><span>动中求机</span><span>贵人助力</span><span>安全第一</span></p>
+      <p class="rank"><b>07</b><span>/ 12 生肖 · 原书年度总排名</span></p>
+    </div>
+    <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M61 30Q61 14 47 14Q31 14 33 30Q35 41 49 45Q76 52 71 67Q65 83 36 80Q18 78 19 67Q20 58 38 58Q61 57 58 68Q56 73 44 71M32 24Q45 29 60 24"/><circle cx="42" cy="23" r="1.5"/><circle cx="54" cy="23" r="1.5"/><path d="M49 33V41M49 40L45 44M49 40L53 44M26 77Q49 90 72 78"/></svg><span>SNAKE · 2027</span></div>
+  </div>
+  <div class="wrap">
+  <section class="sec" id="z5-opp">
+    <p class="slab"><i>01</i>先看你的年度重点</p>
+    <h2 class="h2"><span class="g">今年的财，</span><span class="g">更值得</span><span class="g">从<em>哪里找</em>？</span></h2>
+    <p class="lead2">属蛇的朋友，2027年，你在十二生肖年度总排名中排第7。今年的机会可能来自一个新客户群、外地市场，或一项让专业更值钱的工作。你也许已经想过：手上的收入来源如果变慢，我还有没有第二条路？</p>
+    <p class="stars"><span>财富运<b>★★★☆☆</b></span><span>事业运<b>★★★★☆</b></span></p>
+    <div class="facts"><div class="frow"><h3>正财</h3><p>关注外地客户、跨区服务、新平台或新岗位；用可验证的专业能力争取更好的条件。</p></div><div class="frow"><h3>第二收入线</h3><p>以已有专长试做一个小项目，先看有没有付费需求，再决定投入多少。</p></div></div>
+    <details class="more"><summary>为什么会有这些提醒？看原稿中的星曜解读</summary><p>【驿马】提示移动、差旅与新市场；【玉堂】提示专业、名誉与被认可的机会。【羊刃】【天狗】提醒行程和执行越忙，越要注意安全；【弔客】也提醒给家人与长辈留时间。</p></details>
+    <div class="q"><small>停一下，想一想</small><p>如果多一条收入线，你最想从哪项专长开始？</p></div>
+    <a class="nx" href="#z5-people">再看看，谁能给你实际帮助 ↓</a>
+  </section>
+  <section class="sec" id="z5-people">
+    <p class="slab"><i>02</i>找到能帮你的人</p>
+    <h2 class="h2"><span class="g">贵人来了，</span><span class="g">你知道</span><span class="g"><em>怎么接住</em>吗？</span></h2>
+    <div class="helper"><div class="ic"><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="28" cy="24" r="10"/><circle cx="56" cy="30" r="8"/><path d="M9 64V57Q9 39 28 39Q46 39 46 57V64M48 44Q70 42 70 62M19 58H38M52 58H62"/></svg></div><div><h3>留意这样的人</h3><p>留意能介绍真实客户、指出市场门槛或给具体专业建议的人。</p></div></div>
+    <div class="q"><small>停一下，想一想</small><p>读到这里，你脑中有没有浮现一个人？如果主动联系他，你想请他帮你推进哪一件具体的事？</p></div>
+    <p class="note">这里说的是能提供实际助力的人与合作方式，并非按对方生肖决定是否合作。</p>
+    <a class="nx" href="#z5-dir">同样属蛇，我的求财路线有什么不同？ ↓</a>
+  </section>
+  <section class="sec" id="z5-dir">
+    <p class="slab"><i>03</i>再看出生年份</p>
+    <h2 class="h2"><span class="g">同样属蛇，</span><span class="g">你的下一步</span><span class="g"><em>也可能不同</em>。</span></h2>
+    <p class="lead2">先找到出生年份，再看对应的奇门求财卡。带着一个正在考虑的工作、客户或合作来读，会更有感觉。</p>
+    <div class="ypanel"><b>你是哪一年出生的？</b>
+      <div class="ychips"><label for="y5_2025">2025<small>乙巳</small></label><label for="y5_2013">2013<small>癸巳</small></label><label for="y5_2001">2001<small>辛巳</small></label><label for="y5_1989">1989<small>己巳</small></label><label for="y5_1977">1977<small>丁巳</small></label><label for="y5_1965">1965<small>乙巳</small></label><label for="y5_1953">1953<small>癸巳</small></label><label for="y5_1941">1941<small>辛巳</small></label></div>
+      <div class="yres"><p class="note yd5" style="margin-top:0">点你的出生年份，这里会展开你的求财方向、需要确认的条件，以及一个马上能做的行动。</p><div class="yc yc5_2025"><p class="yt">2025 · 乙巳蛇的求财路线</p><h3>先把已有专长带去一个新地方</h3><div class="ri">自身落西南坤宫，乙入墓。先整理搁置的方案，看看哪项现有服务可带到新市场。</div><div class="ri">西北开门可观察商务线索；东北生门与戊土同宫，见空亡，先看预算和承诺能否落实。南方离火生坤土，可找熟悉新市场的人审查方案。</div><div class="act"><b>现在可以做的一步</b>选一项已做熟的服务，约一位外地潜在客户聊需求，确认他愿意为什么付费。</div></div><div class="yc yc5_2013"><p class="yt">2013 · 癸巳蛇的求财路线</p><h3>先稳住旧收入，再试出第二条路</h3><div class="ri">自身落正北坎宫，与休门同宫。可先从旧客户和续约入手，观察已有服务能否延伸到新场景。</div><div class="ri">西北乾金生坎水，开门可观察客户资源。东北土克坎水，生门与戊土又见空亡，先核对垫资和回款压力。</div><div class="act"><b>现在可以做的一步</b>向一位满意的旧客户提出一项限范围的收费试单，确认交付成本和续做条件。</div></div><div class="yc yc5_2001"><p class="yt">2001 · 辛巳蛇的求财路线</p><h3>作品可以先亮相，承诺务必再复核</h3><div class="ri">自身落正南离宫，见景门、九地、天心，辛有击刑。适合展示专业成果，报价与对外宣传多核一遍。</div><div class="ri">东南巽木生离火，见九天，可观察外部渠道；接到推广邀请时，先核对受众与实际服务范围。</div><div class="act"><b>现在可以做的一步</b>把一个真实案例整理成一页，请同行复核，再发给一个目标渠道。</div></div><div class="yc yc5_1989"><p class="yt">1989 · 己巳蛇的求财路线</p><h3>跨区做生意，先算交付成本</h3><div class="ri">自身落正西兑宫。跨区合作先定好客户窗口、交付责任和临时变更流程。</div><div class="ri">西北开门可观察业务渠道；东北土生兑金，生门与戊土同宫又见空亡，先核实人手和回款。</div><div class="act"><b>现在可以做的一步</b>在报价里单列交通、时间和额外修改成本，再决定接不接。</div></div><div class="yc yc5_1977"><p class="yt">1977 · 丁巳蛇的求财路线</p><h3>把专业说成一项可以买的服务</h3><div class="ri">自身落西北乾宫，与开门同宫。适合约谈、提案，把你的专业说明白：解决什么问题、交付什么。</div><div class="ri">东北土生乾金，生门与戊土同宫又见空亡。合作方承诺有人手或预算，问清负责人和日期。</div><div class="act"><b>现在可以做的一步</b>写一份单页试单方案，列清价格、交付范围和验收方式。</div></div><div class="yc yc5_1965"><p class="yt">1965 · 乙巳蛇的求财路线</p><h3>先把已有专长带去一个新地方</h3><div class="ri">自身落西南坤宫，乙入墓。先整理搁置的方案，看看哪项现有服务可带到新市场。</div><div class="ri">西北开门可观察商务线索；东北生门与戊土同宫，见空亡，先看预算和承诺能否落实。南方离火生坤土，可找熟悉新市场的人审查方案。</div><div class="act"><b>现在可以做的一步</b>选一项已做熟的服务，约一位外地潜在客户聊需求，确认他愿意为什么付费。</div></div><div class="yc yc5_1953"><p class="yt">1953 · 癸巳蛇的求财路线</p><h3>先稳住旧收入，再试出第二条路</h3><div class="ri">自身落正北坎宫，与休门同宫。可先从旧客户和续约入手，观察已有服务能否延伸到新场景。</div><div class="ri">西北乾金生坎水，开门可观察客户资源。东北土克坎水，生门与戊土又见空亡，先核对垫资和回款压力。</div><div class="act"><b>现在可以做的一步</b>向一位满意的旧客户提出一项限范围的收费试单，确认交付成本和续做条件。</div></div><div class="yc yc5_1941"><p class="yt">1941 · 辛巳蛇的求财路线</p><h3>作品可以先亮相，承诺务必再复核</h3><div class="ri">自身落正南离宫，见景门、九地、天心，辛有击刑。适合展示专业成果，报价与对外宣传多核一遍。</div><div class="ri">东南巽木生离火，见九天，可观察外部渠道；接到推广邀请时，先核对受众与实际服务范围。</div><div class="act"><b>现在可以做的一步</b>把一个真实案例整理成一页，请同行复核，再发给一个目标渠道。</div></div></div>
+      <p class="note">此处按常见出生年份查出生年柱，并非八字日主。1月至立春前后出生，请按实际出生日期与时间核对年柱。本页不作精确八字排盘。</p>
+    </div>
+    <details class="more"><summary>这些方向，应该怎样理解？</summary><p>方位是奇门年盘中观察机会、支持和压力的参考，与流年风水的东南财富位用途不同。先看方向对应的资源和行动，再对照你的实际情况；并非走到某个方位就会得财。</p><p>「空亡」在这份指南里，提醒你核实承诺能否兑现；「开门」「生门」用于观察业务与收入线索。它们不能代替真实需求、预算与回款记录。</p></details>
+    <a class="nx" href="#z5-time">接着看，哪些时间值得多留意 ↓</a>
+  </section>
+  <section class="sec" id="z5-time">
+    <p class="slab"><i>04</i>机会也要配合时机</p>
+    <h2 class="h2"><span class="g">什么时候</span><span class="g">往前一步，</span><span class="g">什么时候</span><span class="g"><em>先看清楚</em>？</span></h2>
+    <p class="lead2">把这些提醒放回你正在安排的一年：什么时候约人谈、什么时候做准备，什么时候把条件再核对一次。</p>
+    <div class="mgrid"><div class="mon"><small>留意机会</small><h3>这些时段，主动一点</h3><p>3月段展示专业，5月段考察新环境，8月段关注外部收入，10月段谈项目或合作方式。</p></div><div class="mon cau"><small>留意关卡</small><h3>这些地方，仔细一点</h3><p>6月段谈判别硬碰硬；9月段行程与安全优先。不要为了赶进度，跳过成本、付款和交付核对。</p></div></div>
+    <p class="note">流月以节气交接为参考，与公历月份不完全重合；以上沿用原稿的月份口径。</p>
+    <a class="nx" href="#z5-check">把我正在考虑的事，拿来对照一下 ↓</a>
+  </section>
+  <section class="sec chk" id="z5-check">
+    <p class="slab"><i>05</i>真 · 假 · 混，先问清楚</p>
+    <h2 class="h2"><span class="g">这份机会，</span><span class="g">哪些条件</span><span class="g"><em>真的落实了</em>？</span></h2>
+    <p class="lead2">挑一件想尝试的事：出差见客户、进入新平台、换工作，或开一条新收入线。 已经亲自确认的，就勾选；还没确定的，留下来作为下一次沟通的问题。</p>
+    <div class="clist"><label class="crow"><input type="checkbox"><span><b>需求真实吗？</b><small>谁来买单？是否和对方确认过需求及预算？</small></span></label><label class="crow"><input type="checkbox"><span><b>值得出发吗？</b><small>此行要带回来什么？能否先用一次通话验证？</small></span></label><label class="crow"><input type="checkbox"><span><b>成本算过了吗？</b><small>交通、人手、时间和售后算进去，还剩多少？</small></span></label><label class="crow"><input type="checkbox"><span><b>合作有记录吗？</b><small>报价、责任、验收和付款节点是否写清楚？</small></span></label><label class="crow"><input type="checkbox"><span><b>节奏安全吗？</b><small>是否留了交通、休息和交付缓冲？</small></span></label></div>
+    <p class="cfb" role="status"></p>
+    <a class="nx" href="#z5-plan">我想把下一步写下来 ↓</a>
+  </section>
+  <section class="sec" id="z5-plan">
+    <p class="slab"><i>06</i>把方向变成行动</p>
+    <h2 class="h2"><span class="g">不用一次</span><span class="g">改变全部。</span><span class="g"><em>先落实</em></span><span class="g"><em>这一步</em>。</span></h2>
+    <p class="lead2">看完以后，你最想推进什么？直接写在下面这张卡上，写好截图保存。</p>
+    <div class="pcard">
+      <p class="k">2027 · MY ACTION CARD</p>
+      <h3>属蛇的我，先落实这一步。</h3>
+      <label>我最想推进的一件事<textarea rows="2" maxlength="250" placeholder="例如：把谈了很久的合作，约出来确认条件。"></textarea></label>
+      <label>我准备联系谁<input maxlength="100" placeholder="写下一个人，或对方的角色"></label>
+      <label>我准备什么时候行动<input type="date"></label>
+      <label>答应之前，我要先确认<input maxlength="200" placeholder="例如：谁付款、什么时候付款、由谁负责交付。"></label>
+      <p class="by">林舒苑 · 2027生肖财运指南　｜　截图保存，提醒自己把这一步落实。</p>
+    </div>
+    <p class="note">只在你的手机上，不会提交个人资料。</p>
+  </section>
+  <section class="close">
+    <div class="bridge">
+      <span class="pill">你的生肖，是看懂 2027 的第一步</span>
+      <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
+      <p>你已经看到了属蛇的求财重点，也开始思考谁能帮助你、下一步该怎么做。</p>
+      <p>但当一个真实决定来到面前——要不要换方向、接下一项合作，或进入一个新市场——你还会想知道：<strong>这个选择，放在 2027 全年的趋势里，时机合适吗？</strong></p>
+      <p>把个人的方向，放进全年趋势，再结合奇门的判断，才能更完整地梳理：<strong>什么时候准备、什么时候推进、哪些条件要先看清。</strong></p>
+    </div>
+    <div class="conf">
+      <p class="k">MASTER SUYEN · 2027</p>
+      <h3>2027 年奇门遁甲<br>战略大会</h3>
+      <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
+      <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
+      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
+      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+    </div>
+  </section>
+  </div>
+</div>
+<div class="rd rd6">
+  <div class="rbar"><div class="wrap"><span class="t">2027 · 属马的求财指南</span><a class="back" href="#top">重新选生肖 ↺</a></div>
+    <nav class="qnav" aria-label="指南章节"><a href="#z6-opp">财运</a><a href="#z6-people">贵人</a><a href="#z6-dir">求财方向</a><a href="#z6-time">月份</a><a href="#z6-check">核对</a><a href="#z6-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <div class="prog"><i></i></div></div>
+  <div class="prof">
+    <div>
+      <p class="ey">2027 · 你的生肖求财指南</p>
+      <h1><span class="g">属马的你，</span><span class="g"><em>把好运做成事。</em></span></h1>
+      <p class="hl">属马排第1，你的财从哪里来？</p>
+      <p class="kw"><span>贵人合</span><span>财禄进</span><span>养精蓄锐</span></p>
+      <p class="rank"><b>01</b><span>/ 12 生肖 · 原书年度总排名</span></p>
+    </div>
+    <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M31 31L29 10L43 25L59 23L69 12L67 36L76 56L66 71L48 73L40 85L24 80L25 49Z"/><path d="M42 25Q21 31 17 53L21 54M36 35L31 53L35 69M54 39L61 42M53 60L66 64M28 73L39 75M48 29L45 43"/><circle cx="67" cy="57" r="2"/></svg><span>HORSE · 2027</span></div>
+  </div>
+  <div class="wrap">
+  <section class="sec" id="z6-opp">
+    <p class="slab"><i>01</i>先看你的年度重点</p>
+    <h2 class="h2"><span class="g">今年的财，</span><span class="g">更值得</span><span class="g">从<em>哪里找</em>？</span></h2>
+    <p class="lead2">属马的朋友，2027年，你在十二生肖年度总排名中排第1。看到这里，你可能最想问我：老师，这份好运会从哪里来？是加薪、新客户，还是遇到一个值得合作的人？</p>
+    <p class="stars"><span>财富运<b>★★★★★</b></span></p>
+    <div class="facts"><div class="frow"><h3>正财</h3><p>整理工作成果，争取与贡献相称的待遇；做生意的人，可检视服务定价与稳定收入。</p></div><div class="frow"><h3>偏财</h3><p>留意客户转介与项目合作。先谈清分工、收费与回款条件，再决定是否投入。</p></div></div>
+    <details class="more"><summary>为什么会有这些提醒？看原稿中的星曜解读</summary><p>2027丁未年，午未六合。按原书解读，属马的朋友值得关注两类机会：一是靠工作、职位与专业能力提高收入；二是经由合作与客户转介，打开新的业务机会。</p></details>
+    <div class="q"><small>停一下，想一想</small><p>如果机会明天就来，你准备好怎样接住了吗？</p></div>
+    <a class="nx" href="#z6-people">再看看，谁能给你实际帮助 ↓</a>
+  </section>
+  <section class="sec" id="z6-people">
+    <p class="slab"><i>02</i>找到能帮你的人</p>
+    <h2 class="h2"><span class="g">贵人来了，</span><span class="g">你知道</span><span class="g"><em>怎么接住</em>吗？</span></h2>
+    <div class="helper"><div class="ic"><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="28" cy="24" r="10"/><circle cx="56" cy="30" r="8"/><path d="M9 64V57Q9 39 28 39Q46 39 46 57V64M48 44Q70 42 70 62M19 58H38M52 58H62"/></svg></div><div><h3>留意这样的人</h3><p>留意愿意引荐客户、补足你的能力，或能和你一起完成交付的人。</p></div></div>
+    <div class="q"><small>停一下，想一想</small><p>读到这里，你脑中有没有浮现一个人？如果主动联系他，你想请他帮你推进哪一件具体的事？</p></div>
+    <p class="note">这里说的是能提供实际助力的人与合作方式，并非按对方生肖决定是否合作。</p>
+    <a class="nx" href="#z6-dir">同样属马，我的求财路线有什么不同？ ↓</a>
+  </section>
+  <section class="sec" id="z6-dir">
+    <p class="slab"><i>03</i>再看出生年份</p>
+    <h2 class="h2"><span class="g">同样属马，</span><span class="g">你的下一步</span><span class="g"><em>也可能不同</em>。</span></h2>
+    <p class="lead2">先找到出生年份，再看对应的奇门求财卡。带着一个正在考虑的工作、客户或合作来读，会更有感觉。</p>
+    <div class="ypanel"><b>你是哪一年出生的？</b>
+      <div class="ychips"><label for="y6_2026">2026<small>丙午</small></label><label for="y6_2014">2014<small>甲午</small></label><label for="y6_2002">2002<small>壬午</small></label><label for="y6_1990">1990<small>庚午</small></label><label for="y6_1978">1978<small>戊午</small></label><label for="y6_1966">1966<small>丙午</small></label><label for="y6_1954">1954<small>甲午</small></label><label for="y6_1942">1942<small>壬午</small></label><label for="y6_1930">1930<small>庚午</small></label></div>
+      <div class="yres"><p class="note yd6" style="margin-top:0">点你的出生年份，这里会展开你的求财方向、需要确认的条件，以及一个马上能做的行动。</p><div class="yc yc6_2026"><p class="yt">2026 · 丙午马的求财路线</p><h3>把解决难题的贡献，谈成明确回报</h3><div class="ri"><strong>东南：</strong>可关注需要专业门槛、深入沟通或对外拓展的机会。越能把复杂问题整理清楚、带人做起来，越容易展示你的价值。</div><div class="ri"><strong>西北：</strong>有业务合作线索，也可能带来更高标准和责任。谈到升职、带团队或拿大项目时，要同时确认权限、人手与考核。</div><div class="ri"><strong>兑现关卡：</strong>对方给了你新头衔，实际预算和决定权还没落实。</div><div class="act"><b>现在可以做的一步</b>把最近完成的一项成果写成三句：我解决了什么、结果如何、接下来希望获得什么待遇或资源。</div></div><div class="yc yc6_2014"><p class="yt">2014 · 甲午马的求财路线</p><h3>先让别人看见你的专业，再谈收费</h3><div class="ri">甲午遁辛，按辛组查阅。</div><div class="ri"><strong>东南：</strong>适合参考专业准备与对外连接。先做好能说明你解决过什么问题的案例，再接触客户或伙伴。</div><div class="ri"><strong>西北：</strong>可观察业务与合作机会，重点谈清收费、分工和交付范围。</div><div class="ri"><strong>兑现关卡：</strong>客户一直追加修改，你一直免费做，账面有收入，实际利润却变薄。</div><div class="act"><b>现在可以做的一步</b>挑一项常做的服务，写清楚交付内容、修改次数、超出范围如何收费。</div></div><div class="yc yc6_2002"><p class="yt">2002 · 壬午马的求财路线</p><h3>先确认资源真的能用，再接更大的单</h3><div class="ri"><strong>北方：</strong>按本书壬组寄震宫的规则，北方是资料、研究与专业意见的支持方向。接项目之前，可以先找懂流程或熟悉客户需求的人帮你看漏项。</div><div class="ri"><strong>东南：</strong>可参考专业拓展，但要先明确服务对象与进入条件。</div><div class="ri"><strong>西北：</strong>有合作入口，也可能增加协调和交付责任。有人说“团队已经准备好”，要确认具体谁来做、何时能做、谁有决定权。</div><div class="ri"><strong>兑现关卡：</strong>自身寄宫与东北生门、戊土都有空亡提醒。特别要核实预算有没有批、人手能不能调、承诺的支持能不能用。</div><div class="act"><b>现在可以做的一步</b>拿一份正在谈的报价，列出已确认的人手、已确认的预算、还缺的条件。条件未落实的部分，单独列出来再谈。</div></div><div class="yc yc6_1990"><p class="yt">1990 · 庚午马的求财路线</p><h3>走出去找机会，每一步都要有目标</h3><div class="ri">自身巽宫在东南，逢驿马。年度主题是动中求进，可以关注跨区域客户、外部合作与专业拓展。东南是自身落宫，不能直接当成固定催财方。</div><div class="ri"><strong>北方：</strong>可观察研究、资讯与专业意见等支持。进入陌生市场前，先弄清客户需求、在地条件与交付成本。</div><div class="ri"><strong>兑现关卡：</strong>跑了很多场、认识很多人，回来却没有具体报价、试单或跟进日期。</div><div class="act"><b>现在可以做的一步</b>下一次出门前，先写下见谁、谈什么、回来要推进哪一步。先用一笔小项目验证，再决定要不要扩大投入。</div></div><div class="yc yc6_1978"><p class="yt">1978 · 戊午马的求财路线</p><h3>先把机会做成一笔真实回款</h3><div class="ri"><strong>西北：</strong>可留意通过方案、服务和合作产生的收入机会，同时算清投入和交付成本。</div><div class="ri"><strong>南方：</strong>是专业支持的观察方向。遇到合伙开店、扩业务之类的提议，可先找懂经营、成本或流程的人帮你检查条件。</div><div class="ri"><strong>兑现关卡：</strong>年盘戊与生门同在艮宫，且落宫空亡。按本书的解读，增长计划值得看，但意向、签单、到账要分开记。</div><div class="act"><b>现在可以做的一步</b>确认谁付款、何时付款、你要先交付什么。条件还没定，就不要把这笔钱算进已落实的收入。</div></div><div class="yc yc6_1966"><p class="yt">1966 · 丙午马的求财路线</p><h3>把解决难题的贡献，谈成明确回报</h3><div class="ri"><strong>东南：</strong>可关注需要专业门槛、深入沟通或对外拓展的机会。越能把复杂问题整理清楚、带人做起来，越容易展示你的价值。</div><div class="ri"><strong>西北：</strong>有业务合作线索，也可能带来更高标准和责任。谈到升职、带团队或拿大项目时，要同时确认权限、人手与考核。</div><div class="ri"><strong>兑现关卡：</strong>对方给了你新头衔，实际预算和决定权还没落实。</div><div class="act"><b>现在可以做的一步</b>把最近完成的一项成果写成三句：我解决了什么、结果如何、接下来希望获得什么待遇或资源。</div></div><div class="yc yc6_1954"><p class="yt">1954 · 甲午马的求财路线</p><h3>先让别人看见你的专业，再谈收费</h3><div class="ri">甲午遁辛，按辛组查阅。</div><div class="ri"><strong>东南：</strong>适合参考专业准备与对外连接。先做好能说明你解决过什么问题的案例，再接触客户或伙伴。</div><div class="ri"><strong>西北：</strong>可观察业务与合作机会，重点谈清收费、分工和交付范围。</div><div class="ri"><strong>兑现关卡：</strong>客户一直追加修改，你一直免费做，账面有收入，实际利润却变薄。</div><div class="act"><b>现在可以做的一步</b>挑一项常做的服务，写清楚交付内容、修改次数、超出范围如何收费。</div></div><div class="yc yc6_1942"><p class="yt">1942 · 壬午马的求财路线</p><h3>先确认资源真的能用，再接更大的单</h3><div class="ri"><strong>北方：</strong>按本书壬组寄震宫的规则，北方是资料、研究与专业意见的支持方向。接项目之前，可以先找懂流程或熟悉客户需求的人帮你看漏项。</div><div class="ri"><strong>东南：</strong>可参考专业拓展，但要先明确服务对象与进入条件。</div><div class="ri"><strong>西北：</strong>有合作入口，也可能增加协调和交付责任。有人说“团队已经准备好”，要确认具体谁来做、何时能做、谁有决定权。</div><div class="ri"><strong>兑现关卡：</strong>自身寄宫与东北生门、戊土都有空亡提醒。特别要核实预算有没有批、人手能不能调、承诺的支持能不能用。</div><div class="act"><b>现在可以做的一步</b>拿一份正在谈的报价，列出已确认的人手、已确认的预算、还缺的条件。条件未落实的部分，单独列出来再谈。</div></div><div class="yc yc6_1930"><p class="yt">1930 · 庚午马的求财路线</p><h3>走出去找机会，每一步都要有目标</h3><div class="ri">自身巽宫在东南，逢驿马。年度主题是动中求进，可以关注跨区域客户、外部合作与专业拓展。东南是自身落宫，不能直接当成固定催财方。</div><div class="ri"><strong>北方：</strong>可观察研究、资讯与专业意见等支持。进入陌生市场前，先弄清客户需求、在地条件与交付成本。</div><div class="ri"><strong>兑现关卡：</strong>跑了很多场、认识很多人，回来却没有具体报价、试单或跟进日期。</div><div class="act"><b>现在可以做的一步</b>下一次出门前，先写下见谁、谈什么、回来要推进哪一步。先用一笔小项目验证，再决定要不要扩大投入。</div></div></div>
+      <p class="note">此处按常见出生年份查出生年柱，并非八字日主。1月至立春前后出生，请按实际出生日期与时间核对年柱。本页不作精确八字排盘。</p>
+    </div>
+    <details class="more"><summary>这些方向，应该怎样理解？</summary><p>方位是奇门年盘中观察机会、支持和压力的参考，与流年风水的东南财富位用途不同。先看方向对应的资源和行动，再对照你的实际情况；并非走到某个方位就会得财。</p><p>「空亡」在这份指南里，提醒你核实承诺能否兑现；「开门」「生门」用于观察业务与收入线索。它们不能代替真实需求、预算与回款记录。</p></details>
+    <a class="nx" href="#z6-time">接着看，哪些时间值得多留意 ↓</a>
+  </section>
+  <section class="sec" id="z6-time">
+    <p class="slab"><i>04</i>机会也要配合时机</p>
+    <h2 class="h2"><span class="g">什么时候</span><span class="g">往前一步，</span><span class="g">什么时候</span><span class="g"><em>先看清楚</em>？</span></h2>
+    <p class="lead2">把这些提醒放回你正在安排的一年：什么时候约人谈、什么时候做准备，什么时候把条件再核对一次。</p>
+    <div class="mgrid"><div class="mon"><small>留意机会</small><h3>这些时段，主动一点</h3><p>未月值得留意合作进展。节气月与公历月份并不完全重合。</p></div><div class="mon cau"><small>留意关卡</small><h3>这些地方，仔细一点</h3><p>有人介绍，不等于已经成交；收入有增长，也别急着把开销和承诺一起加上去。</p></div></div>
+    <p class="note">流月以节气交接为参考，与公历月份不完全重合；以上沿用原稿的月份口径。</p>
+    <a class="nx" href="#z6-check">把我正在考虑的事，拿来对照一下 ↓</a>
+  </section>
+  <section class="sec chk" id="z6-check">
+    <p class="slab"><i>05</i>真 · 假 · 混，先问清楚</p>
+    <h2 class="h2"><span class="g">这份机会，</span><span class="g">哪些条件</span><span class="g"><em>真的落实了</em>？</span></h2>
+    <p class="lead2">拿出你正在谈的一件事：加薪、接新客户、找合伙人，或开拓第二种收入。对照这张表，看看现在走到哪一步。 已经亲自确认的，就勾选；还没确定的，留下来作为下一次沟通的问题。</p>
+    <div class="clist"><label class="crow"><input type="checkbox"><span><b>机会是真的？</b><small>有没有明确需求？谁说了算？</small></span></label><label class="crow"><input type="checkbox"><span><b>资源真的到位？</b><small>预算、人手、权限，哪一项已经确认？</small></span></label><label class="crow"><input type="checkbox"><span><b>责任说清了？</b><small>谁负责交付？如果变更范围或延误，谁处理？</small></span></label><label class="crow"><input type="checkbox"><span><b>钱能兑现？</b><small>谁付钱、什么时候付、达到什么条件才付？</small></span></label><label class="crow"><input type="checkbox"><span><b>我接得住？</b><small>这件事会占用多少时间？如果成果比预期少，我能不能承受？</small></span></label></div>
+    <p class="cfb" role="status"></p>
+    <a class="nx" href="#z6-plan">我想把下一步写下来 ↓</a>
+  </section>
+  <section class="sec" id="z6-plan">
+    <p class="slab"><i>06</i>把方向变成行动</p>
+    <h2 class="h2"><span class="g">不用一次</span><span class="g">改变全部。</span><span class="g"><em>先落实</em></span><span class="g"><em>这一步</em>。</span></h2>
+    <p class="lead2">看完以后，你最想推进什么？直接写在下面这张卡上，写好截图保存。</p>
+    <div class="pcard">
+      <p class="k">2027 · MY ACTION CARD</p>
+      <h3>属马的我，先落实这一步。</h3>
+      <label>我最想推进的一件事<textarea rows="2" maxlength="250" placeholder="例如：把谈了很久的合作，约出来确认条件。"></textarea></label>
+      <label>我准备联系谁<input maxlength="100" placeholder="写下一个人，或对方的角色"></label>
+      <label>我准备什么时候行动<input type="date"></label>
+      <label>答应之前，我要先确认<input maxlength="200" placeholder="例如：谁付款、什么时候付款、由谁负责交付。"></label>
+      <p class="by">林舒苑 · 2027生肖财运指南　｜　截图保存，提醒自己把这一步落实。</p>
+    </div>
+    <p class="note">只在你的手机上，不会提交个人资料。</p>
+  </section>
+  <section class="close">
+    <div class="bridge">
+      <span class="pill">你的生肖，是看懂 2027 的第一步</span>
+      <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
+      <p>你已经看到了属马的求财重点，也开始思考谁能帮助你、下一步该怎么做。</p>
+      <p>但当一个真实决定来到面前——要不要换方向、接下一项合作，或进入一个新市场——你还会想知道：<strong>这个选择，放在 2027 全年的趋势里，时机合适吗？</strong></p>
+      <p>把个人的方向，放进全年趋势，再结合奇门的判断，才能更完整地梳理：<strong>什么时候准备、什么时候推进、哪些条件要先看清。</strong></p>
+    </div>
+    <div class="conf">
+      <p class="k">MASTER SUYEN · 2027</p>
+      <h3>2027 年奇门遁甲<br>战略大会</h3>
+      <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
+      <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
+      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
+      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+    </div>
+  </section>
+  </div>
+</div>
+<div class="rd rd7">
+  <div class="rbar"><div class="wrap"><span class="t">2027 · 属羊的求财指南</span><a class="back" href="#top">重新选生肖 ↺</a></div>
+    <nav class="qnav" aria-label="指南章节"><a href="#z7-opp">财运</a><a href="#z7-people">贵人</a><a href="#z7-dir">求财方向</a><a href="#z7-time">月份</a><a href="#z7-check">核对</a><a href="#z7-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <div class="prog"><i></i></div></div>
+  <div class="prof">
+    <div>
+      <p class="ey">2027 · 你的生肖求财指南</p>
+      <h1><span class="g">属羊的你，</span><span class="g"><em>先稳住，</em></span><span class="g"><em>再出发。</em></span></h1>
+      <p class="hl">本命年想换方向？先稳住收入，再试下一步。</p>
+      <p class="kw"><span>本命重整</span><span>守住自己</span><span>先稳后进</span></p>
+      <p class="rank"><b>10</b><span>/ 12 生肖 · 原书年度总排名</span></p>
+    </div>
+    <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M30 35Q7 31 17 13Q30 5 35 30M66 35Q89 31 79 13Q66 5 61 30M26 38L13 37L20 48M70 38L83 37L76 48M30 31Q48 24 66 31L65 59L55 75L48 86L41 75L31 59Z"/><path d="M35 46H39M57 46H61M41 61L48 66L55 61M48 66V75M23 17Q19 27 29 28M73 17Q77 27 67 28"/></svg><span>GOAT · 2027</span></div>
+  </div>
+  <div class="wrap">
+  <section class="sec" id="z7-opp">
+    <p class="slab"><i>01</i>先看你的年度重点</p>
+    <h2 class="h2"><span class="g">今年的财，</span><span class="g">更值得</span><span class="g">从<em>哪里找</em>？</span></h2>
+    <p class="lead2">属羊的朋友，2027年是你的本命年，年度总排名第10。也许你已经在想：这份工作还要做几年？手上的生意要继续扩大，还是应该回头把一项服务做好？</p>
+    <p class="stars"><span>财富运<b>★★★☆☆</b></span><span>事业运<b>★★★☆☆</b></span></p>
+    <div class="facts"><div class="frow"><h3>正财</h3><p>把现有专长做深，优先稳住已经有客户、有交付经验的收入来源。</p></div><div class="frow"><h3>新收入线</h3><p>先小范围测试一项服务，核对需求和成本，再决定是否换岗位或扩大。</p></div></div>
+    <details class="more"><summary>为什么会有这些提醒？看原稿中的星曜解读</summary><p>未遇未，值太岁。【华盖】提示深耕专业、研究和创作。财富重点是保留现金余地，避免因焦虑做重大决定。</p></details>
+    <div class="q"><small>停一下，想一想</small><p>你想试的新方向，有没有一个可以先小规模验证的方法？</p></div>
+    <a class="nx" href="#z7-people">再看看，谁能给你实际帮助 ↓</a>
+  </section>
+  <section class="sec" id="z7-people">
+    <p class="slab"><i>02</i>找到能帮你的人</p>
+    <h2 class="h2"><span class="g">贵人来了，</span><span class="g">你知道</span><span class="g"><em>怎么接住</em>吗？</span></h2>
+    <div class="helper"><div class="ic"><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="28" cy="24" r="10"/><circle cx="56" cy="30" r="8"/><path d="M9 64V57Q9 39 28 39Q46 39 46 57V64M48 44Q70 42 70 62M19 58H38M52 58H62"/></svg></div><div><h3>留意这样的人</h3><p>可请有实务经验、能指出方案盲点的人帮你检视选择；最后自己做判断。</p></div></div>
+    <div class="q"><small>停一下，想一想</small><p>读到这里，你脑中有没有浮现一个人？如果主动联系他，你想请他帮你推进哪一件具体的事？</p></div>
+    <p class="note">这里说的是能提供实际助力的人与合作方式，并非按对方生肖决定是否合作。</p>
+    <a class="nx" href="#z7-dir">同样属羊，我的求财路线有什么不同？ ↓</a>
+  </section>
+  <section class="sec" id="z7-dir">
+    <p class="slab"><i>03</i>再看出生年份</p>
+    <h2 class="h2"><span class="g">同样属羊，</span><span class="g">你的下一步</span><span class="g"><em>也可能不同</em>。</span></h2>
+    <p class="lead2">先找到出生年份，再看对应的奇门求财卡。带着一个正在考虑的工作、客户或合作来读，会更有感觉。</p>
+    <div class="ypanel"><b>你是哪一年出生的？</b>
+      <div class="ychips"><label for="y7_2027">2027<small>丁未</small></label><label for="y7_2015">2015<small>乙未</small></label><label for="y7_2003">2003<small>癸未</small></label><label for="y7_1991">1991<small>辛未</small></label><label for="y7_1979">1979<small>己未</small></label><label for="y7_1967">1967<small>丁未</small></label><label for="y7_1955">1955<small>乙未</small></label><label for="y7_1943">1943<small>癸未</small></label><label for="y7_1931">1931<small>辛未</small></label></div>
+      <div class="yres"><p class="note yd7" style="margin-top:0">点你的出生年份，这里会展开你的求财方向、需要确认的条件，以及一个马上能做的行动。</p><div class="yc yc7_2027"><p class="yt">2027 · 丁未羊的求财路线</p><h3>方向要变，先从一项小提案开始</h3><div class="ri">自身落西北乾宫，与开门同宫。适合约谈、做提案，把下一阶段的专业定位说清楚。</div><div class="ri">东北土生乾金，生门与戊土同宫但见空亡。新平台承诺有预算或团队时，先确认负责人和到位时间。</div><div class="act"><b>现在可以做的一步</b>拿一页方案与一位潜在客户谈需求，确认对方愿意付费购买哪一部分。</div></div><div class="yc yc7_2015"><p class="yt">2015 · 乙未羊的求财路线</p><h3>先整理手上已有的东西</h3><div class="ri">自身落西南坤宫，乙入墓。适合先复盘搁置的项目，找出已有成果、可以重新使用的部分。</div><div class="ri">西北开门可观察新业务；东北生门与戊土同宫而见空亡，先核实预算和到账条件。南方离火生坤土，可找能审核方案的专业人士。</div><div class="act"><b>现在可以做的一步</b>挑一个旧项目，分三栏写下「保留、暂停、可以小规模试做」。</div></div><div class="yc yc7_2003"><p class="yt">2003 · 癸未羊的求财路线</p><h3>别急着断掉旧收入，先试下一条路</h3><div class="ri">自身落正北坎宫，与休门同宫。可先回顾续约、旧客户和已经验证过的服务，看看哪些收入值得稳定下来。</div><div class="ri">西北乾金生坎水，开门可观察客户和合作资源；东北土克坎水，生门与戊土同宫又见空亡，留意垫资和回款压力。</div><div class="act"><b>现在可以做的一步</b>写下未来三个月已确认的收入和支出。从现有能力中挑一项，先找旧客户试做。</div></div><div class="yc yc7_1991"><p class="yt">1991 · 辛未羊的求财路线</p><h3>把专业做深，再有选择地展示</h3><div class="ri">自身落正南离宫，见景门、九地、天心，辛有击刑。可整理专业成果，发布前核对内容、授权和承诺。</div><div class="ri">东南巽木生离火，见九天，可观察专业渠道。选与你的新定位有关的机会，避免每个邀约都接。</div><div class="act"><b>现在可以做的一步</b>整理一个最能说明你解决什么问题的案例，请信任的同行给一条具体反馈。</div></div><div class="yc yc7_1979"><p class="yt">1979 · 己未羊的求财路线</p><h3>变动期间，先把旧责任交代清楚</h3><div class="ri">自身落正西兑宫。工作或团队调整时，先理清旧交付、待收款与交接责任。</div><div class="ri">西北开门可观察业务线索；东北土生兑金，生门与戊土同宫而见空亡，先核实新条件能否落实。</div><div class="act"><b>现在可以做的一步</b>列出所有进行中的项目，只保留有明确交付、付款与负责人的下一步。</div></div><div class="yc yc7_1967"><p class="yt">1967 · 丁未羊的求财路线</p><h3>方向要变，先从一项小提案开始</h3><div class="ri">自身落西北乾宫，与开门同宫。适合约谈、做提案，把下一阶段的专业定位说清楚。</div><div class="ri">东北土生乾金，生门与戊土同宫但见空亡。新平台承诺有预算或团队时，先确认负责人和到位时间。</div><div class="act"><b>现在可以做的一步</b>拿一页方案与一位潜在客户谈需求，确认对方愿意付费购买哪一部分。</div></div><div class="yc yc7_1955"><p class="yt">1955 · 乙未羊的求财路线</p><h3>先整理手上已有的东西</h3><div class="ri">自身落西南坤宫，乙入墓。适合先复盘搁置的项目，找出已有成果、可以重新使用的部分。</div><div class="ri">西北开门可观察新业务；东北生门与戊土同宫而见空亡，先核实预算和到账条件。南方离火生坤土，可找能审核方案的专业人士。</div><div class="act"><b>现在可以做的一步</b>挑一个旧项目，分三栏写下「保留、暂停、可以小规模试做」。</div></div><div class="yc yc7_1943"><p class="yt">1943 · 癸未羊的求财路线</p><h3>别急着断掉旧收入，先试下一条路</h3><div class="ri">自身落正北坎宫，与休门同宫。可先回顾续约、旧客户和已经验证过的服务，看看哪些收入值得稳定下来。</div><div class="ri">西北乾金生坎水，开门可观察客户和合作资源；东北土克坎水，生门与戊土同宫又见空亡，留意垫资和回款压力。</div><div class="act"><b>现在可以做的一步</b>写下未来三个月已确认的收入和支出。从现有能力中挑一项，先找旧客户试做。</div></div><div class="yc yc7_1931"><p class="yt">1931 · 辛未羊的求财路线</p><h3>把专业做深，再有选择地展示</h3><div class="ri">自身落正南离宫，见景门、九地、天心，辛有击刑。可整理专业成果，发布前核对内容、授权和承诺。</div><div class="ri">东南巽木生离火，见九天，可观察专业渠道。选与你的新定位有关的机会，避免每个邀约都接。</div><div class="act"><b>现在可以做的一步</b>整理一个最能说明你解决什么问题的案例，请信任的同行给一条具体反馈。</div></div></div>
+      <p class="note">此处按常见出生年份查出生年柱，并非八字日主。1月至立春前后出生，请按实际出生日期与时间核对年柱。本页不作精确八字排盘。</p>
+    </div>
+    <details class="more"><summary>这些方向，应该怎样理解？</summary><p>方位是奇门年盘中观察机会、支持和压力的参考，与流年风水的东南财富位用途不同。先看方向对应的资源和行动，再对照你的实际情况；并非走到某个方位就会得财。</p><p>「空亡」在这份指南里，提醒你核实承诺能否兑现；「开门」「生门」用于观察业务与收入线索。它们不能代替真实需求、预算与回款记录。</p></details>
+    <a class="nx" href="#z7-time">接着看，哪些时间值得多留意 ↓</a>
+  </section>
+  <section class="sec" id="z7-time">
+    <p class="slab"><i>04</i>机会也要配合时机</p>
+    <h2 class="h2"><span class="g">什么时候</span><span class="g">往前一步，</span><span class="g">什么时候</span><span class="g"><em>先看清楚</em>？</span></h2>
+    <p class="lead2">把这些提醒放回你正在安排的一年：什么时候约人谈、什么时候做准备，什么时候把条件再核对一次。</p>
+    <div class="mgrid"><div class="mon"><small>留意机会</small><h3>这些时段，主动一点</h3><p>4月段学习与沉淀，8月段整理现金流与债务，10月段集中资源，12月段复盘成果。</p></div><div class="mon cau"><small>留意关卡</small><h3>这些地方，仔细一点</h3><p>7月段是本命月，先观察变化，别急着承诺大笔开支；9月段遇到合作误解及时沟通。</p></div></div>
+    <p class="note">流月以节气交接为参考，与公历月份不完全重合；以上沿用原稿的月份口径。</p>
+    <a class="nx" href="#z7-check">把我正在考虑的事，拿来对照一下 ↓</a>
+  </section>
+  <section class="sec chk" id="z7-check">
+    <p class="slab"><i>05</i>真 · 假 · 混，先问清楚</p>
+    <h2 class="h2"><span class="g">这份机会，</span><span class="g">哪些条件</span><span class="g"><em>真的落实了</em>？</span></h2>
+    <p class="lead2">挑一件正在考虑的事：换工作、缩减项目、重新定位，或接受一笔需要先投入的合作。 已经亲自确认的，就勾选；还没确定的，留下来作为下一次沟通的问题。</p>
+    <div class="clist"><label class="crow"><input type="checkbox"><span><b>我为什么想变？</b><small>看到了真实需求，还是只想离开眼前的压力？</small></span></label><label class="crow"><input type="checkbox"><span><b>底盘稳吗？</b><small>现有收入、必要开支与待付款项列清楚了吗？</small></span></label><label class="crow"><input type="checkbox"><span><b>新方向有人买单吗？</b><small>我问过实际客户吗？能否先做一次小测试？</small></span></label><label class="crow"><input type="checkbox"><span><b>旧承诺怎么处理？</b><small>要交给谁？未完成的工作和款项怎么结？</small></span></label><label class="crow"><input type="checkbox"><span><b>什么时候再决定？</b><small>我用什么结果判断继续、暂停或调整？</small></span></label></div>
+    <p class="cfb" role="status"></p>
+    <a class="nx" href="#z7-plan">我想把下一步写下来 ↓</a>
+  </section>
+  <section class="sec" id="z7-plan">
+    <p class="slab"><i>06</i>把方向变成行动</p>
+    <h2 class="h2"><span class="g">不用一次</span><span class="g">改变全部。</span><span class="g"><em>先落实</em></span><span class="g"><em>这一步</em>。</span></h2>
+    <p class="lead2">看完以后，你最想推进什么？直接写在下面这张卡上，写好截图保存。</p>
+    <div class="pcard">
+      <p class="k">2027 · MY ACTION CARD</p>
+      <h3>属羊的我，先落实这一步。</h3>
+      <label>我最想推进的一件事<textarea rows="2" maxlength="250" placeholder="例如：把谈了很久的合作，约出来确认条件。"></textarea></label>
+      <label>我准备联系谁<input maxlength="100" placeholder="写下一个人，或对方的角色"></label>
+      <label>我准备什么时候行动<input type="date"></label>
+      <label>答应之前，我要先确认<input maxlength="200" placeholder="例如：谁付款、什么时候付款、由谁负责交付。"></label>
+      <p class="by">林舒苑 · 2027生肖财运指南　｜　截图保存，提醒自己把这一步落实。</p>
+    </div>
+    <p class="note">只在你的手机上，不会提交个人资料。</p>
+  </section>
+  <section class="close">
+    <div class="bridge">
+      <span class="pill">你的生肖，是看懂 2027 的第一步</span>
+      <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
+      <p>你已经看到了属羊的求财重点，也开始思考谁能帮助你、下一步该怎么做。</p>
+      <p>但当一个真实决定来到面前——要不要换方向、接下一项合作，或进入一个新市场——你还会想知道：<strong>这个选择，放在 2027 全年的趋势里，时机合适吗？</strong></p>
+      <p>把个人的方向，放进全年趋势，再结合奇门的判断，才能更完整地梳理：<strong>什么时候准备、什么时候推进、哪些条件要先看清。</strong></p>
+    </div>
+    <div class="conf">
+      <p class="k">MASTER SUYEN · 2027</p>
+      <h3>2027 年奇门遁甲<br>战略大会</h3>
+      <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
+      <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
+      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
+      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+    </div>
+  </section>
+  </div>
+</div>
+<div class="rd rd8">
+  <div class="rbar"><div class="wrap"><span class="t">2027 · 属猴的求财指南</span><a class="back" href="#top">重新选生肖 ↺</a></div>
+    <nav class="qnav" aria-label="指南章节"><a href="#z8-opp">财运</a><a href="#z8-people">贵人</a><a href="#z8-dir">求财方向</a><a href="#z8-time">月份</a><a href="#z8-check">核对</a><a href="#z8-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <div class="prog"><i></i></div></div>
+  <div class="prof">
+    <div>
+      <p class="ey">2027 · 你的生肖求财指南</p>
+      <h1><span class="g">属猴的你，</span><span class="g"><em>让实力被看见。</em></span></h1>
+      <p class="hl">有人赏识你，也有人画大饼。你怎么分辨？</p>
+      <p class="kw"><span>贵人照</span><span>喜事来</span><span>防财劫</span></p>
+      <p class="rank"><b>06</b><span>/ 12 生肖 · 原书年度总排名</span></p>
+    </div>
+    <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="19" cy="49" r="10"/><circle cx="77" cy="49" r="10"/><path d="M23 44Q19 19 48 18Q77 19 73 44V60Q70 81 48 82Q26 81 23 60Z"/><path d="M48 42Q35 25 27 42Q21 55 33 65Q31 78 48 77Q65 78 63 65Q75 55 69 42Q61 25 48 42Z"/><circle cx="36" cy="48" r="2"/><circle cx="60" cy="48" r="2"/><path d="M42 62L48 65L54 62M40 70Q48 74 56 70M38 20L44 12L50 19"/></svg><span>MONKEY · 2027</span></div>
+  </div>
+  <div class="wrap">
+  <section class="sec" id="z8-opp">
+    <p class="slab"><i>01</i>先看你的年度重点</p>
+    <h2 class="h2"><span class="g">今年的财，</span><span class="g">更值得</span><span class="g">从<em>哪里找</em>？</span></h2>
+    <p class="lead2">属猴的朋友，2027年，你在十二生肖年度总排名中排第6。也许主管愿意给你更重要的项目，也许有人介绍你进入更大的平台。这一年，有人看见你是机会；有人说得好听，你还要多查一步。</p>
+    <p class="stars"><span>财富运<b>★★★☆☆</b></span><span>事业运<b>★★★★☆</b></span></p>
+    <div class="facts"><div class="frow"><h3>正财</h3><p>让主管、客户或新平台看见你可验证的成绩，争取职责、客户或合作条件升级。</p></div><div class="frow"><h3>额外收入</h3><p>可观察现有专业带来的新项目；先查实际付款来源与交付条件。</p></div></div>
+    <details class="more"><summary>为什么会有这些提醒？看原稿中的星曜解读</summary><p>【太阳】提示外部助力与曝光，【金舆】提示资源升级，【红鸾】带来人缘与喜事。守财重点是【劫煞】与【天空】：合伙、借贷、担保和高回报邀约要多核实，口头承诺不能当进账。</p></details>
+    <div class="q"><small>停一下，想一想</small><p>对方答应的资源，你今天可以先验证哪一项？</p></div>
+    <a class="nx" href="#z8-people">再看看，谁能给你实际帮助 ↓</a>
+  </section>
+  <section class="sec" id="z8-people">
+    <p class="slab"><i>02</i>找到能帮你的人</p>
+    <h2 class="h2"><span class="g">贵人来了，</span><span class="g">你知道</span><span class="g"><em>怎么接住</em>吗？</span></h2>
+    <div class="helper"><div class="ic"><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="28" cy="24" r="10"/><circle cx="56" cy="30" r="8"/><path d="M9 64V57Q9 39 28 39Q46 39 46 57V64M48 44Q70 42 70 62M19 58H38M52 58H62"/></svg></div><div><h3>留意这样的人</h3><p>能给具体反馈、引荐决策者或帮你解决实际问题的主管、前辈、客户或专业人士。</p></div></div>
+    <div class="q"><small>停一下，想一想</small><p>读到这里，你脑中有没有浮现一个人？如果主动联系他，你想请他帮你推进哪一件具体的事？</p></div>
+    <p class="note">这里说的是能提供实际助力的人与合作方式，并非按对方生肖决定是否合作。</p>
+    <a class="nx" href="#z8-dir">同样属猴，我的求财路线有什么不同？ ↓</a>
+  </section>
+  <section class="sec" id="z8-dir">
+    <p class="slab"><i>03</i>再看出生年份</p>
+    <h2 class="h2"><span class="g">同样属猴，</span><span class="g">你的下一步</span><span class="g"><em>也可能不同</em>。</span></h2>
+    <p class="lead2">先找到出生年份，再看对应的奇门求财卡。带着一个正在考虑的工作、客户或合作来读，会更有感觉。</p>
+    <div class="ypanel"><b>你是哪一年出生的？</b>
+      <div class="ychips"><label for="y8_2016">2016<small>丙申</small></label><label for="y8_2004">2004<small>甲申</small></label><label for="y8_1992">1992<small>壬申</small></label><label for="y8_1980">1980<small>庚申</small></label><label for="y8_1968">1968<small>戊申</small></label><label for="y8_1956">1956<small>丙申</small></label><label for="y8_1944">1944<small>甲申</small></label><label for="y8_1932">1932<small>壬申</small></label></div>
+      <div class="yres"><p class="note yd8" style="margin-top:0">点你的出生年份，这里会展开你的求财方向、需要确认的条件，以及一个马上能做的行动。</p><div class="yc yc8_2016"><p class="yt">2016 · 丙申猴的求财路线</p><h3>把专业做成能验证的成果</h3><div class="ri">自身落东方震宫，见空亡。作品获得好评后，还要确认客户需求和预算。东南同属木，可留意专业拓展；西北开门可观察合作线索，但也要考虑交付和协调压力。</div><div class="act"><b>现在可以做的一步</b>选一个做过的项目，用一页写明客户原来的难题、你做了什么、结果怎么验证。</div></div><div class="yc yc8_2004"><p class="yt">2004 · 甲申猴的求财路线</p><h3>平台再大，也要问清能给什么</h3><div class="ri">甲申遁庚。按庚组查东南巽宫，见杜门、九天、天柱、驿马。可观察外部平台和专业机会，但先核实入场条件。</div><div class="ri">北方坎水生巽木，可留意资讯与专业意见。若有人推荐一个新平台，找实际使用过的人了解费用和资源。</div><div class="act"><b>现在可以做的一步</b>向推荐人要一项可核实的信息，例如谁负责提供客户线索、什么时候能安排见面。</div></div><div class="yc yc8_1992"><p class="yt">1992 · 壬申猴的求财路线</p><h3>有资源的人多，真正能交付的人是谁？</h3><div class="ri">按壬组寄东方震宫，见空亡。北方坎水生震木，可留意专业意见和可靠资料；东南同属木，可观察对外拓展。西北开门可见合作线索，同时可能增加协调和交付压力。</div><div class="ri">东北生门与戊土同宫又见空亡。拉到资源不等于资源已到位，先确认谁能拿出人手、预算或客户名单。</div><div class="act"><b>现在可以做的一步</b>开一张资源清单，写下每一项由谁提供、何时交付、不到位时如何调整。</div></div><div class="yc yc8_1980"><p class="yt">1980 · 庚申猴的求财路线</p><h3>出去见人，要带回一个明确结果</h3><div class="ri">自身落东南巽宫，见杜门、九天、天柱、驿马，适合带着明确目的拜访客户。北方坎水生巽木，可用专业意见或市场资料先做准备。</div><div class="act"><b>现在可以做的一步</b>到访前确认对方的采购条件；离开前敲定一个具体成果，例如样品测试或下一次提案时间。</div></div><div class="yc yc8_1968"><p class="yt">1968 · 戊申猴的求财路线</p><h3>先看收款，再决定做多大</h3><div class="ri">自身落东北艮宫，与生门同宫而见空亡。西北开门可观察项目线索，南方离火生艮土，可请懂运营或成本的人帮你把关。</div><div class="act"><b>现在可以做的一步</b>择一笔新业务做收费试单，写明首款、交付成本和到账日，再决定是否追加资源。</div></div><div class="yc yc8_1956"><p class="yt">1956 · 丙申猴的求财路线</p><h3>把专业做成能验证的成果</h3><div class="ri">自身落东方震宫，见空亡。作品获得好评后，还要确认客户需求和预算。东南同属木，可留意专业拓展；西北开门可观察合作线索，但也要考虑交付和协调压力。</div><div class="act"><b>现在可以做的一步</b>选一个做过的项目，用一页写明客户原来的难题、你做了什么、结果怎么验证。</div></div><div class="yc yc8_1944"><p class="yt">1944 · 甲申猴的求财路线</p><h3>平台再大，也要问清能给什么</h3><div class="ri">甲申遁庚。按庚组查东南巽宫，见杜门、九天、天柱、驿马。可观察外部平台和专业机会，但先核实入场条件。</div><div class="ri">北方坎水生巽木，可留意资讯与专业意见。若有人推荐一个新平台，找实际使用过的人了解费用和资源。</div><div class="act"><b>现在可以做的一步</b>向推荐人要一项可核实的信息，例如谁负责提供客户线索、什么时候能安排见面。</div></div><div class="yc yc8_1932"><p class="yt">1932 · 壬申猴的求财路线</p><h3>有资源的人多，真正能交付的人是谁？</h3><div class="ri">按壬组寄东方震宫，见空亡。北方坎水生震木，可留意专业意见和可靠资料；东南同属木，可观察对外拓展。西北开门可见合作线索，同时可能增加协调和交付压力。</div><div class="ri">东北生门与戊土同宫又见空亡。拉到资源不等于资源已到位，先确认谁能拿出人手、预算或客户名单。</div><div class="act"><b>现在可以做的一步</b>开一张资源清单，写下每一项由谁提供、何时交付、不到位时如何调整。</div></div></div>
+      <p class="note">此处按常见出生年份查出生年柱，并非八字日主。1月至立春前后出生，请按实际出生日期与时间核对年柱。本页不作精确八字排盘。</p>
+    </div>
+    <details class="more"><summary>这些方向，应该怎样理解？</summary><p>方位是奇门年盘中观察机会、支持和压力的参考，与流年风水的东南财富位用途不同。先看方向对应的资源和行动，再对照你的实际情况；并非走到某个方位就会得财。</p><p>「空亡」在这份指南里，提醒你核实承诺能否兑现；「开门」「生门」用于观察业务与收入线索。它们不能代替真实需求、预算与回款记录。</p></details>
+    <a class="nx" href="#z8-time">接着看，哪些时间值得多留意 ↓</a>
+  </section>
+  <section class="sec" id="z8-time">
+    <p class="slab"><i>04</i>机会也要配合时机</p>
+    <h2 class="h2"><span class="g">什么时候</span><span class="g">往前一步，</span><span class="g">什么时候</span><span class="g"><em>先看清楚</em>？</span></h2>
+    <p class="lead2">把这些提醒放回你正在安排的一年：什么时候约人谈、什么时候做准备，什么时候把条件再核对一次。</p>
+    <div class="mgrid"><div class="mon"><small>留意机会</small><h3>这些时段，主动一点</h3><p>3月段展示专业，4月段观察资源升级，8月段争取项目，10月段交付及收款。</p></div><div class="mon cau"><small>留意关卡</small><h3>这些地方，仔细一点</h3><p>5月段防虚假机会，7月段守住财务边界，12月段清理未收账款。</p></div></div>
+    <p class="note">流月以节气交接为参考，与公历月份不完全重合；以上沿用原稿的月份口径。</p>
+    <a class="nx" href="#z8-check">把我正在考虑的事，拿来对照一下 ↓</a>
+  </section>
+  <section class="sec chk" id="z8-check">
+    <p class="slab"><i>05</i>真 · 假 · 混，先问清楚</p>
+    <h2 class="h2"><span class="g">这份机会，</span><span class="g">哪些条件</span><span class="g"><em>真的落实了</em>？</span></h2>
+    <p class="lead2">选一件正在考虑的事：加入新平台、接新项目、合伙出资，或接受熟人介绍。 已经亲自确认的，就勾选；还没确定的，留下来作为下一次沟通的问题。</p>
+    <div class="clist"><label class="crow"><input type="checkbox"><span><b>推荐有根据吗？</b><small>介绍人亲自验证过，还是也只听别人说？</small></span></label><label class="crow"><input type="checkbox"><span><b>资源能用吗？</b><small>人手、预算、渠道何时到位，有谁负责？</small></span></label><label class="crow"><input type="checkbox"><span><b>收入真到账了吗？</b><small>我核对过自己的收款记录，还是只看了截图？</small></span></label><label class="crow"><input type="checkbox"><span><b>我替谁承担风险？</b><small>有没有借名、代付、垫款、担保或不清楚的分账？</small></span></label><label class="crow"><input type="checkbox"><span><b>能先验证一小步吗？</b><small>哪些条件还没证实？能否用一次小试单核对？</small></span></label></div>
+    <p class="cfb" role="status"></p>
+    <a class="nx" href="#z8-plan">我想把下一步写下来 ↓</a>
+  </section>
+  <section class="sec" id="z8-plan">
+    <p class="slab"><i>06</i>把方向变成行动</p>
+    <h2 class="h2"><span class="g">不用一次</span><span class="g">改变全部。</span><span class="g"><em>先落实</em></span><span class="g"><em>这一步</em>。</span></h2>
+    <p class="lead2">看完以后，你最想推进什么？直接写在下面这张卡上，写好截图保存。</p>
+    <div class="pcard">
+      <p class="k">2027 · MY ACTION CARD</p>
+      <h3>属猴的我，先落实这一步。</h3>
+      <label>我最想推进的一件事<textarea rows="2" maxlength="250" placeholder="例如：把谈了很久的合作，约出来确认条件。"></textarea></label>
+      <label>我准备联系谁<input maxlength="100" placeholder="写下一个人，或对方的角色"></label>
+      <label>我准备什么时候行动<input type="date"></label>
+      <label>答应之前，我要先确认<input maxlength="200" placeholder="例如：谁付款、什么时候付款、由谁负责交付。"></label>
+      <p class="by">林舒苑 · 2027生肖财运指南　｜　截图保存，提醒自己把这一步落实。</p>
+    </div>
+    <p class="note">只在你的手机上，不会提交个人资料。</p>
+  </section>
+  <section class="close">
+    <div class="bridge">
+      <span class="pill">你的生肖，是看懂 2027 的第一步</span>
+      <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
+      <p>你已经看到了属猴的求财重点，也开始思考谁能帮助你、下一步该怎么做。</p>
+      <p>但当一个真实决定来到面前——要不要换方向、接下一项合作，或进入一个新市场——你还会想知道：<strong>这个选择，放在 2027 全年的趋势里，时机合适吗？</strong></p>
+      <p>把个人的方向，放进全年趋势，再结合奇门的判断，才能更完整地梳理：<strong>什么时候准备、什么时候推进、哪些条件要先看清。</strong></p>
+    </div>
+    <div class="conf">
+      <p class="k">MASTER SUYEN · 2027</p>
+      <h3>2027 年奇门遁甲<br>战略大会</h3>
+      <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
+      <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
+      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
+      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+    </div>
+  </section>
+  </div>
+</div>
+<div class="rd rd9">
+  <div class="rbar"><div class="wrap"><span class="t">2027 · 属鸡的求财指南</span><a class="back" href="#top">重新选生肖 ↺</a></div>
+    <nav class="qnav" aria-label="指南章节"><a href="#z9-opp">财运</a><a href="#z9-people">贵人</a><a href="#z9-dir">求财方向</a><a href="#z9-time">月份</a><a href="#z9-check">核对</a><a href="#z9-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <div class="prog"><i></i></div></div>
+  <div class="prof">
+    <div>
+      <p class="ey">2027 · 你的生肖求财指南</p>
+      <h1><span class="g">属鸡的你，</span><span class="g"><em>把专业用出来。</em></span></h1>
+      <p class="hl">过去的方法还能用吗？今年靠专业打开新收入。</p>
+      <p class="kw"><span>专业升级</span><span>谨言守规</span><span>先守后进</span></p>
+      <p class="rank"><b>09</b><span>/ 12 生肖 · 原书年度总排名</span></p>
+    </div>
+    <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M34 32Q21 10 34 12Q41 3 47 17Q58 3 62 15Q77 13 66 34M30 42Q32 26 52 29Q70 32 67 50L79 54L66 62Q60 80 37 80L25 68Z"/><path d="M48 59L62 56L58 65Z M39 77Q38 91 48 86Q58 88 56 76M27 42L17 51L27 55"/><circle cx="54" cy="44" r="2"/></svg><span>ROOSTER · 2027</span></div>
+  </div>
+  <div class="wrap">
+  <section class="sec" id="z9-opp">
+    <p class="slab"><i>01</i>先看你的年度重点</p>
+    <h2 class="h2"><span class="g">今年的财，</span><span class="g">更值得</span><span class="g">从<em>哪里找</em>？</span></h2>
+    <p class="lead2">属鸡的朋友，2027年，你在十二生肖年度总排名中排第9。过去顺手的做法，今年可能碰到新的审批流程；以前报价就能成交的服务，客户可能开始问：你的专业究竟能替我解决什么？</p>
+    <p class="stars"><span>财富运<b>★★★☆☆</b></span><span>事业运<b>★★★☆☆</b></span></p>
+    <div class="facts"><div class="frow"><h3>正财</h3><p>把知识、资格或新技能用在一个实际任务上，用成果争取更好的岗位或服务价格。</p></div><div class="frow"><h3>额外收入</h3><p>尝试把知识做成服务或产品；先验证付费需求和交付能力。</p></div></div>
+    <details class="more"><summary>为什么会有这些提醒？看原稿中的星曜解读</summary><p>【文昌】【学堂】提示学习和专业升级；【天钺】提示向有经验的人请教。【灾煞】【囚狱】提醒查清规则、文件和责任。</p></details>
+    <div class="q"><small>停一下，想一想</small><p>你学过的哪项能力，已经可以替别人解决问题？</p></div>
+    <a class="nx" href="#z9-people">再看看，谁能给你实际帮助 ↓</a>
+  </section>
+  <section class="sec" id="z9-people">
+    <p class="slab"><i>02</i>找到能帮你的人</p>
+    <h2 class="h2"><span class="g">贵人来了，</span><span class="g">你知道</span><span class="g"><em>怎么接住</em>吗？</span></h2>
+    <div class="helper"><div class="ic"><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="28" cy="24" r="10"/><circle cx="56" cy="30" r="8"/><path d="M9 64V57Q9 39 28 39Q46 39 46 57V64M48 44Q70 42 70 62M19 58H38M52 58H62"/></svg></div><div><h3>留意这样的人</h3><p>能指出程序漏洞、复核关键文件，或让你看懂新行业要求的人。</p></div></div>
+    <div class="q"><small>停一下，想一想</small><p>读到这里，你脑中有没有浮现一个人？如果主动联系他，你想请他帮你推进哪一件具体的事？</p></div>
+    <p class="note">这里说的是能提供实际助力的人与合作方式，并非按对方生肖决定是否合作。</p>
+    <a class="nx" href="#z9-dir">同样属鸡，我的求财路线有什么不同？ ↓</a>
+  </section>
+  <section class="sec" id="z9-dir">
+    <p class="slab"><i>03</i>再看出生年份</p>
+    <h2 class="h2"><span class="g">同样属鸡，</span><span class="g">你的下一步</span><span class="g"><em>也可能不同</em>。</span></h2>
+    <p class="lead2">先找到出生年份，再看对应的奇门求财卡。带着一个正在考虑的工作、客户或合作来读，会更有感觉。</p>
+    <div class="ypanel"><b>你是哪一年出生的？</b>
+      <div class="ychips"><label for="y9_2017">2017<small>丁酉</small></label><label for="y9_2005">2005<small>乙酉</small></label><label for="y9_1993">1993<small>癸酉</small></label><label for="y9_1981">1981<small>辛酉</small></label><label for="y9_1969">1969<small>己酉</small></label><label for="y9_1957">1957<small>丁酉</small></label><label for="y9_1945">1945<small>乙酉</small></label><label for="y9_1933">1933<small>癸酉</small></label></div>
+      <div class="yres"><p class="note yd9" style="margin-top:0">点你的出生年份，这里会展开你的求财方向、需要确认的条件，以及一个马上能做的行动。</p><div class="yc yc9_2017"><p class="yt">2017 · 丁酉鸡的求财路线</p><h3>提案之前，把验收标准写清楚</h3><div class="ri">自身落西北乾宫，与开门同宫。适合把知识变成看得懂的服务说明或项目提案。</div><div class="ri">东北土生乾金，生门与戊土同宫但见空亡。对方说有资源时，先确认谁能调配、什么时候到位。</div><div class="act"><b>现在可以做的一步</b>把一份方案写成一页，列明交付范围、验收方式和付款节点。</div></div><div class="yc yc9_2005"><p class="yt">2005 · 乙酉鸡的求财路线</p><h3>先把学过的东西用出来</h3><div class="ri">自身落西南坤宫，乙入墓。盘点做过却没整理的案例，看看哪一项能发展成收费服务。</div><div class="ri">西北开门可观察业务机会；东北生门与戊土同宫又见空亡，要核对预算和付款条件。南方离火生坤土，可找有实务经验的人审查方案。</div><div class="act"><b>现在可以做的一步</b>拿一个旧案例，请前辈指出哪一部分最能体现你的专业，再写成一项试做服务。</div></div><div class="yc yc9_1993"><p class="yt">1993 · 癸酉鸡的求财路线</p><h3>先把旧业务做稳，再测试新技能</h3><div class="ri">自身落正北坎宫，与休门同宫。可从续约、熟悉的客户与稳定服务着手，用小项目测试新能力。</div><div class="ri">西北乾金生坎水，开门可观察客户资源；东北土克坎水，生门与戊土同宫又见空亡，先核对垫资和回款。</div><div class="act"><b>现在可以做的一步</b>问一位旧客户哪个流程最费时。选一个你能用新技能解决的小问题，做出样本再讨论收费。</div></div><div class="yc yc9_1981"><p class="yt">1981 · 辛酉鸡的求财路线</p><h3>用证据展示实力，用复核守住口碑</h3><div class="ri">自身落正南离宫，见景门、九地、天心，辛有击刑。适合展示成果，宣传、报价与文件要多核对一次。</div><div class="ri">东南巽木生离火，见九天，可观察外部专业渠道。合作发布前，先确认案例使用范围和对外说法。</div><div class="act"><b>现在可以做的一步</b>用一页写清一个真实案例的任务、方法与成果，再请同行复核。</div></div><div class="yc yc9_1969"><p class="yt">1969 · 己酉鸡的求财路线</p><h3>旧合作也要按新规则走</h3><div class="ri">自身落正西兑宫。工作流程变动时，先问谁审批、谁负责交付、变更如何留痕。</div><div class="ri">西北开门可观察业务渠道；东北土生兑金，生门与戊土同宫又见空亡，正式承接前要核对资源。</div><div class="act"><b>现在可以做的一步</b>挑一项长期合作，逐条核对范围、权限和付款方式，修正最容易产生误解的一条。</div></div><div class="yc yc9_1957"><p class="yt">1957 · 丁酉鸡的求财路线</p><h3>提案之前，把验收标准写清楚</h3><div class="ri">自身落西北乾宫，与开门同宫。适合把知识变成看得懂的服务说明或项目提案。</div><div class="ri">东北土生乾金，生门与戊土同宫但见空亡。对方说有资源时，先确认谁能调配、什么时候到位。</div><div class="act"><b>现在可以做的一步</b>把一份方案写成一页，列明交付范围、验收方式和付款节点。</div></div><div class="yc yc9_1945"><p class="yt">1945 · 乙酉鸡的求财路线</p><h3>先把学过的东西用出来</h3><div class="ri">自身落西南坤宫，乙入墓。盘点做过却没整理的案例，看看哪一项能发展成收费服务。</div><div class="ri">西北开门可观察业务机会；东北生门与戊土同宫又见空亡，要核对预算和付款条件。南方离火生坤土，可找有实务经验的人审查方案。</div><div class="act"><b>现在可以做的一步</b>拿一个旧案例，请前辈指出哪一部分最能体现你的专业，再写成一项试做服务。</div></div><div class="yc yc9_1933"><p class="yt">1933 · 癸酉鸡的求财路线</p><h3>先把旧业务做稳，再测试新技能</h3><div class="ri">自身落正北坎宫，与休门同宫。可从续约、熟悉的客户与稳定服务着手，用小项目测试新能力。</div><div class="ri">西北乾金生坎水，开门可观察客户资源；东北土克坎水，生门与戊土同宫又见空亡，先核对垫资和回款。</div><div class="act"><b>现在可以做的一步</b>问一位旧客户哪个流程最费时。选一个你能用新技能解决的小问题，做出样本再讨论收费。</div></div></div>
+      <p class="note">此处按常见出生年份查出生年柱，并非八字日主。1月至立春前后出生，请按实际出生日期与时间核对年柱。本页不作精确八字排盘。</p>
+    </div>
+    <details class="more"><summary>这些方向，应该怎样理解？</summary><p>方位是奇门年盘中观察机会、支持和压力的参考，与流年风水的东南财富位用途不同。先看方向对应的资源和行动，再对照你的实际情况；并非走到某个方位就会得财。</p><p>「空亡」在这份指南里，提醒你核实承诺能否兑现；「开门」「生门」用于观察业务与收入线索。它们不能代替真实需求、预算与回款记录。</p></details>
+    <a class="nx" href="#z9-time">接着看，哪些时间值得多留意 ↓</a>
+  </section>
+  <section class="sec" id="z9-time">
+    <p class="slab"><i>04</i>机会也要配合时机</p>
+    <h2 class="h2"><span class="g">什么时候</span><span class="g">往前一步，</span><span class="g">什么时候</span><span class="g"><em>先看清楚</em>？</span></h2>
+    <p class="lead2">把这些提醒放回你正在安排的一年：什么时候约人谈、什么时候做准备，什么时候把条件再核对一次。</p>
+    <div class="mgrid"><div class="mon"><small>留意机会</small><h3>这些时段，主动一点</h3><p>2月段学习，3月段主动请教，8月段展示成果与谈价，11月段集中资源。</p></div><div class="mon cau"><small>留意关卡</small><h3>这些地方，仔细一点</h3><p>1月段整理文件；5月段仔细核对条款；7月段预留现金应对计划外开支；12月段收成果。</p></div></div>
+    <p class="note">流月以节气交接为参考，与公历月份不完全重合；以上沿用原稿的月份口径。</p>
+    <a class="nx" href="#z9-check">把我正在考虑的事，拿来对照一下 ↓</a>
+  </section>
+  <section class="sec chk" id="z9-check">
+    <p class="slab"><i>05</i>真 · 假 · 混，先问清楚</p>
+    <h2 class="h2"><span class="g">这份机会，</span><span class="g">哪些条件</span><span class="g"><em>真的落实了</em>？</span></h2>
+    <p class="lead2">选一个正在考虑的决定：学新技能、签旧客户续约、接项目，或答应共同承担一笔费用。 已经亲自确认的，就勾选；还没确定的，留下来作为下一次沟通的问题。</p>
+    <div class="clist"><label class="crow"><input type="checkbox"><span><b>学了可以用在哪里？</b><small>哪个真实任务能让我验证新能力？</small></span></label><label class="crow"><input type="checkbox"><span><b>旧规则还适用吗？</b><small>有没有新审批、交付或付款要求？</small></span></label><label class="crow"><input type="checkbox"><span><b>谁能帮我查漏？</b><small>哪个专业人士能指出我没注意到的条件？</small></span></label><label class="crow"><input type="checkbox"><span><b>承诺有没有写清楚？</b><small>范围、责任、验收、付款是否一致？</small></span></label><label class="crow"><input type="checkbox"><span><b>还有多少余地？</b><small>如果出现延迟或额外开支，项目还能按计划进行吗？</small></span></label></div>
+    <p class="cfb" role="status"></p>
+    <a class="nx" href="#z9-plan">我想把下一步写下来 ↓</a>
+  </section>
+  <section class="sec" id="z9-plan">
+    <p class="slab"><i>06</i>把方向变成行动</p>
+    <h2 class="h2"><span class="g">不用一次</span><span class="g">改变全部。</span><span class="g"><em>先落实</em></span><span class="g"><em>这一步</em>。</span></h2>
+    <p class="lead2">看完以后，你最想推进什么？直接写在下面这张卡上，写好截图保存。</p>
+    <div class="pcard">
+      <p class="k">2027 · MY ACTION CARD</p>
+      <h3>属鸡的我，先落实这一步。</h3>
+      <label>我最想推进的一件事<textarea rows="2" maxlength="250" placeholder="例如：把谈了很久的合作，约出来确认条件。"></textarea></label>
+      <label>我准备联系谁<input maxlength="100" placeholder="写下一个人，或对方的角色"></label>
+      <label>我准备什么时候行动<input type="date"></label>
+      <label>答应之前，我要先确认<input maxlength="200" placeholder="例如：谁付款、什么时候付款、由谁负责交付。"></label>
+      <p class="by">林舒苑 · 2027生肖财运指南　｜　截图保存，提醒自己把这一步落实。</p>
+    </div>
+    <p class="note">只在你的手机上，不会提交个人资料。</p>
+  </section>
+  <section class="close">
+    <div class="bridge">
+      <span class="pill">你的生肖，是看懂 2027 的第一步</span>
+      <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
+      <p>你已经看到了属鸡的求财重点，也开始思考谁能帮助你、下一步该怎么做。</p>
+      <p>但当一个真实决定来到面前——要不要换方向、接下一项合作，或进入一个新市场——你还会想知道：<strong>这个选择，放在 2027 全年的趋势里，时机合适吗？</strong></p>
+      <p>把个人的方向，放进全年趋势，再结合奇门的判断，才能更完整地梳理：<strong>什么时候准备、什么时候推进、哪些条件要先看清。</strong></p>
+    </div>
+    <div class="conf">
+      <p class="k">MASTER SUYEN · 2027</p>
+      <h3>2027 年奇门遁甲<br>战略大会</h3>
+      <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
+      <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
+      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
+      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+    </div>
+  </section>
+  </div>
+</div>
+<div class="rd rd10">
+  <div class="rbar"><div class="wrap"><span class="t">2027 · 属狗的求财指南</span><a class="back" href="#top">重新选生肖 ↺</a></div>
+    <nav class="qnav" aria-label="指南章节"><a href="#z10-opp">财运</a><a href="#z10-people">贵人</a><a href="#z10-dir">求财方向</a><a href="#z10-time">月份</a><a href="#z10-check">核对</a><a href="#z10-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <div class="prog"><i></i></div></div>
+  <div class="prof">
+    <div>
+      <p class="ey">2027 · 你的生肖求财指南</p>
+      <h1><span class="g">属狗的你，</span><span class="g"><em>把合作说清楚。</em></span></h1>
+      <p class="hl">合作有变化，怎样守住责任边界和现金流？</p>
+      <p class="kw"><span>关系考验</span><span>破旧重整</span><span>守界避争</span></p>
+      <p class="rank"><b>11</b><span>/ 12 生肖 · 原书年度总排名</span></p>
+    </div>
+    <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M29 29Q14 23 13 47Q12 66 26 60L32 41M67 29Q82 23 83 47Q84 66 70 60L64 41M28 35Q30 23 48 24Q66 23 68 35L69 60Q65 80 48 81Q31 80 27 60Z"/><path d="M39 61Q48 55 57 61L48 69Z M48 69V76M37 48H40M56 48H59"/></svg><span>DOG · 2027</span></div>
+  </div>
+  <div class="wrap">
+  <section class="sec" id="z10-opp">
+    <p class="slab"><i>01</i>先看你的年度重点</p>
+    <h2 class="h2"><span class="g">今年的财，</span><span class="g">更值得</span><span class="g">从<em>哪里找</em>？</span></h2>
+    <p class="lead2">属狗的朋友，2027年，你在十二生肖年度总排名中排第11。未戌相破又见刑，原本稳定的合作可能需要重新分工。你以为只是帮忙一次，对方却以为以后都由你负责。</p>
+    <p class="stars"><span>财富运<b>★★☆☆☆</b></span><span>事业运<b>★★☆☆☆</b></span></p>
+    <div class="facts"><div class="frow"><h3>正财</h3><p>优先维护付款与交付稳定的工作或客户。接手新职责前，把范围、期限和报酬谈清楚。</p></div><div class="frow"><h3>共同资金</h3><p>借贷、担保、垫款和分账都要写明责任与结算条件，别因人情模糊界线。</p></div></div>
+    <details class="more"><summary>为什么会有这些提醒？看原稿中的星曜解读</summary><p>未戌相破，兼见刑。【太阴】提示幕后助力与财务思维，【地解】提示及时处理旧问题；【勾绞】【贯索】提醒明确分工与财务边界。</p></details>
+    <div class="q"><small>停一下，想一想</small><p>哪段合作，有一句话是你一直想说清楚的？</p></div>
+    <a class="nx" href="#z10-people">再看看，谁能给你实际帮助 ↓</a>
+  </section>
+  <section class="sec" id="z10-people">
+    <p class="slab"><i>02</i>找到能帮你的人</p>
+    <h2 class="h2"><span class="g">贵人来了，</span><span class="g">你知道</span><span class="g"><em>怎么接住</em>吗？</span></h2>
+    <div class="helper"><div class="ic"><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="28" cy="24" r="10"/><circle cx="56" cy="30" r="8"/><path d="M9 64V57Q9 39 28 39Q46 39 46 57V64M48 44Q70 42 70 62M19 58H38M52 58H62"/></svg></div><div><h3>留意这样的人</h3><p>留意细心务实的女性前辈、幕后决策者或财务人员；能帮你看清细节的人特别有价值。</p></div></div>
+    <div class="q"><small>停一下，想一想</small><p>读到这里，你脑中有没有浮现一个人？如果主动联系他，你想请他帮你推进哪一件具体的事？</p></div>
+    <p class="note">这里说的是能提供实际助力的人与合作方式，并非按对方生肖决定是否合作。</p>
+    <a class="nx" href="#z10-dir">同样属狗，我的求财路线有什么不同？ ↓</a>
+  </section>
+  <section class="sec" id="z10-dir">
+    <p class="slab"><i>03</i>再看出生年份</p>
+    <h2 class="h2"><span class="g">同样属狗，</span><span class="g">你的下一步</span><span class="g"><em>也可能不同</em>。</span></h2>
+    <p class="lead2">先找到出生年份，再看对应的奇门求财卡。带着一个正在考虑的工作、客户或合作来读，会更有感觉。</p>
+    <div class="ypanel"><b>你是哪一年出生的？</b>
+      <div class="ychips"><label for="y10_2018">2018<small>戊戌</small></label><label for="y10_2006">2006<small>丙戌</small></label><label for="y10_1994">1994<small>甲戌</small></label><label for="y10_1982">1982<small>壬戌</small></label><label for="y10_1970">1970<small>庚戌</small></label><label for="y10_1958">1958<small>戊戌</small></label><label for="y10_1946">1946<small>丙戌</small></label><label for="y10_1934">1934<small>甲戌</small></label></div>
+      <div class="yres"><p class="note yd10" style="margin-top:0">点你的出生年份，这里会展开你的求财方向、需要确认的条件，以及一个马上能做的行动。</p><div class="yc yc10_2018"><p class="yt">2018 · 戊戌狗的求财路线</p><h3>旧账一笔一笔清</h3><div class="ri">自身落东北艮宫，与生门同宫而见空亡。西北开门可观察收费服务与合作线索；南方离火生艮土，可请懂流程或账务的人把关。</div><div class="act"><b>现在可以做的一步</b>选一笔最久的应收款，核对验收记录、应付金额与结算日期，然后约定下一次跟进。</div></div><div class="yc yc10_2006"><p class="yt">2006 · 丙戌狗的求财路线</p><h3>合作卡住，先把分歧拆开</h3><div class="ri">自身落东方震宫，见空亡。东南同属木，可观察专业支持与渠道拓展；西北开门可见合作线索，乾金克震木，也提示协调和交付压力。</div><div class="act"><b>现在可以做的一步</b>把争议写成三栏：已确认、待确认、谁能决定。约当事人只谈其中一个卡点。</div></div><div class="yc yc10_1994"><p class="yt">1994 · 甲戌狗的求财路线</p><h3>接手之前，先确认谁负责</h3><div class="ri">甲戌遁己，查正西兑宫。西北开门可观察业务线索；东北土生兑金，生门与戊土同宫而见空亡，先核对人手、预算与结算。</div><div class="act"><b>现在可以做的一步</b>有人请你接手项目时，写清协助范围、交接日期和最终负责人，请对方确认。</div></div><div class="yc yc10_1982"><p class="yt">1982 · 壬戌狗的求财路线</p><h3>有人出主意，也要有人承担实际责任</h3><div class="ri">按壬组寄东方震宫，见空亡。北方坎水生震木，可留意可靠资料与专业意见；东南同属木，可观察拓展资源。西北开门可见合作线索，也要预留协调时间。</div><div class="ri">东北生门与戊土同宫而见空亡。遇到共同项目，先核实谁能调配预算、谁有权限签字。</div><div class="act"><b>现在可以做的一步</b>选一项多人合作，把报价、交付、验收、付款逐项对应到负责人，请各方书面确认。</div></div><div class="yc yc10_1970"><p class="yt">1970 · 庚戌狗的求财路线</p><h3>走出去，也要留好退出余地</h3><div class="ri">自身落东南巽宫，见杜门、九天、天柱、驿马。可观察外部资源和专业渠道；北方坎水生巽木，可留意资讯及专业意见。</div><div class="act"><b>现在可以做的一步</b>新合作先约一次低成本会面，问清差旅由谁承担、试做做到哪里、什么情况可以停止。</div></div><div class="yc yc10_1958"><p class="yt">1958 · 戊戌狗的求财路线</p><h3>旧账一笔一笔清</h3><div class="ri">自身落东北艮宫，与生门同宫而见空亡。西北开门可观察收费服务与合作线索；南方离火生艮土，可请懂流程或账务的人把关。</div><div class="act"><b>现在可以做的一步</b>选一笔最久的应收款，核对验收记录、应付金额与结算日期，然后约定下一次跟进。</div></div><div class="yc yc10_1946"><p class="yt">1946 · 丙戌狗的求财路线</p><h3>合作卡住，先把分歧拆开</h3><div class="ri">自身落东方震宫，见空亡。东南同属木，可观察专业支持与渠道拓展；西北开门可见合作线索，乾金克震木，也提示协调和交付压力。</div><div class="act"><b>现在可以做的一步</b>把争议写成三栏：已确认、待确认、谁能决定。约当事人只谈其中一个卡点。</div></div><div class="yc yc10_1934"><p class="yt">1934 · 甲戌狗的求财路线</p><h3>接手之前，先确认谁负责</h3><div class="ri">甲戌遁己，查正西兑宫。西北开门可观察业务线索；东北土生兑金，生门与戊土同宫而见空亡，先核对人手、预算与结算。</div><div class="act"><b>现在可以做的一步</b>有人请你接手项目时，写清协助范围、交接日期和最终负责人，请对方确认。</div></div></div>
+      <p class="note">此处按常见出生年份查出生年柱，并非八字日主。1月至立春前后出生，请按实际出生日期与时间核对年柱。本页不作精确八字排盘。</p>
+    </div>
+    <details class="more"><summary>这些方向，应该怎样理解？</summary><p>方位是奇门年盘中观察机会、支持和压力的参考，与流年风水的东南财富位用途不同。先看方向对应的资源和行动，再对照你的实际情况；并非走到某个方位就会得财。</p><p>「空亡」在这份指南里，提醒你核实承诺能否兑现；「开门」「生门」用于观察业务与收入线索。它们不能代替真实需求、预算与回款记录。</p></details>
+    <a class="nx" href="#z10-time">接着看，哪些时间值得多留意 ↓</a>
+  </section>
+  <section class="sec" id="z10-time">
+    <p class="slab"><i>04</i>机会也要配合时机</p>
+    <h2 class="h2"><span class="g">什么时候</span><span class="g">往前一步，</span><span class="g">什么时候</span><span class="g"><em>先看清楚</em>？</span></h2>
+    <p class="lead2">把这些提醒放回你正在安排的一年：什么时候约人谈、什么时候做准备，什么时候把条件再核对一次。</p>
+    <div class="mgrid"><div class="mon"><small>留意机会</small><h3>这些时段，主动一点</h3><p>3月段请教贵人，4月段处理旧账和旧合作，9月段寻求专业协助。</p></div><div class="mon cau"><small>留意关卡</small><h3>这些地方，仔细一点</h3><p>5月段核对合约与付款，7月段少争少冒险，8月段整理现金流和共同资金，12月段收尾。</p></div></div>
+    <p class="note">流月以节气交接为参考，与公历月份不完全重合；以上沿用原稿的月份口径。</p>
+    <a class="nx" href="#z10-check">把我正在考虑的事，拿来对照一下 ↓</a>
+  </section>
+  <section class="sec chk" id="z10-check">
+    <p class="slab"><i>05</i>真 · 假 · 混，先问清楚</p>
+    <h2 class="h2"><span class="g">这份机会，</span><span class="g">哪些条件</span><span class="g"><em>真的落实了</em>？</span></h2>
+    <p class="lead2">挑一件正在考虑的事：代人垫款、接手项目、处理旧账，或重谈原有合作。 已经亲自确认的，就勾选；还没确定的，留下来作为下一次沟通的问题。</p>
+    <div class="clist"><label class="crow"><input type="checkbox"><span><b>这是协助还是接手？</b><small>从何时开始，到哪里结束，谁对结果负责？</small></span></label><label class="crow"><input type="checkbox"><span><b>钱由谁承担？</b><small>谁先付、谁报销、何时结算、凭什么记录？</small></span></label><label class="crow"><input type="checkbox"><span><b>遇到分歧找谁？</b><small>谁是当事人，谁有权限确定处理方式？</small></span></label><label class="crow"><input type="checkbox"><span><b>旧问题能先解吗？</b><small>哪笔应收、哪份文件或哪项交接可以先完成？</small></span></label><label class="crow"><input type="checkbox"><span><b>试做有边界吗？</b><small>能否写清费用上限、交付范围和结束条件？</small></span></label></div>
+    <p class="cfb" role="status"></p>
+    <a class="nx" href="#z10-plan">我想把下一步写下来 ↓</a>
+  </section>
+  <section class="sec" id="z10-plan">
+    <p class="slab"><i>06</i>把方向变成行动</p>
+    <h2 class="h2"><span class="g">不用一次</span><span class="g">改变全部。</span><span class="g"><em>先落实</em></span><span class="g"><em>这一步</em>。</span></h2>
+    <p class="lead2">看完以后，你最想推进什么？直接写在下面这张卡上，写好截图保存。</p>
+    <div class="pcard">
+      <p class="k">2027 · MY ACTION CARD</p>
+      <h3>属狗的我，先落实这一步。</h3>
+      <label>我最想推进的一件事<textarea rows="2" maxlength="250" placeholder="例如：把谈了很久的合作，约出来确认条件。"></textarea></label>
+      <label>我准备联系谁<input maxlength="100" placeholder="写下一个人，或对方的角色"></label>
+      <label>我准备什么时候行动<input type="date"></label>
+      <label>答应之前，我要先确认<input maxlength="200" placeholder="例如：谁付款、什么时候付款、由谁负责交付。"></label>
+      <p class="by">林舒苑 · 2027生肖财运指南　｜　截图保存，提醒自己把这一步落实。</p>
+    </div>
+    <p class="note">只在你的手机上，不会提交个人资料。</p>
+  </section>
+  <section class="close">
+    <div class="bridge">
+      <span class="pill">你的生肖，是看懂 2027 的第一步</span>
+      <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
+      <p>你已经看到了属狗的求财重点，也开始思考谁能帮助你、下一步该怎么做。</p>
+      <p>但当一个真实决定来到面前——要不要换方向、接下一项合作，或进入一个新市场——你还会想知道：<strong>这个选择，放在 2027 全年的趋势里，时机合适吗？</strong></p>
+      <p>把个人的方向，放进全年趋势，再结合奇门的判断，才能更完整地梳理：<strong>什么时候准备、什么时候推进、哪些条件要先看清。</strong></p>
+    </div>
+    <div class="conf">
+      <p class="k">MASTER SUYEN · 2027</p>
+      <h3>2027 年奇门遁甲<br>战略大会</h3>
+      <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
+      <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
+      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
+      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+    </div>
+  </section>
+  </div>
+</div>
+<div class="rd rd11">
+  <div class="rbar"><div class="wrap"><span class="t">2027 · 属猪的求财指南</span><a class="back" href="#top">重新选生肖 ↺</a></div>
+    <nav class="qnav" aria-label="指南章节"><a href="#z11-opp">财运</a><a href="#z11-people">贵人</a><a href="#z11-dir">求财方向</a><a href="#z11-time">月份</a><a href="#z11-check">核对</a><a href="#z11-plan">行动卡</a><a href="#claim">领取图片版</a></nav>
+    <div class="prog"><i></i></div></div>
+  <div class="prof">
+    <div>
+      <p class="ey">2027 · 你的生肖求财指南</p>
+      <h1><span class="g">属猪的你，</span><span class="g"><em>让人脉走近一步。</em></span></h1>
+      <p class="hl">贵人把门打开，怎样把人脉变成收入？</p>
+      <p class="kw"><span>贵人聚</span><span>福气升</span><span>防是非</span></p>
+      <p class="rank"><b>05</b><span>/ 12 生肖 · 原书年度总排名</span></p>
+    </div>
+    <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M28 34L19 14L38 23M68 34L77 14L58 23M22 49Q22 25 48 26Q74 25 74 49V60Q70 81 48 81Q26 81 22 60Z"/><rect x="32" y="54" width="32" height="21" rx="10"/><path d="M41 62V67M55 62V67"/><circle cx="34" cy="46" r="2"/><circle cx="62" cy="46" r="2"/></svg><span>PIG · 2027</span></div>
+  </div>
+  <div class="wrap">
+  <section class="sec" id="z11-opp">
+    <p class="slab"><i>01</i>先看你的年度重点</p>
+    <h2 class="h2"><span class="g">今年的财，</span><span class="g">更值得</span><span class="g">从<em>哪里找</em>？</span></h2>
+    <p class="lead2">属猪的朋友，2027年，你在十二生肖年度总排名中排第5。可能有老客户愿意介绍新客户，也可能有前辈愿意推荐你到一个更大的平台。别人把门打开之后，你拿什么让对方愿意继续合作？</p>
+    <p class="stars"><span>财富运<b>★★★★☆</b></span><span>事业运<b>★★★★☆</b></span></p>
+    <div class="facts"><div class="frow"><h3>正财</h3><p>关注职位、客户和专业价值带来的收入，主动争取更适合的平台或项目。</p></div><div class="frow"><h3>额外收入</h3><p>转介、佣金和合作可作为线索。涉及出资、借贷或分账，先核实条件。</p></div></div>
+    <details class="more"><summary>为什么会有这些提醒？看原稿中的星曜解读</summary><p>亥未半合。【三台】提示事业进阶，【天乙】【天福】提示贵人与助力，【龙池】【明堂】有利于让专业被看见。</p></details>
+    <div class="q"><small>停一下，想一想</small><p>谁曾经愿意帮你牵线，而你还没有认真跟进？</p></div>
+    <a class="nx" href="#z11-people">再看看，谁能给你实际帮助 ↓</a>
+  </section>
+  <section class="sec" id="z11-people">
+    <p class="slab"><i>02</i>找到能帮你的人</p>
+    <h2 class="h2"><span class="g">贵人来了，</span><span class="g">你知道</span><span class="g"><em>怎么接住</em>吗？</span></h2>
+    <div class="helper"><div class="ic"><svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="28" cy="24" r="10"/><circle cx="56" cy="30" r="8"/><path d="M9 64V57Q9 39 28 39Q46 39 46 57V64M48 44Q70 42 70 62M19 58H38M52 58H62"/></svg></div><div><h3>留意这样的人</h3><p>找愿意介绍合适客户、给具体建议，或能让你接触到决策者的人。</p></div></div>
+    <div class="q"><small>停一下，想一想</small><p>读到这里，你脑中有没有浮现一个人？如果主动联系他，你想请他帮你推进哪一件具体的事？</p></div>
+    <p class="note">这里说的是能提供实际助力的人与合作方式，并非按对方生肖决定是否合作。</p>
+    <a class="nx" href="#z11-dir">同样属猪，我的求财路线有什么不同？ ↓</a>
+  </section>
+  <section class="sec" id="z11-dir">
+    <p class="slab"><i>03</i>再看出生年份</p>
+    <h2 class="h2"><span class="g">同样属猪，</span><span class="g">你的下一步</span><span class="g"><em>也可能不同</em>。</span></h2>
+    <p class="lead2">先找到出生年份，再看对应的奇门求财卡。带着一个正在考虑的工作、客户或合作来读，会更有感觉。</p>
+    <div class="ypanel"><b>你是哪一年出生的？</b>
+      <div class="ychips"><label for="y11_2019">2019<small>己亥</small></label><label for="y11_2007">2007<small>丁亥</small></label><label for="y11_1995">1995<small>乙亥</small></label><label for="y11_1983">1983<small>癸亥</small></label><label for="y11_1971">1971<small>辛亥</small></label><label for="y11_1959">1959<small>己亥</small></label><label for="y11_1947">1947<small>丁亥</small></label><label for="y11_1935">1935<small>乙亥</small></label></div>
+      <div class="yres"><p class="note yd11" style="margin-top:0">点你的出生年份，这里会展开你的求财方向、需要确认的条件，以及一个马上能做的行动。</p><div class="yc yc11_2019"><p class="yt">2019 · 己亥猪的求财路线</p><h3>越多人合作，越要把分工写清楚</h3><div class="ri">自身落正西兑宫。客户经熟人介绍时，先确立统一的对接窗口，避免各方给出不同承诺。</div><div class="ri">西北同属金，开门可观察业务机会；东北土生兑金，生门与戊土同宫但见空亡，实际资源与收款要另行确认。</div><div class="act"><b>现在可以做的一步</b>把客户对接、验收、收款和分账分别列出来，请各方确认负责人。</div></div><div class="yc yc11_2007"><p class="yt">2007 · 丁亥猪的求财路线</p><h3>有人牵线，就让对方看懂你的价值</h3><div class="ri">自身落西北乾宫，与开门同宫。适合借转介把专业说清楚，尤其是你能为客户解决哪一个难题。</div><div class="ri">东北土生乾金，生门与戊土同宫但见空亡。合作方声称有资源时，先确认谁负责调配、何时到位。</div><div class="act"><b>现在可以做的一步</b>请介绍人安排三方通话，确认决策人、交付内容和下一次跟进时间。</div></div><div class="yc yc11_1995"><p class="yt">1995 · 乙亥猪的求财路线</p><h3>把沉下去的人脉重新接起来</h3><div class="ri">自身落西南坤宫，乙入墓。先回访曾经认可你、却没有继续合作的人，看看需求和条件有没有变化。</div><div class="ri">西北开门可观察业务线索；东北生门与戊土同宫但见空亡，要问清预算和付款。南方离火生坤土，可留意能帮你审查方案的专业人士。</div><div class="act"><b>现在可以做的一步</b>给一位旧客户发一页新方案，提出一个规模小、范围清楚的试合作。</div></div><div class="yc yc11_1983"><p class="yt">1983 · 癸亥猪的求财路线</p><h3>让旧客户愿意回来，也愿意介绍你</h3><div class="ri">自身落正北坎宫，与休门同宫。可从续约、长期服务和已经建立信任的客户入手。</div><div class="ri">西北乾金生坎水，开门可观察业务与客户资源。东北土克坎水，生门与戊土又见空亡，接大单前先核对先垫多少、多久能收到款。</div><div class="act"><b>现在可以做的一步</b>联系三位旧客户，问他们今年最想解决什么问题。先选一个你有把握交付的需求，再提出收费方案。</div></div><div class="yc yc11_1971"><p class="yt">1971 · 辛亥猪的求财路线</p><h3>靠专业赢得信任，靠记录守住口碑</h3><div class="ri">自身落正南离宫，见景门、九地、天心，辛有击刑。可以展示案例与成果，重要文字、报价和承诺多复核一遍。</div><div class="ri">东南巽木生离火，有九天，可观察外部渠道和专业拓展。对方提出联名或转发合作时，先确认对外说法与实际交付范围。</div><div class="act"><b>现在可以做的一步</b>整理一份有证据的案例，列明你负责的部分，再请可信任的同行复核。</div></div><div class="yc yc11_1959"><p class="yt">1959 · 己亥猪的求财路线</p><h3>越多人合作，越要把分工写清楚</h3><div class="ri">自身落正西兑宫。客户经熟人介绍时，先确立统一的对接窗口，避免各方给出不同承诺。</div><div class="ri">西北同属金，开门可观察业务机会；东北土生兑金，生门与戊土同宫但见空亡，实际资源与收款要另行确认。</div><div class="act"><b>现在可以做的一步</b>把客户对接、验收、收款和分账分别列出来，请各方确认负责人。</div></div><div class="yc yc11_1947"><p class="yt">1947 · 丁亥猪的求财路线</p><h3>有人牵线，就让对方看懂你的价值</h3><div class="ri">自身落西北乾宫，与开门同宫。适合借转介把专业说清楚，尤其是你能为客户解决哪一个难题。</div><div class="ri">东北土生乾金，生门与戊土同宫但见空亡。合作方声称有资源时，先确认谁负责调配、何时到位。</div><div class="act"><b>现在可以做的一步</b>请介绍人安排三方通话，确认决策人、交付内容和下一次跟进时间。</div></div><div class="yc yc11_1935"><p class="yt">1935 · 乙亥猪的求财路线</p><h3>把沉下去的人脉重新接起来</h3><div class="ri">自身落西南坤宫，乙入墓。先回访曾经认可你、却没有继续合作的人，看看需求和条件有没有变化。</div><div class="ri">西北开门可观察业务线索；东北生门与戊土同宫但见空亡，要问清预算和付款。南方离火生坤土，可留意能帮你审查方案的专业人士。</div><div class="act"><b>现在可以做的一步</b>给一位旧客户发一页新方案，提出一个规模小、范围清楚的试合作。</div></div></div>
+      <p class="note">此处按常见出生年份查出生年柱，并非八字日主。1月至立春前后出生，请按实际出生日期与时间核对年柱。本页不作精确八字排盘。</p>
+    </div>
+    <details class="more"><summary>这些方向，应该怎样理解？</summary><p>方位是奇门年盘中观察机会、支持和压力的参考，与流年风水的东南财富位用途不同。先看方向对应的资源和行动，再对照你的实际情况；并非走到某个方位就会得财。</p><p>「空亡」在这份指南里，提醒你核实承诺能否兑现；「开门」「生门」用于观察业务与收入线索。它们不能代替真实需求、预算与回款记录。</p></details>
+    <a class="nx" href="#z11-time">接着看，哪些时间值得多留意 ↓</a>
+  </section>
+  <section class="sec" id="z11-time">
+    <p class="slab"><i>04</i>机会也要配合时机</p>
+    <h2 class="h2"><span class="g">什么时候</span><span class="g">往前一步，</span><span class="g">什么时候</span><span class="g"><em>先看清楚</em>？</span></h2>
+    <p class="lead2">把这些提醒放回你正在安排的一年：什么时候约人谈、什么时候做准备，什么时候把条件再核对一次。</p>
+    <div class="mgrid"><div class="mon"><small>留意机会</small><h3>这些时段，主动一点</h3><p>3月段请教前辈，7月段整合人脉，8月段把合作谈成收入，10月段争取事业进阶。</p></div><div class="mon cau"><small>留意关卡</small><h3>这些地方，仔细一点</h3><p>【官符】提醒文件与程序；【指背】【五鬼】提醒少传话、多求证。5月段查文件，9月段守边界。</p></div></div>
+    <p class="note">流月以节气交接为参考，与公历月份不完全重合；以上沿用原稿的月份口径。</p>
+    <a class="nx" href="#z11-check">把我正在考虑的事，拿来对照一下 ↓</a>
+  </section>
+  <section class="sec chk" id="z11-check">
+    <p class="slab"><i>05</i>真 · 假 · 混，先问清楚</p>
+    <h2 class="h2"><span class="g">这份机会，</span><span class="g">哪些条件</span><span class="g"><em>真的落实了</em>？</span></h2>
+    <p class="lead2">选一个正在考虑的机会：熟人转介、佣金合作、共同接单，或进入一个新平台。 已经亲自确认的，就勾选；还没确定的，留下来作为下一次沟通的问题。</p>
+    <div class="clist"><label class="crow"><input type="checkbox"><span><b>谁真正有决定权？</b><small>介绍人能牵线，谁能确认预算和签约？</small></span></label><label class="crow"><input type="checkbox"><span><b>客户需要什么？</b><small>我问过当事人，还是只听了转述？</small></span></label><label class="crow"><input type="checkbox"><span><b>责任落在谁身上？</b><small>谁交付、谁验收、谁处理变更？</small></span></label><label class="crow"><input type="checkbox"><span><b>钱怎么结？</b><small>由谁收款？分账按成交还是到账计算？</small></span></label><label class="crow"><input type="checkbox"><span><b>有什么不能对外说？</b><small>客户资料、价格、内部消息，哪些必须保密？</small></span></label></div>
+    <p class="cfb" role="status"></p>
+    <a class="nx" href="#z11-plan">我想把下一步写下来 ↓</a>
+  </section>
+  <section class="sec" id="z11-plan">
+    <p class="slab"><i>06</i>把方向变成行动</p>
+    <h2 class="h2"><span class="g">不用一次</span><span class="g">改变全部。</span><span class="g"><em>先落实</em></span><span class="g"><em>这一步</em>。</span></h2>
+    <p class="lead2">看完以后，你最想推进什么？直接写在下面这张卡上，写好截图保存。</p>
+    <div class="pcard">
+      <p class="k">2027 · MY ACTION CARD</p>
+      <h3>属猪的我，先落实这一步。</h3>
+      <label>我最想推进的一件事<textarea rows="2" maxlength="250" placeholder="例如：把谈了很久的合作，约出来确认条件。"></textarea></label>
+      <label>我准备联系谁<input maxlength="100" placeholder="写下一个人，或对方的角色"></label>
+      <label>我准备什么时候行动<input type="date"></label>
+      <label>答应之前，我要先确认<input maxlength="200" placeholder="例如：谁付款、什么时候付款、由谁负责交付。"></label>
+      <p class="by">林舒苑 · 2027生肖财运指南　｜　截图保存，提醒自己把这一步落实。</p>
+    </div>
+    <p class="note">只在你的手机上，不会提交个人资料。</p>
+  </section>
+  <section class="close">
+    <div class="bridge">
+      <span class="pill">你的生肖，是看懂 2027 的第一步</span>
+      <h2 class="h2"><span class="g">知道方向</span><span class="g">之后，</span><span class="g">还要看懂</span><span class="g"><em>一整年</em></span><span class="g"><em>的趋势</em>。</span></h2>
+      <p>你已经看到了属猪的求财重点，也开始思考谁能帮助你、下一步该怎么做。</p>
+      <p>但当一个真实决定来到面前——要不要换方向、接下一项合作，或进入一个新市场——你还会想知道：<strong>这个选择，放在 2027 全年的趋势里，时机合适吗？</strong></p>
+      <p>把个人的方向，放进全年趋势，再结合奇门的判断，才能更完整地梳理：<strong>什么时候准备、什么时候推进、哪些条件要先看清。</strong></p>
+    </div>
+    <div class="conf">
+      <p class="k">MASTER SUYEN · 2027</p>
+      <h3>2027 年奇门遁甲<br>战略大会</h3>
+      <p>带着你正在考虑的那件事来。和林舒苑一起看全年方向与时机，结合奇门、八字与风水，把下一步想得更清楚。</p>
+      <div class="flow"><div><b>懂局</b><small>了解全年趋势，看清所处的位置</small></div><div><b>布局</b><small>对照自己的目标，安排准备与行动</small></div><div><b>破局</b><small>梳理眼前的卡点，找到能落实的一步</small></div></div>
+      <a class="btn btn-white" href="https://2027-91t6.aigoal.ai/">我要参加战略大会 ↗</a>
+      <p class="meta">点击前往大会报名页面，查看活动详情与报名方式。</p>
+    </div>
+  </section>
+  </div>
+</div>
+</div>
 <section class="light"><div class="wrap">
   <span class="pill">指南作者</span>
   <h2 class="h2"><span class="g">为什么选择</span> <span class="g"><em>林舒苑</em>？</span></h2>
@@ -378,21 +1495,8 @@ input:checked~.zpanels .zhint{display:none}
   </div>
 </div></section>
 
-<section class="light"><div class="wrap">
-  <span class="pill">流程</span>
-  <h2 class="h2"><span class="g">6 步，</span><span class="g">把方向</span><span class="g">变成行动</span></h2>
-  <div class="steps">
-    <div class="step"><b>STEP 1</b><span>填称呼和 WhatsApp</span></div>
-    <div class="step"><b>STEP 2</b><span>WhatsApp 收指南，可以下载</span></div>
-    <div class="step"><b>STEP 3</b><span>选生肖，看财运和贵人</span></div>
-    <div class="step"><b>STEP 4</b><span>选出生年份，查求财方向</span></div>
-    <div class="step"><b>STEP 5</b><span>看哪几个月主动、哪几个月小心</span></div>
-    <div class="step"><b>STEP 6</b><span>写下行动卡；想看全年，来战略大会</span></div>
-  </div>
-</div></section>
-
 <section class="light" id="claim"><div class="wrap">
-  <h2 class="h2"><span class="g">现在</span><span class="g"><em>免费领取</em></span></h2>
+  <h2 class="h2"><span class="g">领取</span><span class="g"><em>图片版指南</em></span></h2>
   <div class="offer">
     <div class="gcard" style="margin:0 auto;transform:rotate(-2deg);box-shadow:14px 18px 34px rgba(42,20,24,.25)" role="img" aria-label="《2027 生肖财运指南》">
       <span class="y">2027</span>
@@ -402,7 +1506,7 @@ input:checked~.zpanels .zhint{display:none}
     </div>
     <div>
       <p class="free">免费领取</p>
-      <p class="sub" style="margin-top:6px">填好资料，指南马上发到你的 WhatsApp，线上看或下载都可以。</p>
+      <p class="sub" style="margin-top:6px">想收起来慢慢看？填好资料，图片版指南马上发到你的 WhatsApp，也可以直接下载。</p>
       <form id="lead" data-aigoal-lead>
         <input type="hidden" name="funnel" value="caiyun-guide-2027">
         <label class="field"><span>称呼</span><input name="name" autocomplete="given-name" placeholder="例如：Amy" required></label>
@@ -416,8 +1520,8 @@ input:checked~.zpanels .zhint{display:none}
 </div></section>
 </main>
 
-<footer>© 2026 Supreme Fortunity Sdn Bhd · Master Suyen Lim</footer>
+<footer>© 2026 Supreme Fortunity Sdn Bhd · Master Suyen Lim　｜　2027生肖财运指南 · 解读供参考，行动需核实。</footer>
 
-<div class="mbar"><p>免费 · 指南发到你的 WhatsApp</p><a class="btn" href="#claim">立即免费领取</a></div>
+<div class="mbar"><p>免费 · 图片版指南发到你的 WhatsApp</p><a class="btn" href="#claim">立即免费领取</a></div>
 </body>
 </html>
