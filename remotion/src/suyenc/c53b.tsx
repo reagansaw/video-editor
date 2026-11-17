@@ -25,6 +25,7 @@ const SUBS: [string, number, number, number?][] = [
 
 export const SuyenC53b: React.FC = () => {
   const CUTT = ep.dur, subs = subsR(R, SUBS as any);
+  const BEND = CUTT - 3.6;   // 收尾 B-roll 提早收，让最后 3.2 秒的人后层「正能量」看得到（Reagan 11-16）
   const IDX_OFF = R(183.45) + 0.6;
   const shakes = [R(157.82), R(179.92)];
   const cam: Cam = { hits: [0.05, R(157.82), R(86.60), R(91.22), R(92.50), R(113.28), R(133.34), R(168.40), R(179.92), R(182.94)],
@@ -40,7 +41,7 @@ export const SuyenC53b: React.FC = () => {
         <Hero text="2029" at={R(175.54)} until={R(180.60)} x={360} y={420} size={215} tone="cream" />
         <Hero text="稳" at={R(216.80)} until={CUTT} x={540} y={430} size={280} tone="rose" anim="呐喊声波" />
       </>}
-      yAt={mkYAt([[0, R(158.35)], [R(85.70), R(93.00)], [R(131.44), R(134.0)]], [[R(171.10), R(183.45)], [R(187.78), R(194.40)]])}
+      yAt={mkYAt([[0, R(158.35)], [R(85.70), R(93.00)], [R(131.44), R(134.0)]], [[R(171.10), R(183.45)], [R(187.78), BEND]])}
       sfx={<>
         <Sfx at={R(157.24)} s="猛然一惊" /><Sfx at={R(74.24)} s="综艺悬疑不对劲" />
         {[86.60, 91.22, 92.50].map((a, i) => <Sfx key={i} at={R(a)} s="啵1" />)}
@@ -60,7 +61,7 @@ export const SuyenC53b: React.FC = () => {
       <YearStrip at={R(171.10)} until={R(183.45)} y={1000} title="生肖鼠 · 连续四年" items={[
         { year: '2026', word: '冲', at: R(171.20), up: 0.4 }, { year: '2027', word: '害', at: R(171.80), up: -0.6 },
         { year: '2028', word: '水局', at: R(172.40), up: 0.8 }, { year: '2029', word: '破', at: R(179.92), up: -0.9 }]} />
-      <Cutaway ep={ep} src="ep1_yearchart" from={R(187.78)} to={R(194.40)} pipTopAt={R(188.2)} />
+      <Cutaway ep={ep} src="ep1_yearchart" from={R(187.78)} to={BEND} pipTopAt={R(188.2)} />
       <Chip text="抓准方向" at={R(193.08)} until={R(194.35)} x={320} y={1250} tone="rose" size={64} />
     </EpShell>
   );

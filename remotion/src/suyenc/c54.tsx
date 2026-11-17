@@ -23,6 +23,7 @@ const SUBS: [string, number, number, number?][] = [
 
 export const SuyenC54: React.FC = () => {
   const CUTT = ep.dur, subs = subsR(R, SUBS as any);
+  const BEND = CUTT - 3.6;   // 收尾 B-roll 提早收，让最后 3.2 秒的人后层「正能量」看得到（Reagan 11-16）
   const IDX_OFF = R(90.75) + 0.6;
   const shakes = [R(44.00), R(62.72), R(77.22)];
   const cam: Cam = { hits: [0.05, R(42.90), R(44.00), R(29.64), R(33.78), R(35.20), R(53.60), R(62.72), R(67.58), R(71.20), R(89.76)],
@@ -35,7 +36,7 @@ export const SuyenC54: React.FC = () => {
         <Hero text="丁未" at={R(29.64)} until={R(31.00)} x={460} y={420} size={250} tone="cream" />
         <Hero text="破财" at={R(62.72)} until={R(64.75)} x={540} y={430} size={250} tone="rose" anim="呐喊声波" shake={[R(62.72)]} />
       </>}
-      yAt={mkYAt([[0, R(46.45)], [R(52.18), R(64.75)], [R(66.28), R(77.65)]], [[R(35.42), R(40.55)], [R(94.64), CUTT]])}
+      yAt={mkYAt([[0, R(46.45)], [R(52.18), R(64.75)], [R(66.28), R(77.65)]], [[R(35.42), R(40.55)], [R(94.64), BEND]])}
       sfx={<>
         <Sfx at={R(42.90)} s="咚" /><Sfx at={R(44.00)} s="猛然一惊" /><Sfx at={R(14.76)} s="综艺悬疑不对劲" />
         <Sfx at={R(28.62)} s="扫光" /><Sfx at={R(29.64)} s="咚" /><Sfx at={R(33.78)} s="综艺咚" /><Sfx at={R(35.20)} s="综艺咚" />
@@ -62,8 +63,8 @@ export const SuyenC54: React.FC = () => {
       <ZodiacTiles at={R(68.38)} until={R(72.25)} y={830} size={190} items={[{ ch: '狗', zhi: '戌', at: R(68.38) }, { ch: '羊', zhi: '未', at: R(69.52), tag: '三刑', tagAt: R(71.20) }]} />
       <Checklist at={R(72.50)} until={R(77.65)} title="三刑 = " items={[{ text: '赔了夫人又折兵', at: R(73.06) }, { text: '没人欣赏', at: R(75.60) }, { text: '还要被骂', at: R(77.22) }]} />
       <HandCircle ep={ep} at={R(88.06)} until={R(90.75)} label="生肖鼠" labelAt={R(89.76)} />
-      <Cutaway ep={ep} src="ep1_yearchart" from={R(94.64)} to={CUTT} pipTopAt={IDX_OFF + 0.2} />
-      <Chip text="年 · 月 · 日 · 时" at={R(99.02)} until={CUTT} x={340} y={1250} tone="cream" size={62} />
+      <Cutaway ep={ep} src="ep1_yearchart" from={R(94.64)} to={BEND} pipTopAt={IDX_OFF + 0.2} />
+      <Chip text="年 · 月 · 日 · 时" at={R(99.02)} until={BEND} x={340} y={1250} tone="cream" size={62} />
     </EpShell>
   );
 };
