@@ -15,3 +15,8 @@
 - **恢复**：用 `suyen2027-caiyun-v1` 当 funnel slug 重建（`make_raw.py ... suyen2027-caiyun-v1 https://suyen2027-caiyun-ok.aigoal.ai suyen2027-caiyun`）再存回 lf1skpvx。
 - 没动：大会 funnel ix2g7pr9（1036 人）、bot 规则（「我要出席奇门战略大会」→ registered_webinar + 恭喜讯息 照常）。
 - 改动前的 funnel / bot 设定备份在 `backup-automation-2026-11-18/`。
+
+## PDF（2026-11-18 起）
+- PDF 不再在访客浏览器里画：`prerender12.js` 用真 Chrome 以网页宽度（1100px）把 12 个生肖各截一张长图（含该生肖全部出生年份卡），上传到 aigoal（挂在 thank-you 页 x6xiwtve，每页上限 20 张图），网址和切图位置在 `pdfz.json`。
+- 按钮只是把那张图切成「上段 + 访客那一年的卡 + 下段」包成一页 PDF。内容有改（文案 / 补图）就要重跑 `prerender12.js`、重传、`PDFZ=pdfz.json python3 make_raw.py ...` 重建。
+- 见证影片：raw 页不准嵌 iframe（frame-src 'none'），已改成 `<video>`（Bunny HLS + original mp4）。

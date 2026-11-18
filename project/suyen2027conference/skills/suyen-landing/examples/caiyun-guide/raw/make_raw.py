@@ -1,9 +1,10 @@
 """把 asis 版落地页（optin.html）变成 raw 版：加「输入出生日期 → 年柱地支」、自己处理报名弹窗和报名送出（raw 页没有平台钩子）。
 用法：python3 make_raw.py <optin.html> <lichun.json> <out.html> <funnel 页 slug> <报名成功网址>"""
-import json, sys
+import json, sys, os as _os_
 
 src, lcf, out, FUNNEL_SLUG, NEXT, OWN_SLUG = sys.argv[1:7]
 PDF_URLS = json.load(open(sys.argv[7])) if len(sys.argv) > 7 else {}
+PDFZ = json.load(open(_os_.environ['PDFZ'])) if _os_.environ.get('PDFZ') else {}
 h = open(src, encoding='utf8').read()
 lc = {int(k): v for k, v in json.load(open(lcf)).items() if 1929 <= int(k) <= 2028}
 
@@ -114,7 +115,7 @@ JS = '''<script>
 $('.dob select').forEach(agSelect);})();
 /* raw 版：没有平台钩子，这里自己做 ① 出生日期 → 年柱地支 ② 报名弹窗 ③ 报名送出（跟平台一样送去 /api/track，算在 funnel 那一页） */
 (function(){
-var PDF=%(pdf)s, OWN_SLUG=%(own)s, FUNNEL_SLUG=%(slug)s, NEXT=%(next)s, LICHUN=%(lc)s;
+var PDFZ=%(pdfz)s; var PDF=%(pdf)s, OWN_SLUG=%(own)s, FUNNEL_SLUG=%(slug)s, NEXT=%(next)s, LICHUN=%(lc)s;
 var STEMS='甲乙丙丁戊己庚辛壬癸', BRANCH='子丑寅卯辰巳午未申酉戌亥', ZOD='鼠牛虎兔龙蛇马羊猴鸡狗猪';
 function $(id){return document.getElementById(id);}
 /* ① 出生日期 → 年柱（立春为界，马来西亚时间） */
@@ -160,7 +161,7 @@ function loadH2C(){if(window.html2canvas)return Promise.resolve();var src=docume
   var s=document.createElement('script');s.textContent=src.textContent;document.head.appendChild(s);return window.html2canvas?Promise.resolve():Promise.reject(new Error('h2c load'));}
 /* 一页长 PDF：一张 JPEG + 可以点的链接（报名 WhatsApp） */
 function b64bytes(d){var bin=atob(d.split(',')[1]),u=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u;}
-function makePdf(jpg,iw,ih,W,H,links){
+function makePdf(jpg,iw,ih,W,H,links,body){
   var parts=[],len=0,offs=[];function add(x){if(typeof x==='string'){var u=new Uint8Array(x.length);for(var i=0;i<x.length;i++)u[i]=x.charCodeAt(i)&255;x=u;}parts.push(x);len+=x.length;}
   function obj(n,body,stream){offs[n]=len;add(n+' 0 obj\\n'+body);if(stream){add('\\nstream\\n');add(stream);add('\\nendstream');}add('\\nendobj\\n');}
   var nA=links.length,an=[];for(var k=0;k<nA;k++)an.push((6+k)+' 0 R');
@@ -168,7 +169,7 @@ function makePdf(jpg,iw,ih,W,H,links){
   obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
   obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
   obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+W+' '+H+'] /Resources << /XObject << /Im0 5 0 R >> >> /Contents 4 0 R'+(nA?' /Annots ['+an.join(' ')+']':'')+' >>');
-  var cs='q '+W+' 0 0 '+H+' 0 0 cm /Im0 Do Q';obj(4,'<< /Length '+cs.length+' >>',cs);
+  var cs=body||('q '+W+' 0 0 '+H+' 0 0 cm /Im0 Do Q');obj(4,'<< /Length '+cs.length+' >>',cs);
   obj(5,'<< /Type /XObject /Subtype /Image /Width '+iw+' /Height '+ih+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+jpg.length+' >>',jpg);
   links.forEach(function(l,k){obj(6+k,'<< /Type /Annot /Subtype /Link /Border [0 0 0] /Rect ['+l.r.join(' ')+'] /A << /S /URI /URI ('+l.u.replace(/[()\\\\]/g,'\\\\$&')+') >> >>');});
   var n=6+nA,x=len,xr='xref\\n0 '+n+'\\n0000000000 65535 f \\n';for(var i=1;i<n;i++)xr+=('000000000'+offs[i]).slice(-10)+' 00000 n \\n';
@@ -184,28 +185,26 @@ function snap(rd){var c=rd.cloneNode(true),a=[rd].concat([].slice.call(rd.queryS
   c.style.width='100%%';c.style.maxWidth='none';c.style.margin='0';c.style.background='#FBF4E8';return c;}
 function waitImgs(rd,ms){var ps=[].slice.call(rd.querySelectorAll('img')).map(function(i){i.loading='eager';return i.complete&&i.naturalWidth?null:new Promise(function(ok){i.addEventListener('load',ok,{once:true});i.addEventListener('error',ok,{once:true});});});
   return Promise.race([Promise.all(ps),new Promise(function(ok){setTimeout(ok,ms);})]);}
-function prewarm(zi){try{loadH2C();}catch(e){}var rd=document.querySelector('.rd'+zi);if(rd)waitImgs(rd,60000);}
+function prewarm(zi){var g=PDFZ[zi];if(g){try{fetch(g.u);}catch(e){}}}
 /* 下载按钮放在每一份指南最后（大会卡下面） */
 document.querySelectorAll('.rd').forEach(function(rd){var m=/\\brd(\\d+)\\b/.exec(rd.className);if(!m)return;var zi=+m[1],cf=rd.querySelectorAll('.conf');cf=cf[cf.length-1];if(!cf)return;
   cf.insertAdjacentHTML('afterend','<div class="pdfwrap"><button type="button" class="pdfbtn" data-zi="'+zi+'">下载属'+ZOD[zi]+'的 2027 求财指南 PDF ↓</button><p>存进手机，做决定前拿出来看一眼。</p></div>');});
+function pdfYear(zi){var ys=document.querySelector('input[id^="y'+zi+'_"]:checked');return ys?ys.id.split('_')[1]:'';}
 function savePdf(btn){
-  var zi=+btn.getAttribute('data-zi'), rd=document.querySelector('.rd'+zi); if(!rd)return;
-  var t=btn.textContent; btn.disabled=true; btn.textContent='正在生成 PDF…';
-  var imgs=[waitImgs(rd,2500)];
+  var zi=+btn.getAttribute('data-zi'),g=PDFZ[zi]; if(!g){alert('PDF 暂时打不开，可以直接截图保存。');return;}
+  var yr=pdfYear(zi),card=g.cards[yr]||g.cards[Object.keys(g.cards)[0]];
+  var t=btn.textContent; btn.disabled=true; btn.textContent='正在下载 PDF…';
   try{if(window.fbq)fbq('track','ViewContent',{content_name:'pdf_'+ZOD[zi]});}catch(e){}
   try{post({event:'cta',cta:'pdf-download',source:'landing:'+OWN_SLUG});}catch(e){}
-  Promise.all([loadH2C()].concat(imgs)).then(function(){
-    var PW=390,cl=snap(rd),box=document.createElement('div');box.id='pdfbox';[].forEach.call(cl.querySelectorAll('.conf,.ctab,.nx,.pdfwrap'),function(e){e.remove();});[].forEach.call(cl.querySelectorAll('.art .animal'),function(e){e.setAttribute('width','56');e.setAttribute('height','56');e.style.width=e.style.height='56px';});
-    box.style.cssText='position:absolute;left:-10000px;top:0;padding:12px 0 20px;background:#FBF4E8;width:'+PW+'px';box.appendChild(cl);document.body.appendChild(box);
-    var bh=box.offsetHeight,bw=box.offsetWidth,sc=Math.min(1.5,Math.sqrt(7e6/(bw*bh))),br=box.getBoundingClientRect();
-    var links=[],ch=bh;
-    return html2canvas(box,{scale:sc,useCORS:true,backgroundColor:'#FBF4E8',logging:false,scrollX:0,scrollY:-window.scrollY,
-        imageTimeout:4000,windowWidth:390,windowHeight:844,onclone:function(doc){[].forEach.call(doc.querySelectorAll('style'),function(st){st.textContent=st.textContent.replace(/@media\\s*\\(\\s*min-width\\s*:\\s*\\d+px\\s*\\)/g,'@media not all');});var cb=doc.getElementById('pdfbox');if(!cb)return;var br=cb.getBoundingClientRect();ch=br.height;links=[].slice.call(cb.querySelectorAll('a[href^="http"]')).map(function(a){var r=a.getBoundingClientRect(),x=r.left-br.left,y=r.top-br.top;return {u:a.href,r:[x*.75,(ch-y-r.height)*.75,(x+r.width)*.75,(ch-y)*.75].map(function(v){return v.toFixed(1);})};});},ignoreElements:function(el){if(el.classList&&(el.classList.contains('nx')||el.classList.contains('pdfwrap')||el.classList.contains('conf')||el.classList.contains('ctab')))return true;var tg=el.tagName;if(tg==='SCRIPT'||tg==='IFRAME'||tg==='VIDEO')return true;if(tg==='HEAD'||tg==='STYLE'||tg==='LINK'||tg==='META'||tg==='TITLE'||el.parentNode===document.head)return false;return !(box.contains(el)||el.contains(box));}})
-      .then(function(cv){document.body.removeChild(box);
-        var blob=makePdf(b64bytes(cv.toDataURL('image/jpeg',0.85)),cv.width,cv.height,(cv.width/sc*.75).toFixed(1),(cv.height/sc*.75).toFixed(1),links);
-        var u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='2027生肖求财指南-属'+ZOD[zi]+'-林舒苑.pdf';document.body.appendChild(a);a.click();
-        setTimeout(function(){URL.revokeObjectURL(u);a.remove();},4000);},function(e){if(box.parentNode)document.body.removeChild(box);throw e;});
-  }).then(function(){btn.disabled=false;btn.textContent=t;},function(er){try{console.log('PDFERR',er&&(er.stack||er.message||er))}catch(_){}btn.disabled=false;btn.textContent=t;alert('PDF 没生成成功，可以直接截图保存，或稍后再试一次。');});
+  fetch(g.u).then(function(r){if(!r.ok)throw new Error('img '+r.status);return r.arrayBuffer();}).then(function(buf){
+    var k=0.75,sl=[[0,g.top],card,[g.bottom,g.H]],W=g.W*k,Hi=g.H*k,Ht=0,yd=0,body='';
+    sl.forEach(function(x){Ht+=(x[1]-x[0])*k;});
+    sl.forEach(function(x){var hs=(x[1]-x[0])*k,yb=Ht-(yd+hs),ty=yb-Hi+x[1]*k;
+      body+='q 0 '+yb.toFixed(2)+' '+W.toFixed(2)+' '+hs.toFixed(2)+' re W n '+W.toFixed(2)+' 0 0 '+Hi.toFixed(2)+' 0 '+ty.toFixed(2)+' cm /Im0 Do Q ';yd+=hs;});
+    var blob=makePdf(new Uint8Array(buf),g.w,g.h,W.toFixed(2),Ht.toFixed(2),[],body);
+    var u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='2027生肖求财指南-属'+ZOD[zi]+'-林舒苑.pdf';document.body.appendChild(a);a.click();
+    setTimeout(function(){URL.revokeObjectURL(u);a.remove();},4000);
+  }).then(function(){btn.disabled=false;btn.textContent=t;},function(er){try{console.log('PDFERR',er&&(er.stack||er.message||er))}catch(_){}btn.disabled=false;btn.textContent=t;alert('PDF 没下载成功，请稍后再试一次。');});
 }
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.pdfbtn[data-zi]');if(b){e.preventDefault();savePdf(b);}});
 
@@ -241,11 +240,19 @@ document.querySelectorAll('form[data-aigoal-lead]').forEach(function(f){f.addEve
 });});
 })();
 </script>'''
-JS = JS % {'pdf': json.dumps(PDF_URLS), 'own': json.dumps(OWN_SLUG), 'slug': json.dumps(FUNNEL_SLUG), 'next': json.dumps(NEXT), 'lc': json.dumps({y: v for y, v in lc.items()})}
+JS = JS % {'pdfz': json.dumps(PDFZ), 'pdf': json.dumps(PDF_URLS), 'own': json.dumps(OWN_SLUG), 'slug': json.dumps(FUNNEL_SLUG), 'next': json.dumps(NEXT), 'lc': json.dumps({y: v for y, v in lc.items()})}
 assert h.count('</body>') == 1
 h = h.replace('</body>', JS + '\n</body>', 1)
 _H2C = open(_os.path.join(_HERE, 'html2canvas.min.js'), encoding='utf8').read()
 assert '</script' not in _H2C
-h = h.replace('</body>', '<script type="text/plain" id="h2c-src">' + _H2C + '</script>\n</body>', 1)
+# html2canvas no longer embedded: PDFs are pre-rendered images
+import re as _re
+def _vid(m):
+    vid = m.group(1); b = 'https://vz-1500311e-90c.b-cdn.net/' + vid
+    return ('<video controls playsinline preload="none" poster="%s/thumbnail.jpg" title="学员见证影片" '
+            'style="position:absolute;inset:0;width:100%%;height:100%%;border:0;background:#000;object-fit:cover">'
+            '<source src="%s/playlist.m3u8" type="application/vnd.apple.mpegurl"><source src="%s/original" type="video/mp4"></video>') % (b, b, b)
+h, _nv = _re.subn(r'<iframe src="https://iframe\.mediadelivery\.net/embed/790175/([0-9a-f-]+)[^"]*"[^>]*>\s*</iframe>', _vid, h)
+print('videos ->', _nv)
 open(out, 'w', encoding='utf8').write(h)
 print('raw page', len(h))
