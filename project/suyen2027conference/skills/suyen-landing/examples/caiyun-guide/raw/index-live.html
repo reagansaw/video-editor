@@ -475,6 +475,7 @@ body:has(.modal:target),body:has(.modal.ag-open){overflow:hidden}
 .dob select{margin-top:6px}
 .yhint{font-size:13px!important;line-height:1.6;color:var(--muted);margin:-2px 0 0}
 .dob .btn:disabled{background:#D9C9CB;box-shadow:none;cursor:not-allowed;color:#fff}
+.pdfwrap{margin:28px 0 8px;text-align:center}.pdfwrap p{margin:10px 0 0;font-size:14px;color:#7A5A60}.pdfwrap .pdfbtn{width:100%;max-width:420px;margin:0;background:#fff;border:2px solid #B8324A!important;color:#B8324A}.pdfbtn:disabled{opacity:.7;cursor:wait}
 .pdfbtn{border:0;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:12px;padding:0 22px;border-radius:999px;background:#EFDFB3;color:#3B0F18;font-weight:900;font-size:16px;text-decoration:none}
 .fine2{font-size:12px!important;color:var(--muted);text-align:center;margin-top:8px}
 #dobres{display:none}
@@ -1801,8 +1802,9 @@ function go(ev){
   var yr=$('y'+zi+'_'+y); if(yr) yr.checked=true;
   $('dobres-t').innerHTML='你是 <b>'+y+' 年</b>出生，生肖 <b>属'+ZOD[zi]+'</b>（'+pill+'年）。'
     +'<small>下面已经帮你打开属'+ZOD[zi]+'的 2027 求财指南。</small>'
-    +'<button type="button" class="pdfbtn" data-zi="'+zi+'">下载属'+ZOD[zi]+'的 2027 PDF 指南 ↓</button>';
+;
   $('dobres').className='on';
+  setTimeout(function(){prewarm(zi);},1200);
   var eid='dob.'+Date.now().toString(36)+'.'+Math.random().toString(36).slice(2,8);
   try{post({event:'register',source:'landing:'+OWN_SLUG,name:v.nm,email:v.em,phone:v.ph,event_id:eid,tags:['registered','lead_magnet_2027_十二生肖'],
     fields:[{k:'birth_year',l:'出生年份',v:String(y)},{k:'dob_pillar',l:'生肖',v:'属'+ZOD[zi]+'（'+pill+'年）'}],
@@ -1840,23 +1842,28 @@ function snap(rd){var c=rd.cloneNode(true),a=[rd].concat([].slice.call(rd.queryS
     if(el.tagName==='INPUT'&&el.checked)t.setAttribute('checked','');
     if(el.tagName==='IMG')t.removeAttribute('loading');});
   c.style.width=Math.min(rd.offsetWidth,480)+'px';c.style.background='#FBF4E8';return c;}
+function waitImgs(rd,ms){var ps=[].slice.call(rd.querySelectorAll('img')).map(function(i){i.loading='eager';return i.complete&&i.naturalWidth?null:new Promise(function(ok){i.addEventListener('load',ok,{once:true});i.addEventListener('error',ok,{once:true});});});
+  return Promise.race([Promise.all(ps),new Promise(function(ok){setTimeout(ok,ms);})]);}
+function prewarm(zi){try{loadH2C();}catch(e){}var rd=document.querySelector('.rd'+zi);if(rd)waitImgs(rd,60000);}
+/* 下载按钮放在每一份指南最后（大会卡下面） */
+document.querySelectorAll('.rd').forEach(function(rd){var m=/\brd(\d+)\b/.exec(rd.className);if(!m)return;var zi=+m[1],cf=rd.querySelectorAll('.conf');cf=cf[cf.length-1];if(!cf)return;
+  cf.insertAdjacentHTML('afterend','<div class="pdfwrap"><button type="button" class="pdfbtn" data-zi="'+zi+'">下载属'+ZOD[zi]+'的 2027 求财指南 PDF ↓</button><p>存进手机，做决定前拿出来看一眼。</p></div>');});
 function savePdf(btn){
   var zi=+btn.getAttribute('data-zi'), rd=document.querySelector('.rd'+zi); if(!rd)return;
   var t=btn.textContent; btn.disabled=true; btn.textContent='正在生成 PDF…';
-  rd.querySelectorAll('img').forEach(function(i){i.loading='eager';});
-  var imgs=[].slice.call(rd.querySelectorAll('img')).map(function(i){return i.decode?i.decode().catch(function(){}):null;});
+  var imgs=[waitImgs(rd,2500)];
   try{if(window.fbq)fbq('track','ViewContent',{content_name:'pdf_'+ZOD[zi]});}catch(e){}
   try{post({event:'cta',cta:'pdf-download',source:'landing:'+OWN_SLUG});}catch(e){}
   Promise.all([loadH2C()].concat(imgs)).then(function(){
     var PW=Math.min(rd.offsetWidth,480),cl=snap(rd),box=document.createElement('div');
     box.style.cssText='position:absolute;left:-10000px;top:0;padding:16px 12px;background:#FBF4E8;width:'+PW+'px';box.appendChild(cl);document.body.appendChild(box);
-    var bh=box.offsetHeight,bw=box.offsetWidth,sc=Math.min(2,Math.sqrt(14e6/(bw*bh))),br=box.getBoundingClientRect();
+    var bh=box.offsetHeight,bw=box.offsetWidth,sc=Math.min(1.5,Math.sqrt(7e6/(bw*bh))),br=box.getBoundingClientRect();
     var links=[].slice.call(cl.querySelectorAll('a[href^="http"]')).map(function(a){var r=a.getBoundingClientRect(),x=r.left-br.left,y=r.top-br.top;
       return {u:a.href,r:[x*.75,(bh-y-r.height)*.75,(x+r.width)*.75,(bh-y)*.75].map(function(v){return v.toFixed(1);})};});
     return html2canvas(box,{scale:sc,useCORS:true,backgroundColor:'#FBF4E8',logging:false,scrollX:0,scrollY:-window.scrollY,
-        ignoreElements:function(el){return el.classList&&(el.classList.contains('nx')||el.classList.contains('pdfbtn'));}})
+        imageTimeout:4000,ignoreElements:function(el){if(el.classList&&(el.classList.contains('nx')||el.classList.contains('pdfwrap')))return true;var tg=el.tagName;if(tg==='SCRIPT'||tg==='IFRAME'||tg==='VIDEO')return true;if(tg==='HEAD'||tg==='STYLE'||tg==='LINK'||tg==='META'||tg==='TITLE'||el.parentNode===document.head)return false;return !(box.contains(el)||el.contains(box));}})
       .then(function(cv){document.body.removeChild(box);
-        var blob=makePdf(b64bytes(cv.toDataURL('image/jpeg',0.88)),cv.width,cv.height,(bw*.75).toFixed(1),(bh*.75).toFixed(1),links);
+        var blob=makePdf(b64bytes(cv.toDataURL('image/jpeg',0.85)),cv.width,cv.height,(bw*.75).toFixed(1),(bh*.75).toFixed(1),links);
         var u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='2027生肖求财指南-属'+ZOD[zi]+'-林舒苑.pdf';document.body.appendChild(a);a.click();
         setTimeout(function(){URL.revokeObjectURL(u);a.remove();},4000);},function(e){if(box.parentNode)document.body.removeChild(box);throw e;});
   }).then(function(){btn.disabled=false;btn.textContent=t;},function(er){try{console.log('PDFERR',er&&(er.stack||er.message||er))}catch(_){}btn.disabled=false;btn.textContent=t;alert('PDF 没生成成功，可以直接截图保存，或稍后再试一次。');});
