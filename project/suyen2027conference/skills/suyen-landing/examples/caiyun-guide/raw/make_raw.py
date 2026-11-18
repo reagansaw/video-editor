@@ -176,11 +176,12 @@ function makePdf(jpg,iw,ih,W,H,links){
   return new Blob(parts,{type:'application/pdf'});}
 /* 指南是靠页面上的 radio 显示的，复制出去规则就失效 → 把每一格当下的显示状态写死在复制品上 */
 function snap(rd){var c=rd.cloneNode(true),a=[rd].concat([].slice.call(rd.querySelectorAll('*'))),b=[c].concat([].slice.call(c.querySelectorAll('*')));
-  a.forEach(function(el,i){var cs=getComputedStyle(el),t=b[i],bg=cs.backgroundImage;t.style.display=cs.display;if(bg!=='none'&&/none/.test(bg))t.style.backgroundImage=bg.replace(/,\\s*none/g,'');
+  a.forEach(function(el,i){var cs=getComputedStyle(el),t=b[i],bg=cs.backgroundImage,cn=typeof el.className==='string'?el.className:'';if(i===0||/(^|\\s)y[cd]\\d/.test(cn))t.style.display=cs.display;if(bg!=='none'&&/none/.test(bg))t.style.backgroundImage=bg.replace(/,\\s*none/g,'');
+    if(el.tagName==='SMALL'&&el.parentNode.tagName==='LABEL')t.style.color=cs.color;
     if(el.tagName==='LABEL'){t.style.background=cs.backgroundImage!=='none'?cs.backgroundImage:cs.backgroundColor;t.style.color=cs.color;t.style.borderColor=cs.borderColor;}
     if(el.tagName==='INPUT'&&el.checked)t.setAttribute('checked','');
     if(el.tagName==='IMG')t.removeAttribute('loading');});
-  c.style.width=Math.min(rd.offsetWidth,480)+'px';c.style.background='#FBF4E8';return c;}
+  c.style.width='100%%';c.style.maxWidth='none';c.style.margin='0';c.style.background='#FBF4E8';return c;}
 function waitImgs(rd,ms){var ps=[].slice.call(rd.querySelectorAll('img')).map(function(i){i.loading='eager';return i.complete&&i.naturalWidth?null:new Promise(function(ok){i.addEventListener('load',ok,{once:true});i.addEventListener('error',ok,{once:true});});});
   return Promise.race([Promise.all(ps),new Promise(function(ok){setTimeout(ok,ms);})]);}
 function prewarm(zi){try{loadH2C();}catch(e){}var rd=document.querySelector('.rd'+zi);if(rd)waitImgs(rd,60000);}
@@ -194,13 +195,13 @@ function savePdf(btn){
   try{if(window.fbq)fbq('track','ViewContent',{content_name:'pdf_'+ZOD[zi]});}catch(e){}
   try{post({event:'cta',cta:'pdf-download',source:'landing:'+OWN_SLUG});}catch(e){}
   Promise.all([loadH2C()].concat(imgs)).then(function(){
-    var PW=Math.min(rd.offsetWidth,480),cl=snap(rd),box=document.createElement('div');
+    var PW=400,cl=snap(rd),box=document.createElement('div');
     box.style.cssText='position:absolute;left:-10000px;top:0;padding:16px 12px;background:#FBF4E8;width:'+PW+'px';box.appendChild(cl);document.body.appendChild(box);
     var bh=box.offsetHeight,bw=box.offsetWidth,sc=Math.min(1.5,Math.sqrt(7e6/(bw*bh))),br=box.getBoundingClientRect();
     var links=[].slice.call(cl.querySelectorAll('a[href^="http"]')).map(function(a){var r=a.getBoundingClientRect(),x=r.left-br.left,y=r.top-br.top;
       return {u:a.href,r:[x*.75,(bh-y-r.height)*.75,(x+r.width)*.75,(bh-y)*.75].map(function(v){return v.toFixed(1);})};});
     return html2canvas(box,{scale:sc,useCORS:true,backgroundColor:'#FBF4E8',logging:false,scrollX:0,scrollY:-window.scrollY,
-        imageTimeout:4000,ignoreElements:function(el){if(el.classList&&(el.classList.contains('nx')||el.classList.contains('pdfwrap')))return true;var tg=el.tagName;if(tg==='SCRIPT'||tg==='IFRAME'||tg==='VIDEO')return true;if(tg==='HEAD'||tg==='STYLE'||tg==='LINK'||tg==='META'||tg==='TITLE'||el.parentNode===document.head)return false;return !(box.contains(el)||el.contains(box));}})
+        imageTimeout:4000,windowWidth:424,windowHeight:900,ignoreElements:function(el){if(el.classList&&(el.classList.contains('nx')||el.classList.contains('pdfwrap')))return true;var tg=el.tagName;if(tg==='SCRIPT'||tg==='IFRAME'||tg==='VIDEO')return true;if(tg==='HEAD'||tg==='STYLE'||tg==='LINK'||tg==='META'||tg==='TITLE'||el.parentNode===document.head)return false;return !(box.contains(el)||el.contains(box));}})
       .then(function(cv){document.body.removeChild(box);
         var blob=makePdf(b64bytes(cv.toDataURL('image/jpeg',0.85)),cv.width,cv.height,(bw*.75).toFixed(1),(bh*.75).toFixed(1),links);
         var u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='2027生肖求财指南-属'+ZOD[zi]+'-林舒苑.pdf';document.body.appendChild(a);a.click();
