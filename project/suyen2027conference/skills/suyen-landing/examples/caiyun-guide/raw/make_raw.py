@@ -30,7 +30,7 @@ CSS = '''
 .dob select{margin-top:6px}
 .yhint{font-size:13px!important;line-height:1.6;color:var(--muted);margin:-2px 0 0}
 .dob .btn:disabled{background:#D9C9CB;box-shadow:none;cursor:not-allowed;color:#fff}
-.pdfbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:12px;padding:0 22px;border-radius:999px;background:#EFDFB3;color:#3B0F18;font-weight:900;font-size:16px;text-decoration:none}
+.pdfbtn{border:0;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:12px;padding:0 22px;border-radius:999px;background:#EFDFB3;color:#3B0F18;font-weight:900;font-size:16px;text-decoration:none}
 .fine2{font-size:12px!important;color:var(--muted);text-align:center;margin-top:8px}
 #dobres{display:none}
 .zr:checked~#dobres.on{display:block}
@@ -140,7 +140,7 @@ function go(ev){
   var yr=$('y'+zi+'_'+y); if(yr) yr.checked=true;
   $('dobres-t').innerHTML='你是 <b>'+y+' 年</b>出生，生肖 <b>属'+ZOD[zi]+'</b>（'+pill+'年）。'
     +'<small>下面已经帮你打开属'+ZOD[zi]+'的 2027 求财指南。如果你是 1 月到 2 月初（立春前）出生，生肖算前一年，可以回上面改选。</small>'
-    +(PDF[zi]?'<a class="pdfbtn" href="'+PDF[zi]+'" download target="_blank" rel="noopener">下载属'+ZOD[zi]+'的 2027 PDF 指南 ↓</a>':'');
+    +'<button type="button" class="pdfbtn" data-zi="'+zi+'">下载属'+ZOD[zi]+'的 2027 PDF 指南 ↓</button>';
   $('dobres').className='on';
   var eid='dob.'+Date.now().toString(36)+'.'+Math.random().toString(36).slice(2,8);
   try{post({event:'register',source:'landing:'+OWN_SLUG,name:v.nm,email:v.em,phone:v.ph,event_id:eid,tags:['registered','lead_magnet_2027_十二生肖'],
@@ -152,6 +152,55 @@ function go(ev){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 $('dobform').addEventListener('submit',go);
+/* 下载 PDF：把这位访客自己那一份指南（.rdN）在浏览器里转成 PDF，不用另外放档案 */
+/* aigoal 页面只准跑页面里的 script（CSP），所以 html2canvas 放在页底 type=text/plain 不执行，按下载才装进来 */
+function loadH2C(){if(window.html2canvas)return Promise.resolve();var src=document.getElementById('h2c-src');if(!src)return Promise.reject(new Error('no h2c'));
+  var s=document.createElement('script');s.textContent=src.textContent;document.head.appendChild(s);return window.html2canvas?Promise.resolve():Promise.reject(new Error('h2c load'));}
+/* 一页长 PDF：一张 JPEG + 可以点的链接（报名 WhatsApp） */
+function b64bytes(d){var bin=atob(d.split(',')[1]),u=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u;}
+function makePdf(jpg,iw,ih,W,H,links){
+  var parts=[],len=0,offs=[];function add(x){if(typeof x==='string'){var u=new Uint8Array(x.length);for(var i=0;i<x.length;i++)u[i]=x.charCodeAt(i)&255;x=u;}parts.push(x);len+=x.length;}
+  function obj(n,body,stream){offs[n]=len;add(n+' 0 obj\\n'+body);if(stream){add('\\nstream\\n');add(stream);add('\\nendstream');}add('\\nendobj\\n');}
+  var nA=links.length,an=[];for(var k=0;k<nA;k++)an.push((6+k)+' 0 R');
+  add('%%PDF-1.4\\n');
+  obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
+  obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+  obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+W+' '+H+'] /Resources << /XObject << /Im0 5 0 R >> >> /Contents 4 0 R'+(nA?' /Annots ['+an.join(' ')+']':'')+' >>');
+  var cs='q '+W+' 0 0 '+H+' 0 0 cm /Im0 Do Q';obj(4,'<< /Length '+cs.length+' >>',cs);
+  obj(5,'<< /Type /XObject /Subtype /Image /Width '+iw+' /Height '+ih+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+jpg.length+' >>',jpg);
+  links.forEach(function(l,k){obj(6+k,'<< /Type /Annot /Subtype /Link /Border [0 0 0] /Rect ['+l.r.join(' ')+'] /A << /S /URI /URI ('+l.u.replace(/[()\\\\]/g,'\\\\$&')+') >> >>');});
+  var n=6+nA,x=len,xr='xref\\n0 '+n+'\\n0000000000 65535 f \\n';for(var i=1;i<n;i++)xr+=('000000000'+offs[i]).slice(-10)+' 00000 n \\n';
+  add(xr+'trailer\\n<< /Size '+n+' /Root 1 0 R >>\\nstartxref\\n'+x+'\\n%%%%EOF');
+  return new Blob(parts,{type:'application/pdf'});}
+/* 指南是靠页面上的 radio 显示的，复制出去规则就失效 → 把每一格当下的显示状态写死在复制品上 */
+function snap(rd){var c=rd.cloneNode(true),a=[rd].concat([].slice.call(rd.querySelectorAll('*'))),b=[c].concat([].slice.call(c.querySelectorAll('*')));
+  a.forEach(function(el,i){var cs=getComputedStyle(el),t=b[i],bg=cs.backgroundImage;t.style.display=cs.display;if(bg!=='none'&&/none/.test(bg))t.style.backgroundImage=bg.replace(/,\\s*none/g,'');
+    if(el.tagName==='LABEL'){t.style.background=cs.backgroundImage!=='none'?cs.backgroundImage:cs.backgroundColor;t.style.color=cs.color;t.style.borderColor=cs.borderColor;}
+    if(el.tagName==='INPUT'&&el.checked)t.setAttribute('checked','');
+    if(el.tagName==='IMG')t.removeAttribute('loading');});
+  c.style.width=Math.min(rd.offsetWidth,480)+'px';c.style.background='#FBF4E8';return c;}
+function savePdf(btn){
+  var zi=+btn.getAttribute('data-zi'), rd=document.querySelector('.rd'+zi); if(!rd)return;
+  var t=btn.textContent; btn.disabled=true; btn.textContent='正在生成 PDF…';
+  rd.querySelectorAll('img').forEach(function(i){i.loading='eager';});
+  var imgs=[].slice.call(rd.querySelectorAll('img')).map(function(i){return i.decode?i.decode().catch(function(){}):null;});
+  try{if(window.fbq)fbq('track','ViewContent',{content_name:'pdf_'+ZOD[zi]});}catch(e){}
+  try{post({event:'cta',cta:'pdf-download',source:'landing:'+OWN_SLUG});}catch(e){}
+  Promise.all([loadH2C()].concat(imgs)).then(function(){
+    var PW=Math.min(rd.offsetWidth,480),cl=snap(rd),box=document.createElement('div');
+    box.style.cssText='position:absolute;left:-10000px;top:0;padding:16px 12px;background:#FBF4E8;width:'+PW+'px';box.appendChild(cl);document.body.appendChild(box);
+    var bh=box.offsetHeight,bw=box.offsetWidth,sc=Math.min(2,Math.sqrt(14e6/(bw*bh))),br=box.getBoundingClientRect();
+    var links=[].slice.call(cl.querySelectorAll('a[href^="http"]')).map(function(a){var r=a.getBoundingClientRect(),x=r.left-br.left,y=r.top-br.top;
+      return {u:a.href,r:[x*.75,(bh-y-r.height)*.75,(x+r.width)*.75,(bh-y)*.75].map(function(v){return v.toFixed(1);})};});
+    return html2canvas(box,{scale:sc,useCORS:true,backgroundColor:'#FBF4E8',logging:false,scrollX:0,scrollY:-window.scrollY,
+        ignoreElements:function(el){return el.classList&&(el.classList.contains('nx')||el.classList.contains('pdfbtn'));}})
+      .then(function(cv){document.body.removeChild(box);
+        var blob=makePdf(b64bytes(cv.toDataURL('image/jpeg',0.88)),cv.width,cv.height,(bw*.75).toFixed(1),(bh*.75).toFixed(1),links);
+        var u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='2027生肖求财指南-属'+ZOD[zi]+'-林舒苑.pdf';document.body.appendChild(a);a.click();
+        setTimeout(function(){URL.revokeObjectURL(u);a.remove();},4000);},function(e){if(box.parentNode)document.body.removeChild(box);throw e;});
+  }).then(function(){btn.disabled=false;btn.textContent=t;},function(er){try{console.log('PDFERR',er&&(er.stack||er.message||er))}catch(_){}btn.disabled=false;btn.textContent=t;alert('PDF 没生成成功，可以直接截图保存，或稍后再试一次。');});
+}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.pdfbtn[data-zi]');if(b){e.preventDefault();savePdf(b);}});
 
 /* 立即报名 → WhatsApp：记一下点击（Meta Contact 事件 + aigoal 统计） */
 document.querySelectorAll('a[data-cta="whatsapp-attend"]').forEach(function(a){a.addEventListener('click',function(){try{if(window.fbq)fbq('track','Contact');}catch(e){}try{post({event:'cta',cta:'whatsapp-attend'});}catch(e){}});});
@@ -188,5 +237,8 @@ document.querySelectorAll('form[data-aigoal-lead]').forEach(function(f){f.addEve
 JS = JS % {'pdf': json.dumps(PDF_URLS), 'own': json.dumps(OWN_SLUG), 'slug': json.dumps(FUNNEL_SLUG), 'next': json.dumps(NEXT), 'lc': json.dumps({y: v for y, v in lc.items()})}
 assert h.count('</body>') == 1
 h = h.replace('</body>', JS + '\n</body>', 1)
+_H2C = open(_os.path.join(_HERE, 'html2canvas.min.js'), encoding='utf8').read()
+assert '</script' not in _H2C
+h = h.replace('</body>', '<script type="text/plain" id="h2c-src">' + _H2C + '</script>\n</body>', 1)
 open(out, 'w', encoding='utf8').write(h)
 print('raw page', len(h))
