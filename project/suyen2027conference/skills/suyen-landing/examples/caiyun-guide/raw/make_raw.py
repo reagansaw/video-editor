@@ -40,7 +40,7 @@ MONTHS = ''.join(f'<option value="{m}">{m} 月</option>' for m in range(1, 13))
 DAYS = ''.join(f'<option value="{d}">{d} 日</option>' for d in range(1, 32))
 DOB = f'''<form class="dob" id="dobform" novalidate>
       <b>输入你的资料，马上看</b>
-      <p>用你的出生日期找出你的年柱和生肖（以立春为界，不是 1 月 1 日），直接打开你的 2027 求财指南。</p>
+      <p>用你的出生日期找出你的生肖，直接打开你的 2027 求财指南。</p>
       <div class="dob-row">
         <label for="dob-name">称呼<input id="dob-name" name="name" autocomplete="given-name" placeholder="例如：Amy"></label>
         <label for="dob-email">Email<input id="dob-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com"></label>
