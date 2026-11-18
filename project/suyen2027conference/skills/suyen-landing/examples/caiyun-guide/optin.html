@@ -188,8 +188,12 @@ label.back{cursor:pointer}
 .prof .hl{font-size:17px;font-weight:700;line-height:1.7;margin-top:14px;color:#FFFAEB}
 .kw{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
 .kw span{font-size:13px;font-weight:800;letter-spacing:1px;color:var(--crimson-900);background:var(--beige);padding:5px 12px;border-radius:999px}
-.rank{display:flex;align-items:baseline;gap:10px;margin-top:18px;font-size:14px;color:rgba(255,250,235,.8)}
-.rank b{font:900 56px/1 var(--latin);color:var(--beige);letter-spacing:-2px}
+.rank{margin:14px 0 6px;padding-bottom:16px;border-bottom:1px solid rgba(255,250,235,.22)}
+.rank .rl{display:block;font-size:18px;font-weight:900;letter-spacing:1px;color:#FFFAEB}
+.rank .rn{display:flex;align-items:baseline;gap:12px;margin-top:4px}
+.rank .rn span{font-size:26px;font-weight:900;color:rgba(255,250,235,.85)}
+.rank b{font:900 132px/.95 var(--latin);color:var(--beige);letter-spacing:-5px}
+@media(min-width:900px){.rank .rl{font-size:22px}.rank b{font-size:180px;letter-spacing:-7px}.rank .rn span{font-size:34px}}
 .art{order:-1;display:grid;justify-items:start;margin-bottom:-8px}
 .art .animal{width:56px;height:56px;color:var(--beige);opacity:.9}
 .art span{display:none}
@@ -485,10 +489,10 @@ body:has(.modal:target),body:has(.modal.ag-open){overflow:hidden}
   <div class="prof">
     <div>
       <p class="ey">2027 · 你的生肖求财指南</p>
+      <div class="rank"><span class="rl">《运势大破解》2027 年度排名</span><div class="rn"><b>08</b><span>/ 12 生肖</span></div></div>
       <h1><span class="g">属鼠的你，</span><span class="g"><em>人缘里</em></span><span class="g"><em>找机会。</em></span></h1>
       <p class="hl">人缘带来机会，赚到的钱怎样留得住？</p>
       <p class="kw"><span>人缘旺</span><span>财易漏</span><span>守边界</span></p>
-      <p class="rank"><b>08</b><span>/ 12 生肖 · 《运势大破解》年度排名</span></p>
     </div>
     <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="27" cy="27" r="13"/><circle cx="69" cy="27" r="13"/><path d="M24 39Q24 24 48 27Q72 24 72 40L65 68Q48 87 31 68Z"/><path d="M39 62L48 70L57 62M18 53L34 57M16 64L33 63M62 57L78 53M63 64L80 65"/><circle cx="36" cy="47" r="2"/><circle cx="60" cy="47" r="2"/></svg><span>RAT · 2027</span></div>
   </div>
@@ -575,10 +579,10 @@ body:has(.modal:target),body:has(.modal.ag-open){overflow:hidden}
   <div class="prof">
     <div>
       <p class="ey">2027 · 你的生肖求财指南</p>
+      <div class="rank"><span class="rl">《运势大破解》2027 年度排名</span><div class="rn"><b>12</b><span>/ 12 生肖</span></div></div>
       <h1><span class="g">属牛的你，</span><span class="g"><em>变动中</em></span><span class="g"><em>留余地。</em></span></h1>
       <p class="hl">旧局该变了，怎样调整才不会伤到现金流？</p>
       <p class="kw"><span>主动变</span><span>防大耗</span><span>破旧局</span></p>
-      <p class="rank"><b>12</b><span>/ 12 生肖 · 《运势大破解》年度排名</span></p>
     </div>
     <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M29 31Q12 33 13 14Q22 26 34 21M67 31Q84 33 83 14Q74 26 62 21M25 39L12 34L20 47M71 39L84 34L76 47M27 30Q48 21 69 30L70 62Q69 79 48 81Q27 79 26 62Z"/><rect x="29" y="56" width="38" height="21" rx="10"/><path d="M38 65V68M58 65V68M34 45H38M58 45H62M48 28V39"/></svg><span>OX · 2027</span></div>
   </div>
@@ -677,10 +681,10 @@ body:has(.modal:target),body:has(.modal.ag-open){overflow:hidden}
   <div class="prof">
     <div>
       <p class="ey">2027 · 你的生肖求财指南</p>
+      <div class="rank"><span class="rl">《运势大破解》2027 年度排名</span><div class="rn"><b>02</b><span>/ 12 生肖</span></div></div>
       <h1><span class="g">属虎的你，</span><span class="g"><em>把机会</em></span><span class="g"><em>接稳。</em></span></h1>
       <p class="hl">属虎排第2，怎样把贵人机会变成收入？</p>
       <p class="kw"><span>贵人起</span><span>权位升</span><span>防盛转衰</span></p>
-      <p class="rank"><b>02</b><span>/ 12 生肖 · 《运势大破解》年度排名</span></p>
     </div>
     <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M26 31Q13 15 23 13Q37 9 39 28M57 28Q60 9 73 13Q83 15 70 31M23 45Q22 26 48 25Q74 26 73 45V58Q71 80 48 82Q25 80 23 58Z"/><path d="M40 30L48 40L56 30M48 26V40M25 44L36 49M24 57L35 59M71 44L60 49M72 57L61 59M40 62L48 68L56 62M48 68V74M39 76L48 73L57 76"/><path d="M36 47H39M57 47H60"/></svg><span>TIGER · 2027</span></div>
   </div>
@@ -779,10 +783,10 @@ body:has(.modal:target),body:has(.modal.ag-open){overflow:hidden}
   <div class="prof">
     <div>
       <p class="ey">2027 · 你的生肖求财指南</p>
+      <div class="rank"><span class="rl">《运势大破解》2027 年度排名</span><div class="rn"><b>04</b><span>/ 12 生肖</span></div></div>
       <h1><span class="g">属兔的你，</span><span class="g"><em>让成果</em></span><span class="g"><em>留下来。</em></span></h1>
       <p class="hl">属兔排第4，怎样把能力变成位置，把收入留成资产？</p>
       <p class="kw"><span>掌权</span><span>聚财</span><span>防伤</span></p>
-      <p class="rank"><b>04</b><span>/ 12 生肖 · 《运势大破解》年度排名</span></p>
     </div>
     <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M30 43Q18 9 28 7Q38 5 40 38M54 38Q57 5 67 7Q78 9 66 43M24 57Q23 37 48 37Q73 37 72 57Q73 80 48 82Q23 80 24 57Z"/><path d="M30 16L35 33M64 16L60 33M41 65L48 70L55 65M48 70L43 75M48 70L53 75"/><circle cx="36" cy="56" r="2"/><circle cx="60" cy="56" r="2"/></svg><span>RABBIT · 2027</span></div>
   </div>
@@ -881,10 +885,10 @@ body:has(.modal:target),body:has(.modal.ag-open){overflow:hidden}
   <div class="prof">
     <div>
       <p class="ey">2027 · 你的生肖求财指南</p>
+      <div class="rank"><span class="rl">《运势大破解》2027 年度排名</span><div class="rn"><b>03</b><span>/ 12 生肖</span></div></div>
       <h1><span class="g">属龙的你，</span><span class="g"><em>走出去，</em></span><span class="g"><em>看机会。</em></span></h1>
       <p class="hl">属龙排第3，走出去，怎样把机会做成收入？</p>
       <p class="kw"><span>走出去</span><span>贵人扶</span><span>防口舌</span></p>
-      <p class="rank"><b>03</b><span>/ 12 生肖 · 《运势大破解》年度排名</span></p>
     </div>
     <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M33 28L26 10L39 18L46 8L50 26M58 24L67 10L70 26L82 24L72 39M31 31Q54 18 69 36L67 52L79 59L75 72Q56 84 36 73L26 55Z"/><path d="M27 38L15 33L18 47L27 49M31 65L19 69L25 79M48 37L57 42L46 46M55 59L68 62M45 73Q43 87 57 87M71 70L85 73"/><circle cx="70" cy="59" r="2"/></svg><span>DRAGON · 2027</span></div>
   </div>
@@ -983,10 +987,10 @@ body:has(.modal:target),body:has(.modal.ag-open){overflow:hidden}
   <div class="prof">
     <div>
       <p class="ey">2027 · 你的生肖求财指南</p>
+      <div class="rank"><span class="rl">《运势大破解》2027 年度排名</span><div class="rn"><b>07</b><span>/ 12 生肖</span></div></div>
       <h1><span class="g">属蛇的你，</span><span class="g"><em>为收入</em></span><span class="g"><em>多找条路。</em></span></h1>
       <p class="hl">想开第二条收入线，第一步该往哪里走？</p>
       <p class="kw"><span>动中求机</span><span>贵人助力</span><span>安全第一</span></p>
-      <p class="rank"><b>07</b><span>/ 12 生肖 · 《运势大破解》年度排名</span></p>
     </div>
     <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M61 30Q61 14 47 14Q31 14 33 30Q35 41 49 45Q76 52 71 67Q65 83 36 80Q18 78 19 67Q20 58 38 58Q61 57 58 68Q56 73 44 71M32 24Q45 29 60 24"/><circle cx="42" cy="23" r="1.5"/><circle cx="54" cy="23" r="1.5"/><path d="M49 33V41M49 40L45 44M49 40L53 44M26 77Q49 90 72 78"/></svg><span>SNAKE · 2027</span></div>
   </div>
@@ -1085,10 +1089,10 @@ body:has(.modal:target),body:has(.modal.ag-open){overflow:hidden}
   <div class="prof">
     <div>
       <p class="ey">2027 · 你的生肖求财指南</p>
+      <div class="rank"><span class="rl">《运势大破解》2027 年度排名</span><div class="rn"><b>01</b><span>/ 12 生肖</span></div></div>
       <h1><span class="g">属马的你，</span><span class="g"><em>把好运</em></span><span class="g"><em>做成事。</em></span></h1>
       <p class="hl">属马排第1，你的财从哪里来？</p>
       <p class="kw"><span>贵人合</span><span>财禄进</span><span>养精蓄锐</span></p>
-      <p class="rank"><b>01</b><span>/ 12 生肖 · 《运势大破解》年度排名</span></p>
     </div>
     <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M31 31L29 10L43 25L59 23L69 12L67 36L76 56L66 71L48 73L40 85L24 80L25 49Z"/><path d="M42 25Q21 31 17 53L21 54M36 35L31 53L35 69M54 39L61 42M53 60L66 64M28 73L39 75M48 29L45 43"/><circle cx="67" cy="57" r="2"/></svg><span>HORSE · 2027</span></div>
   </div>
@@ -1187,10 +1191,10 @@ body:has(.modal:target),body:has(.modal.ag-open){overflow:hidden}
   <div class="prof">
     <div>
       <p class="ey">2027 · 你的生肖求财指南</p>
+      <div class="rank"><span class="rl">《运势大破解》2027 年度排名</span><div class="rn"><b>10</b><span>/ 12 生肖</span></div></div>
       <h1><span class="g">属羊的你，</span><span class="g"><em>先稳住，</em></span><span class="g"><em>再出发。</em></span></h1>
       <p class="hl">本命年想换方向？先稳住收入，再试下一步。</p>
       <p class="kw"><span>本命重整</span><span>守住自己</span><span>先稳后进</span></p>
-      <p class="rank"><b>10</b><span>/ 12 生肖 · 《运势大破解》年度排名</span></p>
     </div>
     <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M30 35Q7 31 17 13Q30 5 35 30M66 35Q89 31 79 13Q66 5 61 30M26 38L13 37L20 48M70 38L83 37L76 48M30 31Q48 24 66 31L65 59L55 75L48 86L41 75L31 59Z"/><path d="M35 46H39M57 46H61M41 61L48 66L55 61M48 66V75M23 17Q19 27 29 28M73 17Q77 27 67 28"/></svg><span>GOAT · 2027</span></div>
   </div>
@@ -1289,10 +1293,10 @@ body:has(.modal:target),body:has(.modal.ag-open){overflow:hidden}
   <div class="prof">
     <div>
       <p class="ey">2027 · 你的生肖求财指南</p>
+      <div class="rank"><span class="rl">《运势大破解》2027 年度排名</span><div class="rn"><b>06</b><span>/ 12 生肖</span></div></div>
       <h1><span class="g">属猴的你，</span><span class="g"><em>让实力</em></span><span class="g"><em>被看见。</em></span></h1>
       <p class="hl">有人赏识你，也有人画大饼。你怎么分辨？</p>
       <p class="kw"><span>贵人照</span><span>喜事来</span><span>防财劫</span></p>
-      <p class="rank"><b>06</b><span>/ 12 生肖 · 《运势大破解》年度排名</span></p>
     </div>
     <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="19" cy="49" r="10"/><circle cx="77" cy="49" r="10"/><path d="M23 44Q19 19 48 18Q77 19 73 44V60Q70 81 48 82Q26 81 23 60Z"/><path d="M48 42Q35 25 27 42Q21 55 33 65Q31 78 48 77Q65 78 63 65Q75 55 69 42Q61 25 48 42Z"/><circle cx="36" cy="48" r="2"/><circle cx="60" cy="48" r="2"/><path d="M42 62L48 65L54 62M40 70Q48 74 56 70M38 20L44 12L50 19"/></svg><span>MONKEY · 2027</span></div>
   </div>
@@ -1391,10 +1395,10 @@ body:has(.modal:target),body:has(.modal.ag-open){overflow:hidden}
   <div class="prof">
     <div>
       <p class="ey">2027 · 你的生肖求财指南</p>
+      <div class="rank"><span class="rl">《运势大破解》2027 年度排名</span><div class="rn"><b>09</b><span>/ 12 生肖</span></div></div>
       <h1><span class="g">属鸡的你，</span><span class="g"><em>把专业</em></span><span class="g"><em>用出来。</em></span></h1>
       <p class="hl">过去的方法还能用吗？今年靠专业打开新收入。</p>
       <p class="kw"><span>专业升级</span><span>谨言守规</span><span>先守后进</span></p>
-      <p class="rank"><b>09</b><span>/ 12 生肖 · 《运势大破解》年度排名</span></p>
     </div>
     <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M34 32Q21 10 34 12Q41 3 47 17Q58 3 62 15Q77 13 66 34M30 42Q32 26 52 29Q70 32 67 50L79 54L66 62Q60 80 37 80L25 68Z"/><path d="M48 59L62 56L58 65Z M39 77Q38 91 48 86Q58 88 56 76M27 42L17 51L27 55"/><circle cx="54" cy="44" r="2"/></svg><span>ROOSTER · 2027</span></div>
   </div>
@@ -1493,10 +1497,10 @@ body:has(.modal:target),body:has(.modal.ag-open){overflow:hidden}
   <div class="prof">
     <div>
       <p class="ey">2027 · 你的生肖求财指南</p>
+      <div class="rank"><span class="rl">《运势大破解》2027 年度排名</span><div class="rn"><b>11</b><span>/ 12 生肖</span></div></div>
       <h1><span class="g">属狗的你，</span><span class="g"><em>把合作</em></span><span class="g"><em>说清楚。</em></span></h1>
       <p class="hl">合作有变化，怎样守住责任边界和现金流？</p>
       <p class="kw"><span>关系考验</span><span>破旧重整</span><span>守界避争</span></p>
-      <p class="rank"><b>11</b><span>/ 12 生肖 · 《运势大破解》年度排名</span></p>
     </div>
     <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M29 29Q14 23 13 47Q12 66 26 60L32 41M67 29Q82 23 83 47Q84 66 70 60L64 41M28 35Q30 23 48 24Q66 23 68 35L69 60Q65 80 48 81Q31 80 27 60Z"/><path d="M39 61Q48 55 57 61L48 69Z M48 69V76M37 48H40M56 48H59"/></svg><span>DOG · 2027</span></div>
   </div>
@@ -1595,10 +1599,10 @@ body:has(.modal:target),body:has(.modal.ag-open){overflow:hidden}
   <div class="prof">
     <div>
       <p class="ey">2027 · 你的生肖求财指南</p>
+      <div class="rank"><span class="rl">《运势大破解》2027 年度排名</span><div class="rn"><b>05</b><span>/ 12 生肖</span></div></div>
       <h1><span class="g">属猪的你，</span><span class="g"><em>让人脉</em></span><span class="g"><em>走近一步。</em></span></h1>
       <p class="hl">贵人把门打开，怎样把人脉变成收入？</p>
       <p class="kw"><span>贵人聚</span><span>福气升</span><span>防是非</span></p>
-      <p class="rank"><b>05</b><span>/ 12 生肖 · 《运势大破解》年度排名</span></p>
     </div>
     <div class="art"><svg class="animal" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M28 34L19 14L38 23M68 34L77 14L58 23M22 49Q22 25 48 26Q74 25 74 49V60Q70 81 48 81Q26 81 22 60Z"/><rect x="32" y="54" width="32" height="21" rx="10"/><path d="M41 62V67M55 62V67"/><circle cx="34" cy="46" r="2"/><circle cx="62" cy="46" r="2"/></svg><span>PIG · 2027</span></div>
   </div>
