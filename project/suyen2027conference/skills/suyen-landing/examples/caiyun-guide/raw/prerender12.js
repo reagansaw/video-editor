@@ -10,7 +10,7 @@ await m.goto('https://suyen2027-caiyun.aigoal.ai/',{waitUntil:'networkidle'});
 await m.addStyleTag({content:'.conf,.ctab,.nx,.pdfwrap,.mbar,.ychips,[data-aigoal-modal]{display:none!important}*{animation:none!important;transition:none!important}#read .rd{padding:40px 44px 48px!important;background:#FBF4E8!important}#read .rd .yc{display:block!important}'});
 await m.evaluate(()=>{for(const e of document.querySelectorAll('body *')){const p=getComputedStyle(e).position;if((p==='fixed'||p==='sticky')&&!e.closest('#read'))e.style.setProperty('display','none','important')}});
 const meta={};
-for(let zi=0;zi<12;zi++){
+for(const zi of (process.env.ZI||'0,1,2,3,4,5,6,7,8,9,10,11').split(',').map(Number)){
  const first=await m.evaluate(zi=>{document.getElementById('z'+zi).checked=true;const y=document.querySelector('input[id^="y'+zi+'_"]');y.checked=true;document.querySelectorAll('.rd'+zi+' img').forEach(i=>i.loading='eager');return y.id},zi);
  for(let y=0;y<30000;y+=700){await m.evaluate(v=>scrollTo(0,v),y);await m.waitForTimeout(30)}
  await m.evaluate(async zi=>{await Promise.all([...document.querySelectorAll('.rd'+zi+' img')].map(i=>(i.complete&&i.naturalWidth)?(i.decode?i.decode().catch(()=>0):0):new Promise(ok=>{i.addEventListener('load',ok);i.addEventListener('error',ok)})));await document.fonts.ready},zi);
@@ -21,4 +21,4 @@ for(let zi=0;zi<12;zi++){
    return {W:R.width,H:R.height,top:a,bottom:z,cards}},zi);
  await m.locator('.rd'+zi).screenshot({path:'pdfz/z'+zi+'.jpg',type:'jpeg',quality:80});
  meta[zi]=g;process.stdout.write(zi+' ')}
-fs.writeFileSync('pdfz/meta.json',JSON.stringify(meta));await b.close();console.log('done')})()
+fs.writeFileSync(process.env.ZI?'pdfz/meta-part.json':'pdfz/meta.json',JSON.stringify(meta));await b.close();console.log('done')})()
