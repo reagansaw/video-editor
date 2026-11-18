@@ -145,7 +145,7 @@ function go(ev){
   $('dobres').className='on';
   setTimeout(function(){prewarm(zi);},1200);
   var eid='dob.'+Date.now().toString(36)+'.'+Math.random().toString(36).slice(2,8);
-  try{post({event:'register',source:'landing:'+OWN_SLUG,name:v.nm,email:v.em,phone:v.ph,event_id:eid,tags:['registered','lead_magnet_2027_十二生肖'],
+  try{post({event:'register',source:'landing:'+FUNNEL_SLUG,name:v.nm,email:v.em,phone:v.ph,event_id:eid,tags:['registered','lead_magnet_2027_十二生肖'],
     fields:[{k:'birth_year',l:'出生年份',v:String(y)},{k:'dob_pillar',l:'生肖',v:'属'+ZOD[zi]+'（'+pill+'年）'}],
     note:'出生年份: '+y+'\\n生肖: 属'+ZOD[zi]+'（'+pill+'年）'});}catch(e){}
   try{if(window.fbq)fbq('track','Lead',{content_name:'zodiac_'+ZOD[zi]},{eventID:eid});}catch(e){}
