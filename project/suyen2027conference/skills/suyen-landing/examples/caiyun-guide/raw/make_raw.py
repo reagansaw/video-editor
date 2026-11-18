@@ -3,6 +3,7 @@
 import json, sys
 
 src, lcf, out, FUNNEL_SLUG, NEXT, OWN_SLUG = sys.argv[1:7]
+PDF_URLS = json.load(open(sys.argv[7])) if len(sys.argv) > 7 else {}
 h = open(src, encoding='utf8').read()
 lc = {int(k): v for k, v in json.load(open(lcf)).items() if 1929 <= int(k) <= 2028}
 
@@ -29,6 +30,7 @@ CSS = '''
 .dob select{margin-top:6px}
 .yhint{font-size:13px!important;line-height:1.6;color:var(--muted);margin:-2px 0 0}
 .dob .btn:disabled{background:#D9C9CB;box-shadow:none;cursor:not-allowed;color:#fff}
+.pdfbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:12px;padding:0 22px;border-radius:999px;background:#EFDFB3;color:#3B0F18;font-weight:900;font-size:16px;text-decoration:none}
 .fine2{font-size:12px!important;color:var(--muted);text-align:center;margin-top:8px}
 #dobres{display:none}
 .zr:checked~#dobres.on{display:block}
@@ -111,7 +113,7 @@ JS = '''<script>
 $('.dob select').forEach(agSelect);})();
 /* raw 版：没有平台钩子，这里自己做 ① 出生日期 → 年柱地支 ② 报名弹窗 ③ 报名送出（跟平台一样送去 /api/track，算在 funnel 那一页） */
 (function(){
-var OWN_SLUG=%(own)s, FUNNEL_SLUG=%(slug)s, NEXT=%(next)s, LICHUN=%(lc)s;
+var PDF=%(pdf)s, OWN_SLUG=%(own)s, FUNNEL_SLUG=%(slug)s, NEXT=%(next)s, LICHUN=%(lc)s;
 var STEMS='甲乙丙丁戊己庚辛壬癸', BRANCH='子丑寅卯辰巳午未申酉戌亥', ZOD='鼠牛虎兔龙蛇马羊猴鸡狗猪';
 function $(id){return document.getElementById(id);}
 /* ① 出生日期 → 年柱（立春为界，马来西亚时间） */
@@ -137,7 +139,8 @@ function go(ev){
   var z=$('z'+zi); if(!z) return; z.checked=true;
   var yr=$('y'+zi+'_'+y); if(yr) yr.checked=true;
   $('dobres-t').innerHTML='你是 <b>'+y+' 年</b>出生，生肖 <b>属'+ZOD[zi]+'</b>（'+pill+'年）。'
-    +'<small>下面已经帮你打开属'+ZOD[zi]+'的 2027 求财指南。如果你是 1 月到 2 月初（立春前）出生，生肖算前一年，可以回上面改选。</small>';
+    +'<small>下面已经帮你打开属'+ZOD[zi]+'的 2027 求财指南。如果你是 1 月到 2 月初（立春前）出生，生肖算前一年，可以回上面改选。</small>'
+    +(PDF[zi]?'<a class="pdfbtn" href="'+PDF[zi]+'" download target="_blank" rel="noopener">下载属'+ZOD[zi]+'的 2027 PDF 指南 ↓</a>':'');
   $('dobres').className='on';
   var eid='dob.'+Date.now().toString(36)+'.'+Math.random().toString(36).slice(2,8);
   try{post({event:'register',source:'landing:'+OWN_SLUG,name:v.nm,email:v.em,phone:v.ph,event_id:eid,tags:['registered','lead_magnet_2027_十二生肖'],
@@ -182,7 +185,7 @@ document.querySelectorAll('form[data-aigoal-lead]').forEach(function(f){f.addEve
 });});
 })();
 </script>'''
-JS = JS % {'own': json.dumps(OWN_SLUG), 'slug': json.dumps(FUNNEL_SLUG), 'next': json.dumps(NEXT), 'lc': json.dumps({y: v for y, v in lc.items()})}
+JS = JS % {'pdf': json.dumps(PDF_URLS), 'own': json.dumps(OWN_SLUG), 'slug': json.dumps(FUNNEL_SLUG), 'next': json.dumps(NEXT), 'lc': json.dumps({y: v for y, v in lc.items()})}
 assert h.count('</body>') == 1
 h = h.replace('</body>', JS + '\n</body>', 1)
 open(out, 'w', encoding='utf8').write(h)
