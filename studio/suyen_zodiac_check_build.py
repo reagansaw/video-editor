@@ -64,6 +64,20 @@ def action_prompt(en, zh):
             "中文全部是简体黑体，字要清楚好读，长句可以自动换行。"
             "画面上只出现上面「」引号里的字，一字不差（包括里面的逗号、顿号、句号和数字）；引号以外不要再加任何中文、英文、数字或标志。No watermark. No extra text. 4:5。")
 
+# 02 贵人（第 1 张卡每个生肖不同，第 2 张一样；12 张）
+def two_card_prompt(points, icons):
+    rows = ''.join(f'第 {i+1} 张卡片：左边一个玫红 #D03F58 实心小圆圈，里面是白色的简单线条图标（{icons[i]}），圆圈里不要有字；'
+                   f'右边粗体大字写「{q}」，下面一行小一点的灰褐色字写「{d}」。' for i, (q, d) in enumerate(points))
+    return ("一张正方形 1:1 的高级资讯卡，给奇门战略品牌的落地页用。米白色 #FAF5E6 背景，干净、留白多、排版整齐。"
+            "画面里只有 2 张白色圆角卡片，从上到下排成一列，置中，卡片之间留一点空隙，每张卡片顶边有一条细细的玫红色线。" + rows +
+            "问题用深酒红 #3B0F18 粗黑体，说明用灰褐色 #5E4A4C 一般字重，全部是简体中文黑体，字要清楚好读，说明可以自动换行。"
+            "画面上只出现上面「」引号里的字，一字不差（包括里面的逗号、问号、顿号和句号）；引号以外不要再加任何中文、英文、数字、标题或标志。No watermark. No extra text. 1:1。")
+
+def people_prompt(zh):
+    return two_card_prompt([('你的贵人，是这样的人', ACTION[zh]['people']),
+                            ('想到谁，就主动一点', '读到这里，你脑中有没有浮现一个人？主动联系他，请他帮你推进一件具体的事。')],
+                           ['两个人并肩的头像轮廓', '一只伸出去握手的手'])
+
 NOTE2 = ("方案 2：5 个问题直接写进图\n1. 先只 Run「属鸡 · 文字卡」一张（约 1 点）。\n2. 出图后逐字对：标题 + 5 个问题 + 5 行说明，错一个字就重 Run。\n"
          "3. 鸡对了再 Run 其他 11 张。档名照 card_鼠.jpg … card_猪.jpg 交回给 Claude。\n4. Claude 只搭画布，不按 Run。")
 
@@ -108,6 +122,13 @@ def build():
              {'model': 'gpt-image-2', 'gptImage2Mode': 't2i', 'imageInputCount': 0, 'aspectRatio': '4:5', 'resolution': '2K',
               'gptImage2Quality': 'high', 'status': 'idle'})
         edge(f'{en}_act_txt', f'{en}_act', 'prompt')
+    for k, (en, zh) in enumerate(ANIMALS):
+        y = k * 420
+        node(f'{en}_ppl_txt', 'textInput', 3300, y, f'{zh} · 02 贵人卡提示', {'text': people_prompt(zh)})
+        node(f'{en}_ppl', 'aiImage', 3720, y, f'属{zh} · 02 贵人卡（1:1）',
+             {'model': 'gpt-image-2', 'gptImage2Mode': 't2i', 'imageInputCount': 0, 'aspectRatio': '1:1', 'resolution': '2K',
+              'gptImage2Quality': 'high', 'status': 'idle'})
+        edge(f'{en}_ppl_txt', f'{en}_ppl', 'prompt')
     return nodes, edges
 
 if __name__ == '__main__':
