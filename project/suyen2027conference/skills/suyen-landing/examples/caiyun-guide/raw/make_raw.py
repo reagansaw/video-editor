@@ -26,6 +26,9 @@ CSS = '''
 .dob select{width:100%;min-height:52px;border:2px solid var(--line);border-radius:var(--radius-sm);padding:0 34px 0 14px;font:400 17px var(--sans);color:var(--ink);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23B83349' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 12px center;-webkit-appearance:none;appearance:none}
 .dob select:focus{outline:none;border-color:var(--crimson);box-shadow:0 0 0 4px rgba(208,63,88,.18)}
 .dob input::placeholder{color:#9A8A8C}
+.dob select{margin-top:6px}
+.yhint{font-size:13px!important;line-height:1.6;color:var(--muted);margin:-2px 0 0}
+.dob .btn:disabled{background:#D9C9CB;box-shadow:none;cursor:not-allowed;color:#fff}
 .fine2{font-size:12px!important;color:var(--muted);text-align:center;margin-top:8px}
 #dobres{display:none}
 .zr:checked~#dobres.on{display:block}
@@ -36,22 +39,18 @@ CSS = '''
 '''
 
 YEARS = ''.join(f'<option value="{y}">{y}</option>' for y in range(2027, 1929, -1))
-MONTHS = ''.join(f'<option value="{m}">{m} 月</option>' for m in range(1, 13))
-DAYS = ''.join(f'<option value="{d}">{d} 日</option>' for d in range(1, 32))
 DOB = f'''<form class="dob" id="dobform" novalidate>
       <b>输入你的资料，马上看</b>
-      <p>用你的出生日期找出你的生肖，直接打开你的 2027 求财指南。</p>
+      <p>用你的出生年份找出你的生肖，直接打开你的 2027 求财指南。</p>
       <div class="dob-row">
         <label for="dob-name">称呼<input id="dob-name" name="name" autocomplete="given-name" placeholder="例如：Amy"></label>
         <label for="dob-email">Email<input id="dob-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com"></label>
-        <fieldset class="dob-date"><legend>出生日期</legend>
-          <div class="sel3">
-            <select id="dob-y" aria-label="出生年份" autocomplete="bday-year"><option value="">年</option>{YEARS}</select>
-            <select id="dob-m" aria-label="出生月份" autocomplete="bday-month"><option value="">月</option>{MONTHS}</select>
-            <select id="dob-d" aria-label="出生日" autocomplete="bday-day"><option value="">日</option>{DAYS}</select>
-          </div>
-        </fieldset>
-        <button type="submit" class="btn" id="dob-go">看我的 2027 财运 →</button>
+        <label for="dob-phone">WhatsApp 号码<input id="dob-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="例如 0123456789"></label>
+        <label for="dob-y">出生年份
+          <select id="dob-y" autocomplete="bday-year"><option value="">选你的出生年份</option>{YEARS}</select>
+        </label>
+        <p class="yhint">1 月到 2 月初（立春前）出生，生肖算前一年，请选前一年。</p>
+        <button type="submit" class="btn" id="dob-go" disabled>看我的 2027 财运 →</button>
       </div>
       <p class="err" id="dob-err" role="alert"></p>
       <p class="fine2">免费 · 资料只用来发送你的指南和大会资讯。</p>
@@ -93,29 +92,30 @@ function pillarYear(dateStr){
   return {y:y, onLichun:dateStr===lcDay};
 }
 function pad(n){return (n<10?'0':'')+n;}
+function vals(){return {nm:$('dob-name').value.trim(), em:$('dob-email').value.trim(), ph:$('dob-phone').value.replace(/[\\s-]/g,''), Y:+$('dob-y').value};}
+function ready(){var v=vals();return !!(v.nm&&v.em&&v.ph&&v.Y);}
+function sync(){$('dob-go').disabled=!ready();}
+['dob-name','dob-email','dob-phone','dob-y'].forEach(function(id){$(id).addEventListener('input',sync);$(id).addEventListener('change',sync);});
 function go(ev){
   if(ev)ev.preventDefault();
-  var err=$('dob-err'), nm=$('dob-name').value.trim(), em=$('dob-email').value.trim(), Y=+$('dob-y').value, M=+$('dob-m').value, Dd=+$('dob-d').value;
-  if(!nm){err.textContent='请填写你的称呼。';$('dob-name').focus();return;}
-  if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(em)){err.textContent='请填写正确的 Email，指南会发到这里。';$('dob-email').focus();return;}
-  if(!Y||!M||!Dd){err.textContent='请选好你的出生年、月、日。';return;}
-  var dt=new Date(Y,M-1,Dd); if(dt.getMonth()!==M-1){err.textContent=Y+' 年 '+M+' 月没有 '+Dd+' 日，请再选一次。';return;}
-  var d=Y+'-'+pad(M)+'-'+pad(Dd), yy=Y;
-  var r=pillarYear(d), y=r.y, zi=((y-4)%%12+12)%%12, si=((y-4)%%10+10)%%10;
+  var err=$('dob-err'), v=vals();
+  if(!ready()){err.textContent='请填好称呼、Email、WhatsApp 号码和出生年份。';return;}
+  if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v.em)){err.textContent='请填写正确的 Email。';$('dob-email').focus();return;}
+  if(!/^\\+?[0-9]{9,15}$/.test(v.ph)){err.textContent='请填写可以收到 WhatsApp 的号码，至少 9 位数字。';$('dob-phone').focus();return;}
   err.textContent='';
+  var y=v.Y, zi=((y-4)%%12+12)%%12, si=((y-4)%%10+10)%%10, pill=STEMS[si]+BRANCH[zi];
   var z=$('z'+zi); if(!z) return; z.checked=true;
   var yr=$('y'+zi+'_'+y); if(yr) yr.checked=true;
-  var p=d.split('-'), pill=STEMS[si]+BRANCH[zi];
-  $('dobres-t').innerHTML='按你的出生日期 <b>'+(+p[0])+' 年 '+(+p[1])+' 月 '+(+p[2])+' 日</b>，你的年柱是 <b>'+pill+'年</b>，生肖 <b>属'+ZOD[zi]+'</b>。'
-    +'<small>生肖以立春为界，不是 1 月 1 日'+(y!==yy?'：你在立春之前出生，所以算前一年。':(r.onLichun?'：你刚好在立春当天出生，按新的一年算。':'。'))+'下面已经帮你打开你那一年的求财路线。</small>';
+  $('dobres-t').innerHTML='你是 <b>'+y+' 年</b>出生，生肖 <b>属'+ZOD[zi]+'</b>（'+pill+'年）。'
+    +'<small>下面已经帮你打开属'+ZOD[zi]+'的 2027 求财指南。如果你是 1 月到 2 月初（立春前）出生，生肖算前一年，可以回上面改选。</small>';
   $('dobres').className='on';
-  /* 记成名单（算在这一页，不是大会 funnel → 不会触发「已成功注册大会」的讯息） */
   var eid='dob.'+Date.now().toString(36)+'.'+Math.random().toString(36).slice(2,8);
-  try{post({event:'register',source:'landing:'+OWN_SLUG,name:nm,email:em,event_id:eid,
-    fields:[{k:'birthday',l:'生日',v:d},{k:'dob_pillar',l:'出生年柱',v:pill+'年 · 属'+ZOD[zi]}],
-    note:'生日: '+d+'\\n出生年柱: '+pill+'年 · 属'+ZOD[zi]});}catch(e){}
+  try{post({event:'register',source:'landing:'+OWN_SLUG,name:v.nm,email:v.em,phone:v.ph,event_id:eid,
+    fields:[{k:'birth_year',l:'出生年份',v:String(y)},{k:'dob_pillar',l:'生肖',v:'属'+ZOD[zi]+'（'+pill+'年）'}],
+    note:'出生年份: '+y+'\\n生肖: 属'+ZOD[zi]+'（'+pill+'年）'});}catch(e){}
   try{if(window.fbq)fbq('track','Lead',{content_name:'zodiac_'+ZOD[zi]},{eventID:eid});}catch(e){}
-  if($('name')&&!$('name').value)$('name').value=nm; if($('email')&&!$('email').value)$('email').value=em;
+  if($('name')&&!$('name').value)$('name').value=v.nm; if($('email')&&!$('email').value)$('email').value=v.em; if($('wa')&&!$('wa').value)$('wa').value=v.ph;
+  try{if(window.fbq)fbq('track','ViewContent',{content_name:'zodiac_'+ZOD[zi]});}catch(e){}
   window.scrollTo({top:0,behavior:'smooth'});
 }
 $('dobform').addEventListener('submit',go);
@@ -138,7 +138,7 @@ function post(body){var payload=Object.assign({source:'landing:'+FUNNEL_SLUG},ut
 try{post({event:'landing',source:'landing:'+OWN_SLUG,ref:document.referrer||'',bot:navigator.webdriver?1:0});}catch(e){}
 document.querySelectorAll('form[data-aigoal-lead]').forEach(function(f){f.addEventListener('submit',function(ev){ev.preventDefault();
   var d={},fields=[];f.querySelectorAll('input,select,textarea').forEach(function(el){var t=(el.type||'').toLowerCase();if(t==='submit'||t==='button'||t==='hidden'||t==='reset')return;if((t==='radio'||t==='checkbox')&&!el.checked)return;var v=(el.value||'').trim();if(!v)return;var nm=el.name||'';if(nm==='name'||nm==='phone'||nm==='email'){d[nm]=v;return;}var label=(el.getAttribute('data-label')||el.getAttribute('aria-label')||nm||'').trim();if(!label)return;fields.push({k:nm||label,l:label,v:v});});
-  var dz=$('dobres').className==='on'?$('dobres-t').textContent.split('。')[0]:'';if(dz)fields.push({k:'dob_pillar',l:'出生年柱',v:dz});var bd=$('dob-y').value&&($('dob-y').value+'-'+pad(+$('dob-m').value)+'-'+pad(+$('dob-d').value));if(bd&&$('dob-m').value&&$('dob-d').value)fields.push({k:'birthday',l:'生日',v:bd});
+  var dz=$('dobres').className==='on'?$('dobres-t').textContent.split('。')[0]:'';if(dz)fields.push({k:'dob_pillar',l:'出生年柱',v:dz});if($('dob-y').value)fields.push({k:'birth_year',l:'出生年份',v:$('dob-y').value});
   if(!d.phone&&!d.email){alert('请留电话或 email，不然联系不到你哦');return;}
   if(fields.length){d.fields=fields;d.note=fields.map(function(x){return x.l+': '+x.v;}).join('\\n');}
   d.event='register';var eid='ld.'+Date.now().toString(36)+'.'+Math.random().toString(36).slice(2,8);d.event_id=eid;
