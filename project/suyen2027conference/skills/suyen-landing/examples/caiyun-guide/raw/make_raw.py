@@ -47,7 +47,7 @@ DOB = f'''<form class="dob" id="dobform" novalidate>
         <label for="dob-email">Email<input id="dob-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com"></label>
         <label for="dob-phone">WhatsApp 号码<input id="dob-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="例如 0123456789"></label>
         <label for="dob-y">出生年份
-          <select id="dob-y" autocomplete="bday-year"><option value="">选你的出生年份</option>{YEARS}</select>
+          <select id="dob-y" autocomplete="bday-year"><option value="" disabled selected hidden>选你的出生年份</option>{YEARS}</select>
         </label>
         <button type="submit" class="btn" id="dob-go" disabled>看我的 2027 财运 →</button>
       </div>
@@ -77,7 +77,28 @@ assert h.count(ph) == len(VIDS), h.count(ph)
 for v in VIDS:
     h = h.replace(ph, f'<iframe src="https://iframe.mediadelivery.net/embed/790175/{v}?autoplay=false&muted=false&loop=false&preload=false&responsive=true" loading="lazy" title="学员见证影片" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen" allowfullscreen></iframe>', 1)
 
+# aigoal 通用下拉（ag-sel）：raw 页没有平台钩子，照搬平台的 agSelect + 它的样式，再加品牌外观
+import os as _os
+_HERE = _os.path.dirname(_os.path.abspath(__file__))
+AG_JS = open(_os.path.join(_HERE, 'agselect.js'), encoding='utf8').read().replace('%', '%%')
+AG_CSS = open(_os.path.join(_HERE, 'agselect.css'), encoding='utf8').read() + '''
+.dob .ag-sel{margin-top:6px}
+.dob .ag-sel-btn{min-height:52px;padding:0 14px;border:2px solid var(--line);border-radius:var(--radius-sm);background:#fff;color:var(--ink);font:400 17px var(--sans)}
+.dob .ag-sel-btn:focus{outline:none;border-color:var(--crimson);box-shadow:0 0 0 4px rgba(208,63,88,.18)}
+.dob .ag-sel-ph .ag-sel-label{color:#9A8A8C;opacity:1}
+.dob .ag-sel-arrow{color:var(--crimson-600);opacity:1}
+.dob .ag-sel-list{border-radius:var(--radius-sm);border:1px solid var(--line);box-shadow:var(--shadow-2);color:var(--ink)}
+.dob .ag-sel-opt{font-size:16px}
+.dob .ag-sel-opt:hover,.dob .ag-sel-opt.ag-act{background:var(--pill-bg)}
+.dob .ag-sel-opt[aria-selected="true"]{background:var(--crimson);color:#fff}
+'''
+h = h.replace('</style>', AG_CSS + '</style>', 1)
+
 JS = '''<script>
+/* aigoal 通用下拉 agSelect（照搬平台） */
+(function(){var $=function(q){return [].slice.call(document.querySelectorAll(q));};
+'''+AG_JS+'''
+$('.dob select').forEach(agSelect);})();
 /* raw 版：没有平台钩子，这里自己做 ① 出生日期 → 年柱地支 ② 报名弹窗 ③ 报名送出（跟平台一样送去 /api/track，算在 funnel 那一页） */
 (function(){
 var OWN_SLUG=%(own)s, FUNNEL_SLUG=%(slug)s, NEXT=%(next)s, LICHUN=%(lc)s;

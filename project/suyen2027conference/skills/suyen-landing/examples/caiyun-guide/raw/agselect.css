@@ -1,0 +1,20 @@
+/* 下拉美化（select.ag-select / [data-aigoal-select]）：原生 select 透明盖在按钮上（真值 + required 提示照旧）；按钮沿用原 class，下面只给保底样式 */
+.ag-sel{position:relative;display:block}
+.ag-sel-native{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;opacity:0!important;pointer-events:none!important;margin:0!important}
+.ag-sel-btn{display:flex!important;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:left;cursor:pointer;font:inherit}
+:where(.ag-sel-btn){min-height:46px;padding:10px 14px;border:1px solid rgba(0,0,0,.15);border-radius:12px;background:#fff;color:inherit}
+.ag-sel-label{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ag-sel-ph .ag-sel-label{opacity:.55}
+.ag-sel-arrow{flex:0 0 auto;width:8px;height:8px;margin:0 4px 4px 0;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);opacity:.55;transition:transform .15s}
+.ag-sel-open .ag-sel-arrow{transform:rotate(-135deg);margin:4px 4px 0 0}
+.ag-sel-own-arrow .ag-sel-arrow{display:none}
+.ag-sel-bad .ag-sel-btn{border-color:#ef4444!important}
+.ag-sel-list{display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:9990;max-height:300px;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:6px;background:#fff;color:#111827;border:1px solid rgba(0,0,0,.08);border-radius:14px;box-shadow:0 14px 40px rgba(0,0,0,.18)}
+.ag-sel-up .ag-sel-list{top:auto;bottom:calc(100% + 6px)}
+.ag-sel-open .ag-sel-list{display:block;animation:agSelIn .14s ease-out}
+.ag-sel-opt{padding:12px 12px;border-radius:10px;cursor:pointer;line-height:1.35;font-size:15px}
+.ag-sel-opt:hover,.ag-sel-opt.ag-act{background:rgba(0,0,0,.05)}
+.ag-sel-opt[aria-selected="true"]{font-weight:600;background:rgba(0,0,0,.08)}
+.ag-sel-opt[aria-disabled="true"]{opacity:.4;cursor:default}
+.ag-sel-open .ag-sel-list{animation:none}
+.ag-sel-arrow{transition:none}
