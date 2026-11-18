@@ -1856,15 +1856,14 @@ function savePdf(btn){
   try{if(window.fbq)fbq('track','ViewContent',{content_name:'pdf_'+ZOD[zi]});}catch(e){}
   try{post({event:'cta',cta:'pdf-download',source:'landing:'+OWN_SLUG});}catch(e){}
   Promise.all([loadH2C()].concat(imgs)).then(function(){
-    var PW=400,cl=snap(rd),box=document.createElement('div');
-    box.style.cssText='position:absolute;left:-10000px;top:0;padding:16px 12px;background:#FBF4E8;width:'+PW+'px';box.appendChild(cl);document.body.appendChild(box);
+    var PW=390,cl=snap(rd),box=document.createElement('div');box.id='pdfbox';[].forEach.call(cl.querySelectorAll('.conf,.ctab,.nx,.pdfwrap'),function(e){e.remove();});[].forEach.call(cl.querySelectorAll('.art .animal'),function(e){e.setAttribute('width','56');e.setAttribute('height','56');e.style.width=e.style.height='56px';});
+    box.style.cssText='position:absolute;left:-10000px;top:0;padding:12px 0 20px;background:#FBF4E8;width:'+PW+'px';box.appendChild(cl);document.body.appendChild(box);
     var bh=box.offsetHeight,bw=box.offsetWidth,sc=Math.min(1.5,Math.sqrt(7e6/(bw*bh))),br=box.getBoundingClientRect();
-    var links=[].slice.call(cl.querySelectorAll('a[href^="http"]')).map(function(a){var r=a.getBoundingClientRect(),x=r.left-br.left,y=r.top-br.top;
-      return {u:a.href,r:[x*.75,(bh-y-r.height)*.75,(x+r.width)*.75,(bh-y)*.75].map(function(v){return v.toFixed(1);})};});
+    var links=[],ch=bh;
     return html2canvas(box,{scale:sc,useCORS:true,backgroundColor:'#FBF4E8',logging:false,scrollX:0,scrollY:-window.scrollY,
-        imageTimeout:4000,windowWidth:424,windowHeight:900,ignoreElements:function(el){if(el.classList&&(el.classList.contains('nx')||el.classList.contains('pdfwrap')))return true;var tg=el.tagName;if(tg==='SCRIPT'||tg==='IFRAME'||tg==='VIDEO')return true;if(tg==='HEAD'||tg==='STYLE'||tg==='LINK'||tg==='META'||tg==='TITLE'||el.parentNode===document.head)return false;return !(box.contains(el)||el.contains(box));}})
+        imageTimeout:4000,windowWidth:390,windowHeight:844,onclone:function(doc){[].forEach.call(doc.querySelectorAll('style'),function(st){st.textContent=st.textContent.replace(/@media\s*\(\s*min-width\s*:\s*\d+px\s*\)/g,'@media not all');});var cb=doc.getElementById('pdfbox');if(!cb)return;var br=cb.getBoundingClientRect();ch=br.height;links=[].slice.call(cb.querySelectorAll('a[href^="http"]')).map(function(a){var r=a.getBoundingClientRect(),x=r.left-br.left,y=r.top-br.top;return {u:a.href,r:[x*.75,(ch-y-r.height)*.75,(x+r.width)*.75,(ch-y)*.75].map(function(v){return v.toFixed(1);})};});},ignoreElements:function(el){if(el.classList&&(el.classList.contains('nx')||el.classList.contains('pdfwrap')||el.classList.contains('conf')||el.classList.contains('ctab')))return true;var tg=el.tagName;if(tg==='SCRIPT'||tg==='IFRAME'||tg==='VIDEO')return true;if(tg==='HEAD'||tg==='STYLE'||tg==='LINK'||tg==='META'||tg==='TITLE'||el.parentNode===document.head)return false;return !(box.contains(el)||el.contains(box));}})
       .then(function(cv){document.body.removeChild(box);
-        var blob=makePdf(b64bytes(cv.toDataURL('image/jpeg',0.85)),cv.width,cv.height,(bw*.75).toFixed(1),(bh*.75).toFixed(1),links);
+        var blob=makePdf(b64bytes(cv.toDataURL('image/jpeg',0.85)),cv.width,cv.height,(cv.width/sc*.75).toFixed(1),(cv.height/sc*.75).toFixed(1),links);
         var u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='2027生肖求财指南-属'+ZOD[zi]+'-林舒苑.pdf';document.body.appendChild(a);a.click();
         setTimeout(function(){URL.revokeObjectURL(u);a.remove();},4000);},function(e){if(box.parentNode)document.body.removeChild(box);throw e;});
   }).then(function(){btn.disabled=false;btn.textContent=t;},function(er){try{console.log('PDFERR',er&&(er.stack||er.message||er))}catch(_){}btn.disabled=false;btn.textContent=t;alert('PDF 没生成成功，可以直接截图保存，或稍后再试一次。');});
