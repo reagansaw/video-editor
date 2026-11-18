@@ -5,18 +5,18 @@
 import json, sys
 from studio_api import call
 
-WORKFLOW_ID = None   # 第一次建好后把 workflow_id 填在这里，之后用 --update
+WORKFLOW_ID = 'b7aedd45-7340-4b98-b480-f1373f859a3b'   # 11-18 建好，之后用 --update
 NAME = 'Suyen · 2027 生肖财运指南 · 05「答应之前，先问清楚」配图 ×12 · 20261118'
 
-STYLE = ("Premium editorial still life for a Chinese metaphysics strategy brand, refined and calm. Palette strictly: rose crimson #D03F58, "
-         "deep wine #3B0F18, warm beige #EFDFB3 and soft cream #FAF5E6, with small touches of antique gold. Soft warm window light from the left, "
-         "gentle shadows, shallow depth of field, photorealistic, high detail, clean uncluttered composition with calm empty space on the right third. "
-         "No people, no hands, no faces, no text, no letters, no Chinese characters, no numbers, no logos, no watermark. No purple, no blue.")
-
-SCENE = ("A wide still life on a dark rosewood desk: a closed folder of contract papers tied with a crimson silk cord, a traditional brush pen "
-         "resting on a jade brush rest, an unpressed red cinnabar seal beside an open seal-paste box, an antique wooden abacus slightly out of focus, "
-         "and a small cup of tea with a thin wisp of steam. In the centre of the desk stands a small, beautifully carved {animal} figurine in pale "
-         "jade, as if quietly watching over the papers. The mood: pause and check the terms carefully before agreeing. ")
+SUBJECT = ("A small, finely carved pale-jade {animal} figurine stands in the centre of a dark rosewood desk, as if quietly watching over a closed "
+           "folder of contract papers tied with a crimson silk cord. Around it: a traditional brush pen resting on a jade brush rest, an unpressed "
+           "red cinnabar seal beside an open seal-paste box, an antique wooden abacus slightly out of focus, and a small cup of tea with a thin wisp of steam. ")
+FRAMING = ("Wide still-life shot at eye level with the desk, slightly left of centre, leaving calm empty space on the right third. "
+           "Soft warm window light from the left with natural gentle shadows, shallow depth of field. ")
+STYLE = ("Premium editorial photograph for a Chinese metaphysics strategy brand, refined, calm and trustworthy; the mood says: pause and check the "
+         "terms before you agree. Colour palette strictly rose crimson #D03F58, deep wine #3B0F18, warm beige #EFDFB3 and soft cream #FAF5E6, "
+         "with small touches of antique gold. Real photo texture, natural materials, not a 3D render. 16:9. "
+         "No people, no hands, no faces. No text, no letters, no Chinese characters, no numbers, no logos, no watermark. No purple, no blue.")
 
 ANIMALS = [('rat', '鼠'), ('ox', '牛'), ('tiger', '虎'), ('rabbit', '兔'), ('dragon', '龙'), ('snake', '蛇'),
            ('horse', '马'), ('goat', '羊'), ('monkey', '猴'), ('rooster', '鸡'), ('dog', '狗'), ('pig', '猪')]
@@ -39,7 +39,7 @@ def build():
     for k, (en, zh) in enumerate(ANIMALS):
         y = k * 420
         node(f'{en}_txt', 'textInput', 0, y, f'{zh} · 05 配图提示',
-             {'text': 'A wide 16:9 image. ' + SCENE.format(animal=en) + STYLE})
+             {'text': SUBJECT.format(animal=en) + FRAMING + STYLE})
         node(f'{en}_img', 'aiImage', 420, y, f'属{zh} · 答应之前，先问清楚',
              {'model': 'gpt-image-2', 'gptImage2Mode': 't2i', 'imageInputCount': 0, 'aspectRatio': '16:9', 'resolution': '2K',
               'gptImage2Quality': 'high', 'status': 'idle'})
