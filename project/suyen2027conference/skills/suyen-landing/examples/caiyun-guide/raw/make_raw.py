@@ -161,18 +161,19 @@ function loadH2C(){if(window.html2canvas)return Promise.resolve();var src=docume
   var s=document.createElement('script');s.textContent=src.textContent;document.head.appendChild(s);return window.html2canvas?Promise.resolve():Promise.reject(new Error('h2c load'));}
 /* 一页长 PDF：一张 JPEG + 可以点的链接（报名 WhatsApp） */
 function b64bytes(d){var bin=atob(d.split(',')[1]),u=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u;}
-function makePdf(jpg,iw,ih,W,H,links,body){
+function makePdf(jpg,iw,ih,W,H,links,body,im2){
   var parts=[],len=0,offs=[];function add(x){if(typeof x==='string'){var u=new Uint8Array(x.length);for(var i=0;i<x.length;i++)u[i]=x.charCodeAt(i)&255;x=u;}parts.push(x);len+=x.length;}
   function obj(n,body,stream){offs[n]=len;add(n+' 0 obj\\n'+body);if(stream){add('\\nstream\\n');add(stream);add('\\nendstream');}add('\\nendobj\\n');}
-  var nA=links.length,an=[];for(var k=0;k<nA;k++)an.push((6+k)+' 0 R');
+  var A0=im2?7:6,nA=links.length,an=[];for(var k=0;k<nA;k++)an.push((A0+k)+' 0 R');
   add('%%PDF-1.4\\n');
   obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
   obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
-  obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+W+' '+H+'] /Resources << /XObject << /Im0 5 0 R >> >> /Contents 4 0 R'+(nA?' /Annots ['+an.join(' ')+']':'')+' >>');
+  obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+W+' '+H+'] /Resources << /XObject << /Im0 5 0 R'+(im2?' /Im1 6 0 R':'')+' >> >> /Contents 4 0 R'+(nA?' /Annots ['+an.join(' ')+']':'')+' >>');
   var cs=body||('q '+W+' 0 0 '+H+' 0 0 cm /Im0 Do Q');obj(4,'<< /Length '+cs.length+' >>',cs);
   obj(5,'<< /Type /XObject /Subtype /Image /Width '+iw+' /Height '+ih+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+jpg.length+' >>',jpg);
-  links.forEach(function(l,k){obj(6+k,'<< /Type /Annot /Subtype /Link /Border [0 0 0] /Rect ['+l.r.join(' ')+'] /A << /S /URI /URI ('+l.u.replace(/[()\\\\]/g,'\\\\$&')+') >> >>');});
-  var n=6+nA,x=len,xr='xref\\n0 '+n+'\\n0000000000 65535 f \\n';for(var i=1;i<n;i++)xr+=('000000000'+offs[i]).slice(-10)+' 00000 n \\n';
+  if(im2)obj(6,'<< /Type /XObject /Subtype /Image /Width '+im2.iw+' /Height '+im2.ih+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im2.jpg.length+' >>',im2.jpg);
+  links.forEach(function(l,k){obj(A0+k,'<< /Type /Annot /Subtype /Link /Border [0 0 0] /Rect ['+l.r.join(' ')+'] /A << /S /URI /URI ('+l.u.replace(/[()\\\\]/g,'\\\\$&')+') >> >>');});
+  var n=A0+nA,x=len,xr='xref\\n0 '+n+'\\n0000000000 65535 f \\n';for(var i=1;i<n;i++)xr+=('000000000'+offs[i]).slice(-10)+' 00000 n \\n';
   add(xr+'trailer\\n<< /Size '+n+' /Root 1 0 R >>\\nstartxref\\n'+x+'\\n%%%%EOF');
   return new Blob(parts,{type:'application/pdf'});}
 /* 指南是靠页面上的 radio 显示的，复制出去规则就失效 → 把每一格当下的显示状态写死在复制品上 */
@@ -185,7 +186,7 @@ function snap(rd){var c=rd.cloneNode(true),a=[rd].concat([].slice.call(rd.queryS
   c.style.width='100%%';c.style.maxWidth='none';c.style.margin='0';c.style.background='#FBF4E8';return c;}
 function waitImgs(rd,ms){var ps=[].slice.call(rd.querySelectorAll('img')).map(function(i){i.loading='eager';return i.complete&&i.naturalWidth?null:new Promise(function(ok){i.addEventListener('load',ok,{once:true});i.addEventListener('error',ok,{once:true});});});
   return Promise.race([Promise.all(ps),new Promise(function(ok){setTimeout(ok,ms);})]);}
-function prewarm(zi){var g=PDFZ[zi];if(g){try{fetch(g.u);}catch(e){}}}
+function prewarm(zi){var g=PDFZ[zi];try{if(g)fetch(g.u);if(PDFZ.conf)fetch(PDFZ.conf.u);}catch(e){}}
 /* 下载按钮放在每一份指南最后（大会卡下面） */
 document.querySelectorAll('.rd').forEach(function(rd){var m=/\\brd(\\d+)\\b/.exec(rd.className);if(!m)return;var zi=+m[1],cf=rd.querySelectorAll('.conf');cf=cf[cf.length-1];if(!cf)return;
   cf.insertAdjacentHTML('afterend','<div class="pdfwrap"><button type="button" class="pdfbtn" data-zi="'+zi+'">下载属'+ZOD[zi]+'的 2027 求财指南 PDF ↓</button><p>存进手机，做决定前拿出来看一眼。</p></div>');});
@@ -196,12 +197,14 @@ function savePdf(btn){
   var t=btn.textContent; btn.disabled=true; btn.textContent='正在下载 PDF…';
   try{if(window.fbq)fbq('track','ViewContent',{content_name:'pdf_'+ZOD[zi]});}catch(e){}
   try{post({event:'cta',cta:'pdf-download',source:'landing:'+OWN_SLUG});}catch(e){}
-  fetch(g.u).then(function(r){if(!r.ok)throw new Error('img '+r.status);return r.arrayBuffer();}).then(function(buf){
+  var C=PDFZ.conf;function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error('img '+r.status);return r.arrayBuffer();});}
+  Promise.all([get(g.u),C?get(C.u):null]).then(function(bs){var buf=bs[0];
     var k=0.75,sl=[[0,g.top],card,[g.bottom,g.H]],W=g.W*k,Hi=g.H*k,Ht=0,yd=0,body='';
-    sl.forEach(function(x){Ht+=(x[1]-x[0])*k;});
-    sl.forEach(function(x){var hs=(x[1]-x[0])*k,yb=Ht-(yd+hs),ty=yb-Hi+x[1]*k;
+    sl.forEach(function(x){Ht+=(x[1]-x[0])*k;});var Hc=C?C.H*k:0,Hp=Ht+Hc,links=[];
+    sl.forEach(function(x){var hs=(x[1]-x[0])*k,yb=Hp-(yd+hs),ty=yb-Hi+x[1]*k;
       body+='q 0 '+yb.toFixed(2)+' '+W.toFixed(2)+' '+hs.toFixed(2)+' re W n '+W.toFixed(2)+' 0 0 '+Hi.toFixed(2)+' 0 '+ty.toFixed(2)+' cm /Im0 Do Q ';yd+=hs;});
-    var blob=makePdf(new Uint8Array(buf),g.w,g.h,W.toFixed(2),Ht.toFixed(2),[],body);
+    if(C){body+='q '+(C.W*k).toFixed(2)+' 0 0 '+Hc.toFixed(2)+' 0 0 cm /Im1 Do Q';var b=C.btn;links.push({u:C.href,r:[b[0]*k,Hc-(b[1]+b[3])*k,(b[0]+b[2])*k,Hc-b[1]*k].map(function(v){return v.toFixed(1);})});}
+    var blob=makePdf(new Uint8Array(buf),g.w,g.h,W.toFixed(2),Hp.toFixed(2),links,body,C?{jpg:new Uint8Array(bs[1]),iw:C.w,ih:C.h}:null);
     var u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='2027生肖求财指南-属'+ZOD[zi]+'-林舒苑.pdf';document.body.appendChild(a);a.click();
     setTimeout(function(){URL.revokeObjectURL(u);a.remove();},4000);
   }).then(function(){btn.disabled=false;btn.textContent=t;},function(er){try{console.log('PDFERR',er&&(er.stack||er.message||er))}catch(_){}btn.disabled=false;btn.textContent=t;alert('PDF 没下载成功，请稍后再试一次。');});
