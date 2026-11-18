@@ -49,7 +49,6 @@ DOB = f'''<form class="dob" id="dobform" novalidate>
         <label for="dob-y">出生年份
           <select id="dob-y" autocomplete="bday-year"><option value="">选你的出生年份</option>{YEARS}</select>
         </label>
-        <p class="yhint">1 月到 2 月初（立春前）出生，生肖算前一年，请选前一年。</p>
         <button type="submit" class="btn" id="dob-go" disabled>看我的 2027 财运 →</button>
       </div>
       <p class="err" id="dob-err" role="alert"></p>
