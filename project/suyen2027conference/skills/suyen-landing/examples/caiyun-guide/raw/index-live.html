@@ -1800,7 +1800,7 @@ function go(ev){
   var z=$('z'+zi); if(!z) return; z.checked=true;
   var yr=$('y'+zi+'_'+y); if(yr) yr.checked=true;
   $('dobres-t').innerHTML='你是 <b>'+y+' 年</b>出生，生肖 <b>属'+ZOD[zi]+'</b>（'+pill+'年）。'
-    +'<small>下面已经帮你打开属'+ZOD[zi]+'的 2027 求财指南。如果你是 1 月到 2 月初（立春前）出生，生肖算前一年，可以回上面改选。</small>'
+    +'<small>下面已经帮你打开属'+ZOD[zi]+'的 2027 求财指南。</small>'
     +'<button type="button" class="pdfbtn" data-zi="'+zi+'">下载属'+ZOD[zi]+'的 2027 PDF 指南 ↓</button>';
   $('dobres').className='on';
   var eid='dob.'+Date.now().toString(36)+'.'+Math.random().toString(36).slice(2,8);
