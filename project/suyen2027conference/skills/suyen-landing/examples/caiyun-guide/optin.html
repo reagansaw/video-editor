@@ -260,6 +260,8 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
 .cfb::after{content:"已确认 " counter(ok) " / 5 项。把还没勾选的一项，带到下一次沟通里。"}
 .chk:not(:has(input:checked)) .cfb::after{content:"先从一项最重要的条件开始核实。"}
 .chk:not(:has(input:not(:checked))) .cfb::after{content:"5 项已确认。接下来，按已核实的条件安排下一步；勾选不代表收益或结果保证。"}
+.qcard{margin:22px 0 0;max-width:560px}
+.qcard img{width:100%;height:auto;border-radius:var(--radius-md);box-shadow:var(--shadow-2);background:#FAF5E6}
 .pcard{margin-top:22px;background:#FFFAEB;border:1.5px solid #D9C08E;border-radius:var(--radius-md);padding:24px 22px;box-shadow:var(--shadow-2)}
 .pcard .k{font:900 13px/1 var(--latin);letter-spacing:3px;color:var(--crimson-600)}
 .pcard h3{font-size:22px;font-weight:900;margin:8px 0 14px}
@@ -539,7 +541,7 @@ body:has(.modal:target),body:has(.modal.ag-open){overflow:hidden}
     <p class="slab"><i>05</i>答应之前</p>
     <h2 class="h2"><span class="g">很多亏损，</span><span class="g">都来自一句</span><span class="g"><em>「好啊」</em></span></h2>
     <p class="desc">选一件正在考虑的事：参加应酬、接熟人介绍的单、答应帮忙垫款，或再开一项订阅。 答应之前，先拿这 5 个问题问清楚。</p>
-    <div class="clist"><div class="crow"><span class="qn">1</span><span><b>人缘带来什么？</b><small>这是可跟进的客户机会，还是单纯的社交邀约？</small></span></div><div class="crow"><span class="qn">2</span><span><b>是不是在漏小钱？</b><small>上个月我为类似事项一共花了多少钱？</small></span></div><div class="crow"><span class="qn">3</span><span><b>合作分工清楚吗？</b><small>谁承诺、谁跟进、谁承担额外费用？</small></span></div><div class="crow"><span class="qn">4</span><span><b>关键条件求证了吗？</b><small>我问过当事人，还是只听别人转述？</small></span></div><div class="crow"><span class="qn">5</span><span><b>可以先做哪一步？</b><small>能否先约一次电话、发一份报价，或取消一个重复扣款？</small></span></div></div>
+    <figure class="qcard"><img src="card_rat.jpg" alt="属鼠 · 答应之前，先问清楚：1. 人缘带来什么？这是可跟进的客户机会，还是单纯的社交邀约？；2. 是不是在漏小钱？上个月我为类似事项一共花了多少钱？；3. 合作分工清楚吗？谁承诺、谁跟进、谁承担额外费用？；4. 关键条件求证了吗？我问过当事人，还是只听别人转述？；5. 可以先做哪一步？能否先约一次电话、发一份报价，或取消一个重复扣款？" width="1200" height="1200" loading="lazy" decoding="async"></figure>
     <a class="nx" href="#z0-plan">看完不做，等于没<span style="white-space:nowrap">看&nbsp;↓</span></a>
   </section>
   <section class="sec" id="z0-plan">
