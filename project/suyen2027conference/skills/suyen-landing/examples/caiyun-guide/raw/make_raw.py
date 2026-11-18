@@ -2,7 +2,7 @@
 用法：python3 make_raw.py <optin.html> <lichun.json> <out.html> <funnel 页 slug> <报名成功网址>"""
 import json, sys
 
-src, lcf, out, FUNNEL_SLUG, NEXT = sys.argv[1:6]
+src, lcf, out, FUNNEL_SLUG, NEXT, OWN_SLUG = sys.argv[1:7]
 h = open(src, encoding='utf8').read()
 lc = {int(k): v for k, v in json.load(open(lcf)).items() if 1929 <= int(k) <= 2028}
 
@@ -19,7 +19,14 @@ CSS = '''
 .dob input:focus{outline:none;border-color:var(--crimson);box-shadow:0 0 0 4px rgba(208,63,88,.18)}
 .dob .btn{width:100%;margin-top:4px;font-size:18px}
 .dob .err{min-height:20px;margin-top:6px;font-size:14px;font-weight:700;color:var(--crimson-600)}
-.or{font-size:14px;font-weight:700;color:var(--muted);margin:0 0 10px}
+.dob{border-bottom:0;margin:0;padding:0}
+.dob fieldset{border:0;margin:0;padding:0;min-width:0}
+.dob legend{font-size:14px;font-weight:700;color:var(--ink);padding:0}
+.sel3{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:8px;margin-top:6px}
+.dob select{width:100%;min-height:52px;border:2px solid var(--line);border-radius:var(--radius-sm);padding:0 34px 0 14px;font:400 17px var(--sans);color:var(--ink);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23B83349' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 12px center;-webkit-appearance:none;appearance:none}
+.dob select:focus{outline:none;border-color:var(--crimson);box-shadow:0 0 0 4px rgba(208,63,88,.18)}
+.dob input::placeholder{color:#9A8A8C}
+.fine2{font-size:12px!important;color:var(--muted);text-align:center;margin-top:8px}
 #dobres{display:none}
 .zr:checked~#dobres.on{display:block}
 #dobres .box{margin:16px var(--pad) 0;max-width:1180px;background:var(--crimson-900);color:#FFFAEB;border-radius:var(--radius-md);padding:16px 20px;font-size:16px;line-height:1.7}
@@ -28,25 +35,41 @@ CSS = '''
 #dobres small{display:block;font-size:13px;color:rgba(255,250,235,.75);margin-top:4px}
 '''
 
-DOB = '''<div class="dob">
-      <b>输入你的出生日期</b>
-      <p>帮你找出你的年柱和生肖（以立春为界，不是 1 月 1 日），直接打开你的 2027 求财指南。</p>
+YEARS = ''.join(f'<option value="{y}">{y}</option>' for y in range(2027, 1929, -1))
+MONTHS = ''.join(f'<option value="{m}">{m} 月</option>' for m in range(1, 13))
+DAYS = ''.join(f'<option value="{d}">{d} 日</option>' for d in range(1, 32))
+DOB = f'''<form class="dob" id="dobform" novalidate>
+      <b>输入你的资料，马上看</b>
+      <p>用你的出生日期找出你的年柱和生肖（以立春为界，不是 1 月 1 日），直接打开你的 2027 求财指南。</p>
       <div class="dob-row">
-        <label for="dob-date">出生日期<input id="dob-date" type="date" min="1930-01-01" max="2027-12-31" autocomplete="bday"></label>
-        <button type="button" class="btn" id="dob-go">看我的 2027 财运 →</button>
+        <label for="dob-name">称呼<input id="dob-name" name="name" autocomplete="given-name" placeholder="例如：Amy"></label>
+        <label for="dob-email">Email<input id="dob-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com"></label>
+        <fieldset class="dob-date"><legend>出生日期</legend>
+          <div class="sel3">
+            <select id="dob-y" aria-label="出生年份" autocomplete="bday-year"><option value="">年</option>{YEARS}</select>
+            <select id="dob-m" aria-label="出生月份" autocomplete="bday-month"><option value="">月</option>{MONTHS}</select>
+            <select id="dob-d" aria-label="出生日" autocomplete="bday-day"><option value="">日</option>{DAYS}</select>
+          </div>
+        </fieldset>
+        <button type="submit" class="btn" id="dob-go">看我的 2027 财运 →</button>
       </div>
       <p class="err" id="dob-err" role="alert"></p>
-    </div>
-    <p class="or">或直接点你的生肖：</p>
+      <p class="fine2">免费 · 资料只用来发送你的指南和大会资讯。</p>
+    </form>
     '''
 
 a = '<div class="picker-h"><b>你属什么？</b><small>01 / 选择你的生肖</small></div>'
 assert h.count(a) == 1
 h = h.replace(a, '<div class="picker-h"><b>你属什么？</b><small>免费 · 30 秒</small></div>\n    ' + DOB, 1)
+import re as _re
+h, n = _re.subn(r'<div class="zgrid">[\s\S]*?</label></div>\s*', '', h, count=1); assert n == 1
+h = h.replace('<p class="hint">点你的生肖，马上看你的 2027 求财指南 · 免费阅读</p>', '', 1)
 a = '<div id="read">'
 assert h.count(a) == 1
 h = h.replace(a, '<div id="dobres" aria-live="polite"><div class="box" id="dobres-t"></div></div>\n' + a, 1)
 h = h.replace('</style>', CSS + '</style>', 1)
+assert h.count('<span class="g">先选择</span>') == 1
+h = h.replace('<span class="g">先选择</span>', '<span class="g">先看清</span>', 1)
 
 # raw 页没有平台钩子：见证影片直接嵌（顺序跟 funnel 页的影片格一样）
 VIDS = ['beb2a5be-9104-4064-912d-65ce38fc355a', '1aff4376-3c5e-42fe-a2b3-d66341cc43f7', '0ec31e4a-7077-4ffb-b23c-6492695dec85',
@@ -59,7 +82,7 @@ for v in VIDS:
 JS = '''<script>
 /* raw 版：没有平台钩子，这里自己做 ① 出生日期 → 年柱地支 ② 报名弹窗 ③ 报名送出（跟平台一样送去 /api/track，算在 funnel 那一页） */
 (function(){
-var FUNNEL_SLUG=%(slug)s, NEXT=%(next)s, LICHUN=%(lc)s;
+var OWN_SLUG=%(own)s, FUNNEL_SLUG=%(slug)s, NEXT=%(next)s, LICHUN=%(lc)s;
 var STEMS='甲乙丙丁戊己庚辛壬癸', BRANCH='子丑寅卯辰巳午未申酉戌亥', ZOD='鼠牛虎兔龙蛇马羊猴鸡狗猪';
 function $(id){return document.getElementById(id);}
 /* ① 出生日期 → 年柱（立春为界，马来西亚时间） */
@@ -69,10 +92,15 @@ function pillarYear(dateStr){
   if(dateStr<lcDay) return {y:y-1};
   return {y:y, onLichun:dateStr===lcDay};
 }
-function go(){
-  var d=$('dob-date').value, err=$('dob-err');
-  if(!d){err.textContent='先选一下你的出生日期～';return;}
-  var yy=+d.slice(0,4); if(yy<1930||yy>2027){err.textContent='请输入 1930 到 2027 年之间的出生日期。';return;}
+function pad(n){return (n<10?'0':'')+n;}
+function go(ev){
+  if(ev)ev.preventDefault();
+  var err=$('dob-err'), nm=$('dob-name').value.trim(), em=$('dob-email').value.trim(), Y=+$('dob-y').value, M=+$('dob-m').value, Dd=+$('dob-d').value;
+  if(!nm){err.textContent='请填写你的称呼。';$('dob-name').focus();return;}
+  if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(em)){err.textContent='请填写正确的 Email，指南会发到这里。';$('dob-email').focus();return;}
+  if(!Y||!M||!Dd){err.textContent='请选好你的出生年、月、日。';return;}
+  var dt=new Date(Y,M-1,Dd); if(dt.getMonth()!==M-1){err.textContent=Y+' 年 '+M+' 月没有 '+Dd+' 日，请再选一次。';return;}
+  var d=Y+'-'+pad(M)+'-'+pad(Dd), yy=Y;
   var r=pillarYear(d), y=r.y, zi=((y-4)%%12+12)%%12, si=((y-4)%%10+10)%%10;
   err.textContent='';
   var z=$('z'+zi); if(!z) return; z.checked=true;
@@ -81,12 +109,16 @@ function go(){
   $('dobres-t').innerHTML='按你的出生日期 <b>'+(+p[0])+' 年 '+(+p[1])+' 月 '+(+p[2])+' 日</b>，你的年柱是 <b>'+pill+'年</b>，生肖 <b>属'+ZOD[zi]+'</b>。'
     +'<small>生肖以立春为界，不是 1 月 1 日'+(y!==yy?'：你在立春之前出生，所以算前一年。':(r.onLichun?'：你刚好在立春当天出生，按新的一年算。':'。'))+'下面已经帮你打开你那一年的求财路线。</small>';
   $('dobres').className='on';
-  try{if(window.fbq)fbq('track','ViewContent',{content_name:'zodiac_'+ZOD[zi]});}catch(e){}
+  /* 记成名单（算在这一页，不是大会 funnel → 不会触发「已成功注册大会」的讯息） */
+  var eid='dob.'+Date.now().toString(36)+'.'+Math.random().toString(36).slice(2,8);
+  try{post({event:'register',source:'landing:'+OWN_SLUG,name:nm,email:em,event_id:eid,
+    fields:[{k:'birthday',l:'生日',v:d},{k:'dob_pillar',l:'出生年柱',v:pill+'年 · 属'+ZOD[zi]}],
+    note:'生日: '+d+'\\n出生年柱: '+pill+'年 · 属'+ZOD[zi]});}catch(e){}
+  try{if(window.fbq)fbq('track','Lead',{content_name:'zodiac_'+ZOD[zi]},{eventID:eid});}catch(e){}
+  if($('name')&&!$('name').value)$('name').value=nm; if($('email')&&!$('email').value)$('email').value=em;
   window.scrollTo({top:0,behavior:'smooth'});
 }
-$('dob-go').addEventListener('click',go);
-$('dob-date').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();go();}});
-document.querySelectorAll('.zgrid label').forEach(function(l){l.addEventListener('click',function(){$('dobres').className='';});});
+$('dobform').addEventListener('submit',go);
 
 /* ② 报名弹窗 */
 var modal=document.querySelector('[data-aigoal-modal="lead"]'), lastBtn=null;
@@ -103,14 +135,14 @@ var FT='';try{FT=new URLSearchParams(location.search).get('ft')||'';}catch(e){}
 function post(body){var payload=Object.assign({source:'landing:'+FUNNEL_SLUG},utm(),body);var blob=JSON.stringify(payload);
   if(body.event==='landing'&&navigator.sendBeacon){navigator.sendBeacon('/api/track',new Blob([blob],{type:'application/json'}));return Promise.resolve();}
   return fetch('/api/track',{method:'POST',headers:{'content-type':'application/json'},body:blob});}
-try{post({event:'landing',ref:document.referrer||'',bot:navigator.webdriver?1:0});}catch(e){}
+try{post({event:'landing',source:'landing:'+OWN_SLUG,ref:document.referrer||'',bot:navigator.webdriver?1:0});}catch(e){}
 document.querySelectorAll('form[data-aigoal-lead]').forEach(function(f){f.addEventListener('submit',function(ev){ev.preventDefault();
   var d={},fields=[];f.querySelectorAll('input,select,textarea').forEach(function(el){var t=(el.type||'').toLowerCase();if(t==='submit'||t==='button'||t==='hidden'||t==='reset')return;if((t==='radio'||t==='checkbox')&&!el.checked)return;var v=(el.value||'').trim();if(!v)return;var nm=el.name||'';if(nm==='name'||nm==='phone'||nm==='email'){d[nm]=v;return;}var label=(el.getAttribute('data-label')||el.getAttribute('aria-label')||nm||'').trim();if(!label)return;fields.push({k:nm||label,l:label,v:v});});
-  var dz=$('dobres').className==='on'?$('dobres-t').textContent.split('。')[0]:'';if(dz)fields.push({k:'dob_pillar',l:'出生年柱',v:dz});
+  var dz=$('dobres').className==='on'?$('dobres-t').textContent.split('。')[0]:'';if(dz)fields.push({k:'dob_pillar',l:'出生年柱',v:dz});var bd=$('dob-y').value&&($('dob-y').value+'-'+pad(+$('dob-m').value)+'-'+pad(+$('dob-d').value));if(bd&&$('dob-m').value&&$('dob-d').value)fields.push({k:'birthday',l:'生日',v:bd});
   if(!d.phone&&!d.email){alert('请留电话或 email，不然联系不到你哦');return;}
   if(fields.length){d.fields=fields;d.note=fields.map(function(x){return x.l+': '+x.v;}).join('\\n');}
   d.event='register';var eid='ld.'+Date.now().toString(36)+'.'+Math.random().toString(36).slice(2,8);d.event_id=eid;
-  try{if(window.fbq)fbq('track','Lead',{},{eventID:eid});}catch(e){}
+  try{if(window.fbq)fbq('track','CompleteRegistration',{},{eventID:eid});}catch(e){}
   var btn=f.querySelector('[type="submit"]');if(btn){btn.disabled=true;btn.setAttribute('data-t',btn.textContent);btn.textContent='发送中…';}
   function done(ft){var u=NEXT;ft=ft||FT;if(ft)u+=(u.indexOf('?')<0?'?':'&')+'ft='+encodeURIComponent(ft);location.href=u;}
   post(d).then(function(r){if(!r||!r.ok)throw new Error('http');return r.json().then(function(j){done(j&&j.ft);}).catch(function(){done();});})
@@ -118,7 +150,7 @@ document.querySelectorAll('form[data-aigoal-lead]').forEach(function(f){f.addEve
 });});
 })();
 </script>'''
-JS = JS % {'slug': json.dumps(FUNNEL_SLUG), 'next': json.dumps(NEXT), 'lc': json.dumps({y: v for y, v in lc.items()})}
+JS = JS % {'own': json.dumps(OWN_SLUG), 'slug': json.dumps(FUNNEL_SLUG), 'next': json.dumps(NEXT), 'lc': json.dumps({y: v for y, v in lc.items()})}
 assert h.count('</body>') == 1
 h = h.replace('</body>', JS + '\n</body>', 1)
 open(out, 'w', encoding='utf8').write(h)
