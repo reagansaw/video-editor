@@ -1,0 +1,22 @@
+const {chromium}=require('playwright');const fs=require('fs');const DSF=1.25;
+(async()=>{const b=await chromium.launch();const c=await b.newContext({viewport:{width:1100,height:900},deviceScaleFactor:DSF});const m=await c.newPage();
+const html=fs.readFileSync('rawsite/prod-live.html','utf8');
+await m.route('https://suyen2027-caiyun.aigoal.ai/**',async r=>{const u=new URL(r.request().url());
+ if(u.pathname==='/')return r.fulfill({contentType:'text/html',body:html});
+ if(u.pathname.startsWith('/api/'))return r.fulfill({contentType:'application/json',body:'{"ok":true}'});
+ const res=await r.fetch({url:'https://app.aigoal.ai'+u.pathname});return r.fulfill({response:res});});
+await m.route(/b-cdn\.net|mediadelivery|facebook/,r=>r.abort());
+await m.goto('https://suyen2027-caiyun.aigoal.ai/',{waitUntil:'networkidle'});
+await m.addStyleTag({content:'.ctab,.nx,.pdfwrap,.mbar,.ychips,[data-aigoal-modal]{display:none!important}*{animation:none!important;transition:none!important}#read .rd{padding:40px 44px 48px!important;background:#FBF4E8!important}'});
+await m.evaluate(()=>{for(const e of document.querySelectorAll('body *')){const p=getComputedStyle(e).position;if((p==='fixed'||p==='sticky')&&!e.closest('#read'))e.style.setProperty('display','none','important')};document.getElementById('z0').checked=true});
+const qr='data:image/png;base64,'+fs.readFileSync('qr/qr-wa.png').toString('base64');
+await m.evaluate(qr=>{const cf=document.querySelector('.rd0 .conf');cf.style.position='relative';
+ const d=document.createElement('div');d.id='pdfqr';
+ d.style.cssText='position:absolute;right:64px;top:56px;background:#fff;border-radius:18px;padding:14px 14px 10px;text-align:center;box-shadow:0 10px 30px rgba(40,0,10,.25);z-index:2';
+ d.innerHTML='<img src="'+qr+'" style="display:block;width:150px;height:150px">'+'<div style="margin-top:8px;font:700 15px/1.3 inherit;color:#3B0F18;letter-spacing:1px">扫码参加奇门战略大会</div>';
+ cf.appendChild(d);},qr);
+await m.evaluate(()=>document.fonts.ready);await m.waitForTimeout(300);
+const g=await m.evaluate(()=>{const rd=document.querySelector('.rd0'),cf=rd.querySelector('.conf'),R=rd.getBoundingClientRect(),C=cf.getBoundingClientRect(),a=cf.querySelector('a.btn').getBoundingClientRect();
+ const q=document.getElementById('pdfqr').getBoundingClientRect();return {x:R.left+scrollX,w:R.width,y:C.top+scrollY,h:C.height+48,btn:[a.left-R.left,a.top-C.top,a.width,a.height],qr:[q.left-R.left,q.top-C.top,q.width,q.height],href:cf.querySelector('a.btn').href}});
+await m.screenshot({path:'pdfz/conf2.jpg',type:'jpeg',quality:82,clip:{x:g.x,y:g.y,width:g.w,height:g.h},fullPage:true});
+fs.writeFileSync('pdfz/conf2.json',JSON.stringify(g));console.log(g);await b.close()})()
