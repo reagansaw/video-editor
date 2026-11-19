@@ -75,7 +75,8 @@ WA_SUYEN = '60176374934'
 from urllib.parse import quote as _q
 _wa = f'https://wa.me/{WA_SUYEN}?text=' + _q('我要出席奇门战略大会')
 _n = h.count('href="#signup" data-modal-open="lead"'); assert _n >= 2, _n
-h = h.replace('href="#signup" data-modal-open="lead"', f'href="{_wa}" target="_blank" rel="noopener" data-cta="whatsapp-attend"')
+CONF_PAGE = 'https://suyen2027-caiyun-dahui.aigoal.ai/'   # 2026-11-19：立即报名 → 大会页（复制自 suyen2027，按钮直接去 VIP OTO）
+h = h.replace('href="#signup" data-modal-open="lead"', f'href="{CONF_PAGE}" data-cta="whatsapp-attend"')
 # 03 出生年份：年份已经从表单知道，不用再按 → 藏起年份按钮、问题和立春说明，直接显示他的那张求财卡
 h = h.replace('</style>', '.ypanel>b,.ychips,.ypanel>p.note{display:none}.yres{margin-top:0;border-top:0;padding-top:0}.yd0,.yd1,.yd2,.yd3,.yd4,.yd5,.yd6,.yd7,.yd8,.yd9,.yd10,.yd11{display:none}</style>', 1)
 _n = h.count('点你的出生年份，看属于你的那条路。'); assert _n == 12, _n
@@ -212,7 +213,7 @@ function savePdf(btn){
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.pdfbtn[data-zi]');if(b){e.preventDefault();savePdf(b);}});
 
 /* 立即报名 → WhatsApp：记一下点击（Meta Contact 事件 + aigoal 统计） */
-document.querySelectorAll('a[data-cta="whatsapp-attend"]').forEach(function(a){a.addEventListener('click',function(){try{if(window.fbq)fbq('track','Contact');}catch(e){}try{post({event:'cta',cta:'whatsapp-attend'});}catch(e){}});});
+document.querySelectorAll('a[data-cta="whatsapp-attend"]').forEach(function(a){a.addEventListener('click',function(){try{if(window.fbq)fbq('track','Contact');}catch(e){}try{post({event:'cta',cta:'conference-page'});}catch(e){}});});
 /* ② 报名弹窗 */
 var modal=document.querySelector('[data-aigoal-modal="lead"]'), lastBtn=null;
 function openM(e){if(e)e.preventDefault();lastBtn=e&&e.currentTarget;modal.classList.add('ag-open');document.body.style.overflow='hidden';var f=modal.querySelector('input:not([type=hidden])');if(f)setTimeout(function(){f.focus();},50);}

@@ -21,3 +21,8 @@
 - 按钮只是把那张图切成「上段 + 访客那一年的卡 + 下段」包成一页 PDF。内容有改（文案 / 补图）就要重跑 `prerender12.js`、重传、`PDFZ=pdfz.json python3 make_raw.py ...` 重建。
 - 见证影片：raw 页不准嵌 iframe（frame-src 'none'），已改成 `<video>`（Bunny HLS + original mp4）。
 - 2026-11-19：排名卡换成奇门盘后，12 张 PDF 长图重拍，传到旧页 nsdxd10s（suyen2027-caiyun-v1，原 4 张图，还剩 4 个位置）；conf 卡（含 WhatsApp QR）仍在 x6xiwtve（已满 20）。
+
+## 2026-11-19 大会页 + OTO
+- 新页 **https://suyen2027-caiyun-dahui.aigoal.ai**（id 25qmc3u8，「舒苑2027奇门遁甲战略大会 · 生肖财运指南」）＝ suyen2027 原大会页的复制；7 个「立即报名，提前布局 2027」都直接去 OTO https://suyen2027-vip.aigoal.ai/，没有弹窗。6 支见证影片已补上；右下 WhatsApp 浮动按钮用 CSS 藏起来（原页也没有）。
+- 生肖页所有「立即报名」改去这个大会页（`make_raw.py` 的 CONF_PAGE）。
+- 注意：suyen2027-caiyun-v1（nsdxd10s）、suyen2027-caiyun-ok（x6xiwtve）、suyen2027-caiyun-test（lk70bgy3）已被删除（不是 Claude 删的）；上传在那些页的图片网址照样能开。
