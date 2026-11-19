@@ -20,3 +20,4 @@
 - PDF 不再在访客浏览器里画：`prerender12.js` 用真 Chrome 以网页宽度（1100px）把 12 个生肖各截一张长图（含该生肖全部出生年份卡），上传到 aigoal（挂在 thank-you 页 x6xiwtve，每页上限 20 张图），网址和切图位置在 `pdfz.json`。
 - 按钮只是把那张图切成「上段 + 访客那一年的卡 + 下段」包成一页 PDF。内容有改（文案 / 补图）就要重跑 `prerender12.js`、重传、`PDFZ=pdfz.json python3 make_raw.py ...` 重建。
 - 见证影片：raw 页不准嵌 iframe（frame-src 'none'），已改成 `<video>`（Bunny HLS + original mp4）。
+- 2026-11-19：排名卡换成奇门盘后，12 张 PDF 长图重拍，传到旧页 nsdxd10s（suyen2027-caiyun-v1，原 4 张图，还剩 4 个位置）；conf 卡（含 WhatsApp QR）仍在 x6xiwtve（已满 20）。
