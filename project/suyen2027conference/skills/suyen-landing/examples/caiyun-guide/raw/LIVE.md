@@ -31,3 +31,14 @@
 - 生肖页出生年份表单 → 报名送到 `landing:suyen2027`（主 funnel 的 optin），所以进主 funnel 的欢迎 + 提醒流程；回传的报名码 ft 带到「立即报名」→ 大会页 ?ft= → 大会页 7 个按钮（data-cta="order"，平台自动带 ft）→ VIP OTO ?ft=（付款才认得是谁）。
 - 标签由页面设定决定：主 funnel 只打 `registered_webinar`；表单送的 `lead_magnet_2027_十二生肖` 不会被采用（生肖资料在栏位 birth_year / dob_pillar 和备注里）。
 - 测试时误建了一个真实联系人「测试 / t@example.com / 0123456789」（id o2bfprll），需要在 CRM 手动删除。
+
+## 2026-11-20 生肖 Webinar Funnel「2027 生肖财运指南 · 林舒苑老师」（iyawii07）
+| aigoal 步骤 | 页 | 网址 |
+|---|---|---|
+| Opt-in | gzvyfwvf（funnel 页会剥掉 script，只放「打开指南」按钮） | suyen2027-caiyun-optin |
+| Thank-you | tgp4spue＝大会页（复制 suyen2027，6 支影片，7 个按钮 data-cta=order → VIP 页 +ft） | suyen2027-caiyun-dahui |
+| Sales | bzgzmyy3＝VIP 升级复制（pay_offers 同原页：vip RM104.76 → suyen2027-vipok） | suyen2027-caiyun-vip |
+- 真正的指南仍是 raw 页 lf1skpvx（suyen2027-caiyun + 2027shengxiaocaifu.suyenlim.com）；它的表单要改成报名到 `landing:suyen2027-caiyun-optin`（等欢迎讯息文字核准后才切）。
+- 讯息：B/C/C2/F1-F3 已关；A 欢迎讯息 aigoal 关不掉。webinar_at 2027-01-08T20:30，community 同主 funnel。
+- 旧的单独大会复制页 → suyen2027-caiyun-dahui-old；多出来的草稿 2027-6j1m（kwa1cqev）可删。
+- aigoal 限制：funnel 只能用一次 import 建；没有「把现有页加进 funnel」的 API；funnel 页会剥 script / meta refresh。
