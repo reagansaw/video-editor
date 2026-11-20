@@ -83,3 +83,4 @@
 - 2027shengxiaocaifu.suyenlim.com `/` = 完整版指南 lf1skpvx（slug suyen2027-caiyun）：资料框 → 同一页显示「你是 X 年出生，生肖 属X」+ 指南 + PDF（页内直接下载，含赞助页）；报名进 (NEW) 的 Opt-in（landing:suyen2027-caiyun-optin），拿 ft → 立即报名 → /suyen2027-caiyun-vip → /join 或 /suyen2027-caiyun-vipok。
 - (NEW) 漏斗画面的 Domain 卡会显示 Not set（网域挂在 lf1skpvx 上，这是唯一能做到「送出后同页直接看结果」的方式）。(NEW) 的 Opt-in（suyen2027-caiyun-optin）和第 2 页（suyen2027-caiyun-guide）没人会进去。
 - 已证实 aigoal 漏斗页做不到的事：script / onerror 会被剥、meta refresh 被剥、frame-src 'none'、stage=draft 只是标签、下一页拿不到表单答案。
+- 2026-11-20：VIP 页按付款钮 → 平台送 `initiate_checkout`（有 ft 就记在联系人活动里，`GET /api/crm/{id}/activity` 看得到），但 aigoal 联系人 Timeline 没有这个事件的标签所以不显示。变通：(NEW) 的 G1「弃单提醒」（立即发）加 beat tag `initiated_checkout` → 开了结账没付的人会被打上这个标签。(NEW) 的 G1–G3 弃单追单讯息是开着的（跟主 funnel 一样）。
