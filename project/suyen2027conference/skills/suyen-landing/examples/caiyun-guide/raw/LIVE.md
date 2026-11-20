@@ -72,3 +72,5 @@
 - (NEW)=uvlroqgh 的 Opt-in 页 nmsqus6s（suyen2027-caiyun-optin）和 guide 页 ljpbk7zh（suyen2027-caiyun-guide）不再有人进来，只是 funnel 里的步骤。
 - make_raw.py：CONF_PAGE = 网域 /suyen2027-caiyun-vip；建法：`PDFZ=pdfz.json python3 make_raw.py ../optin.html lichun.json out.html suyen2027-caiyun-optin https://2027shengxiaocaifu.suyenlim.com/suyen2027-caiyun-vip suyen2027-caiyun`
 - 2026-11-20：(NEW) 登记成功页 slug 改 `join` → https://2027shengxiaocaifu.suyenlim.com/join；VIP 页的「不用了，我先加入大会」原本写死主 funnel 的 suyen2027-join.aigoal.ai，已改成网域 /join；VIP 付款后转到网域 /suyen2027-caiyun-vipok。
+- 2026-11-20：属虎 06 行动卡上线。Studio 两个版本都写成「更要能过度乐观」，我把「能」换成「防」（Noto Sans SC 400、54px，跟原字逐像素对齐），其余字跟 prompt 一致；PDF 也重拍。原图 photo-1794990990098。
+- (NEW) 欢迎讯息 A_GATE 改成「你好 {name}👋 你的报名 【2027奇门战略大会】收到啦 ！🎉 …请点击下方「我会出席」…」，按钮「我会出席」。**WhatsApp 第一则要 Meta 审核模板**：API 改文字不会送审，要在 aigoal 漏斗编辑器「报名确认」那一步按保存/送审，审过前会发旧的预设模板。
