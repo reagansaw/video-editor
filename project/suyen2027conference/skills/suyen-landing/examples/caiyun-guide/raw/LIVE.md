@@ -76,3 +76,4 @@
 - (NEW) 欢迎讯息 A_GATE 改成「你好 {name}👋 你的报名 【2027奇门战略大会】收到啦 ！🎉 …请点击下方「我会出席」…」，按钮「我会出席」。**WhatsApp 第一则要 Meta 审核模板**：API 改文字不会送审，要在 aigoal 漏斗编辑器「报名确认」那一步按保存/送审，审过前会发旧的预设模板。
 - 2026-11-20：网域改挂 (NEW) 的 Opt-in（nmsqus6s，slug suyen2027-caiyun）→ aigoal 漏斗画面显示网域。流程：`/` 资料框 → 送出 → `/suyen2027-caiyun-guide`（选年份看指南，最后有 PDF）→ `/suyen2027-caiyun-vip` → `/join` 或 `/suyen2027-caiyun-vipok`。完整版指南 lf1skpvx 回到 suyen2027-caiyun-full（给 ?pdf=年份 下载用）。第 2 页补上属虎行动卡图片。
 - 2026-11-20：PDF 最后的大会卡 QR（扫码参加奇门战略大会）+ 卡上「立即报名」连结 → https://2027qimenconference.suyenlim.com。
+- 2026-11-20：PDF 加第 2 页＝赞助商（ABLE FARM 食油海报）：米色页、标题「特别鸣谢 · 赞助商」、海报 55% 宽置中（raw/sponsor/sponsor-page.jpg，pdfz.json 的 sponsor）。
