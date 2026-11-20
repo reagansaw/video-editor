@@ -45,6 +45,20 @@ brief（题目 + 一句重点 + 要人做什么）
 - 写法规则（去 AI 化、马来西亚口吻）跟文案一样，见 `references/copy-rules.md`。海报字更狠：**一句话只留名词和动词**。
 - 出 3 组给 Reagan 挑（同结构，不同角度：钱 / 家人 / 运势），见 `references/poster-spec.md` 第 3 节。
 
+### A0. 编辑器（不用打指令）
+
+```bash
+node project/suyen2027conference/skills/suyen-content-thumbnail/scripts/editor-server.mjs   # 在 repo 根目录跑
+# 打开 http://localhost:4321
+```
+
+- 上面选设计（1 · 2028 黄金年 / 2 · 案例）→ 左边打字（每格即时数字数，超过变红）→ 右边 9:16 + 1:1 **即时预览**，碰到脸会马上报。
+- 「素材」可以直接上传 logo、去背人像、无字底图。
+- 「贴文文案」四个 tab（IG / FB / WhatsApp / Telegram）：自动数字数（不算 hashtag、链接）、抓 AI 味的词、表情太多、一行太长。
+- 「出图 + 存档」→ 跑 `render-poster.mjs`（同样的检查），存到 `content/posts/<存档名>/`：`brief.json`、`thumb-9x16.png`、`wa-1x1.png`、`copy.md`（海报字 + 四个平台文案 + 【待补】清单）。「只试出图」不存档。
+- 草稿存在浏览器里，关掉再开还在；「还原范例」回到范例字。
+- 一定要用上面的网址开，直接双击 `editor.html` 不能用。
+
 ### A2. 图：锁住设计，只换字
 
 ```bash
@@ -148,6 +162,7 @@ Reagan 挑一版，四个平台都用同一版改长短。
 | `templates/poster.html` | 设计 1「2028 黄金年」模板（锁设计） |
 | `templates/case.html` | 设计 2「案例」模板（锁设计） |
 | `scripts/render-poster.mjs` | 出图 + 字数检查 + 护脸检查 |
+| `scripts/editor-server.mjs` + `templates/editor.html` | 编辑器（A0 节） |
 | `examples/ref-2028-*.jpg` | Reagan 给的两张参考图 |
 | `examples/2028-golden-year/` | 照参考图重做的一套：brief、两张图、文案 |
 | `examples/ref-case1-9x16-screenshot.jpg` | 案例1 封面截图（设计 2 的参考） |

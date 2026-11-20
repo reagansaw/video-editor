@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Suyen 封面编辑器</title>
+<!-- 由 scripts/editor-server.mjs 提供（http://localhost:4321）。直接双击打开 file:// 不能用（预览要同源）。 -->
+<style>
+  :root{--bg:#f6f1ee;--panel:#fff;--ink:#2a1a22;--mute:#8a7580;--line:#eadfe3;--rose:#D2405A;--rose-d:#A82745;--ok:#2e7d4f;--warn:#c27a00;--bad:#c62828}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,"PingFang SC","Noto Sans CJK SC","WenQuanYi Zen Hei",sans-serif}
+  header{display:flex;align-items:center;gap:16px;padding:14px 20px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  header h1{font-size:17px;margin:0}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .seg button{border:0;background:#fff;padding:7px 14px;font:inherit;cursor:pointer;color:var(--mute)}
+  .seg button.on{background:var(--rose);color:#fff}
+  .grow{flex:1}
+  .btn{border:0;border-radius:10px;padding:9px 16px;font:inherit;font-weight:600;cursor:pointer;background:var(--rose);color:#fff}
+  .btn.ghost{background:#fff;color:var(--rose-d);border:1px solid var(--line)}
+  .btn:disabled{opacity:.5;cursor:wait}
+  main{display:grid;grid-template-columns:400px 1fr;gap:20px;padding:20px;max-width:1500px;margin:0 auto}
+  @media (max-width:980px){main{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:16px}
+  .card h2{font-size:14px;margin:0 0 12px;color:var(--rose-d);letter-spacing:.04em}
+  label{display:block;font-size:13px;color:var(--mute);margin:10px 0 4px}
+  label b{color:var(--ink);font-weight:600}
+  .row{display:flex;gap:8px;align-items:center}
+  input[type=text],textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:8px 10px;font:inherit;background:#fffdfc}
+  input[type=text]:focus,textarea:focus{outline:2px solid #f2b7c3;border-color:var(--rose)}
+  textarea{min-height:120px;resize:vertical}
+  .cnt{font-size:12px;min-width:46px;text-align:right;color:var(--mute);font-variant-numeric:tabular-nums}
+  .cnt.bad{color:var(--bad);font-weight:700}
+  .hint{font-size:12px;color:var(--mute);margin-top:6px}
+  .status{border-radius:10px;padding:10px 12px;font-size:13px;margin-top:10px;white-space:pre-wrap}
+  .status.ok{background:#e8f5ec;color:var(--ok)}
+  .status.bad{background:#fdecec;color:var(--bad)}
+  .status.warn{background:#fff6e5;color:var(--warn)}
+  .previews{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+  .pv{display:flex;flex-direction:column;gap:6px}
+  .pv span{font-size:12px;color:var(--mute)}
+  .frame{position:relative;overflow:hidden;border-radius:12px;box-shadow:0 1px 0 var(--line),0 8px 24px rgba(80,20,40,.12);background:#000}
+  .frame iframe{border:0;transform-origin:0 0;position:absolute;left:0;top:0;width:1080px}
+  .up{display:flex;align-items:center;gap:8px;font-size:13px;margin:6px 0}
+  .up input{font-size:12px;flex:1;min-width:0}
+  .tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+  .tabs button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;font:inherit;font-size:13px;cursor:pointer}
+  .tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .flag{display:inline-block;background:#fdecec;color:var(--bad);border-radius:6px;padding:0 6px;margin:2px 4px 0 0;font-size:12px}
+  .out{display:flex;gap:8px;align-items:flex-start}
+  .out a{flex:1;min-width:0}
+  .out img{width:100%;border-radius:10px;border:1px solid var(--line);margin:8px 8px 0 0}
+  .chk{display:flex;gap:6px;align-items:center;font-size:13px;margin-top:8px;color:var(--mute)}
+</style>
+</head>
+<body>
+<header>
+  <h1>Suyen 封面编辑器</h1>
+  <div class="seg" id="designSeg">
+    <button data-d="golden">设计 1 · 2028 黄金年</button>
+    <button data-d="case">设计 2 · 案例</button>
+  </div>
+  <div class="grow"></div>
+  <button class="btn ghost" id="resetBtn">还原范例</button>
+</header>
+
+<main>
+  <section>
+    <div class="card">
+      <h2>海报字（两张图同一套）</h2>
+      <div id="fields"></div>
+      <div class="hint">用 [方括号] 包住的字会变重点色（例：却[拿不出来]?!）。</div>
+      <div id="check" class="status ok">✓ 字数 OK</div>
+    </div>
+
+    <div class="card">
+      <h2>素材</h2>
+      <div class="hint" style="margin-top:0">没换的话用范例图（从参考图裁的，只供预览）。正式出图请换：透明底 logo、去背形象照。</div>
+      <div id="uploads"></div>
+    </div>
+
+    <div class="card">
+      <h2>出图</h2>
+      <label><b>存档名</b>（存到 content/posts/&lt;名字&gt;/，连文案一起）</label>
+      <input type="text" id="saveName" placeholder="例：2026-11-20-案例1-钱拿不出来">
+      <label class="chk"><input type="checkbox" id="debugChk"> 预览画出护脸框 / IG 网格线</label>
+      <div class="row" style="margin-top:12px;gap:10px">
+        <button class="btn" id="saveBtn">出图 + 存档</button>
+        <button class="btn ghost" id="testBtn">只试出图</button>
+      </div>
+      <div id="renderStatus"></div>
+      <div class="out" id="outImgs"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2>预览（即时）</h2>
+      <div class="previews">
+        <div class="pv"><span>IG reels 封面 · 9:16</span><div class="frame" id="f916"><iframe title="9x16"></iframe></div></div>
+        <div class="pv"><span>WhatsApp 方图 · 1:1</span><div class="frame" id="f11"><iframe title="1x1"></iframe></div></div>
+      </div>
+      <div id="faceStatus"></div>
+    </div>
+
+    <div class="card">
+      <h2>贴文文案</h2>
+      <div class="tabs" id="capTabs"></div>
+      <textarea id="capText" placeholder="钩 → 拉 → 转 → 推。一句一行。"></textarea>
+      <div class="row" style="justify-content:space-between;margin-top:6px">
+        <div id="capFlags"></div>
+        <div class="cnt" id="capCnt"></div>
+      </div>
+      <div class="hint" id="capHint"></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ---------- 设定 ---------- */
+const DESIGNS = {
+  golden: { tpl:'poster.html', example:'../examples/2028-golden-year/brief.json',
+    fields:[['line1','金色大字（数字）',4],['line2','米金大字',5],['band','红条（转折）',6],['line4','金色大字 2',4],['line4_tail','白小字（吗？）',2],
+            ['sticker.icon','贴纸图标（图片路径或一个字）',0],['sticker.lines.0','贴纸第 1 行',9],['sticker.lines.1','贴纸第 2 行',9],['sticker.lines.2','贴纸第 3 行',9]],
+    total:{keys:['line1','line2','band','line4','line4_tail'],max:20,msg:'大字加起来'},
+    uploads:[['logo','Logo'],['person_9x16','人像 9:16'],['person_1x1','人像 1:1'],['plate_9x16','无字底图 9:16（可选）'],['plate_1x1','无字底图 1:1（可选）']] },
+  case: { tpl:'case.html', example:'../examples/case-1-recreate/brief.json',
+    fields:[['tag','标签',4],['h1','大标题第 1 行',6],['h2','大标题第 2 行',7],['pill.icon','米黄条图标（coins / chart / 图片 / 一个字）',0],
+            ['pill.lines.0','米黄条第 1 行',9],['pill.lines.1','米黄条第 2 行',9],['question.icon','问句图标',0],['question.lines.0','问句第 1 行（白）',9],['question.lines.1','问句第 2 行',9]],
+    total:{keys:['h1','h2'],max:12,msg:'大标题 2 行加起来'},
+    uploads:[['logo','Logo'],['person_9x16','人像 9:16'],['person_1x1','人像 1:1'],['deco','右上装饰（卫星）'],['plate_9x16','无字底图 9:16（可选）'],['plate_1x1','无字底图 1:1（可选）']] }
+};
+const CAPS = { ig:['Instagram',80,'第一行就是全部；3–5 个 hashtag 放最后；留言关键字用海报上的字。'],
+  fb:['Facebook',120,'链接放最后一行；0–2 个 hashtag。'],
+  wa:['WhatsApp',60,'3 行：*粗体钩* / 一句 / 👉 IG 链接。不放 hashtag。'],
+  tg:['Telegram',100,'**粗体钩**；只放一个链接；不放 hashtag。'] };
+const BLACK = ['赋能','助力','干货满满','干货','深度解析','全方位','底层逻辑','闭环','颠覆','抓手','打造','引爆','大家好','今天来聊','你知道吗','快节奏的时代','随着','让我们一起','开启','之旅','不容错过','赶快行动','未来可期','首先','其次','总而言之','值得一提','不仅','与此同时','宝子','家人们','姐妹们','绝绝子','yyds','破防','内卷','躺平','打工人','！！'];
+
+/* ---------- 状态 ---------- */
+const store = { get(k){try{return JSON.parse(localStorage.getItem(k))}catch{return null}}, set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}} };
+let design = store.get('ct.design') || 'golden';
+let briefs = store.get('ct.briefs') || {};
+let caps = store.get('ct.caps') || {ig:'',fb:'',wa:'',tg:''};
+let capTab = 'ig';
+
+const $ = s => document.querySelector(s);
+const len = s => [...String(s||'').replace(/[\s\[\]]/g,'')].length;
+const getP = (o,p) => p.split('.').reduce((a,k)=>a==null?a:a[k],o);
+function setP(o,p,v){const ks=p.split('.');let a=o;ks.slice(0,-1).forEach((k,i)=>{if(a[k]==null)a[k]=/^\d+$/.test(ks[i+1])?[]:{};a=a[k]});a[ks.at(-1)]=v}
+function fixPaths(b){ // 范例 brief 的路径是相对 examples/<x>/，改成相对 templates/
+  const f=v=>typeof v==='string'?v.replace(/^(\.\.\/)+templates\//,''):v;
+  for(const k in b.assets||{})b.assets[k]=f(b.assets[k]);
+  for(const k of ['sticker','pill','question'])if(b.poster?.[k]?.icon)b.poster[k].icon=f(b.poster[k].icon);
+  return b;}
+async function loadExample(d){const r=await fetch(DESIGNS[d].example);briefs[d]=fixPaths(await r.json());if(briefs[d].topic)briefs[d].topic='';store.set('ct.briefs',briefs)}
+
+/* ---------- 表单 ---------- */
+function buildForm(){
+  const D=DESIGNS[design],B=briefs[design],box=$('#fields');box.innerHTML='';
+  for(const [key,lab,max] of D.fields){
+    const id='f_'+key.replace(/\./g,'_');
+    const wrap=document.createElement('div');
+    wrap.innerHTML=`<label for="${id}"><b>${lab}</b>${max?` · 上限 ${max}`:''}</label><div class="row"><input type="text" id="${id}"><span class="cnt" id="${id}_c"></span></div>`;
+    box.append(wrap);
+    const inp=wrap.querySelector('input');inp.value=getP(B.poster,key)??'';
+    inp.addEventListener('input',()=>{let v=inp.value;if(key.includes('.lines.')){setP(B.poster,key,v);const arr=getP(B.poster,key.replace(/\.\d+$/,''));while(arr.length&&!arr.at(-1))arr.pop()}else setP(B.poster,key,v);changed()});
+  }
+  const up=$('#uploads');up.innerHTML='';
+  for(const [k,lab] of D.uploads){
+    const row=document.createElement('div');row.className='up';
+    const cur=B.assets?.[k];
+    row.innerHTML=`<span style="min-width:150px">${lab}</span><input type="file" accept="image/png,image/jpeg,image/webp"><button class="btn ghost" style="padding:4px 10px" title="清掉">×</button>`;
+    row.querySelector('span').title=cur?(cur.startsWith('data:')?'（已上传）':cur):'（没有）';
+    row.querySelector('input').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{B.assets=B.assets||{};B.assets[k]=r.result;changed()};r.readAsDataURL(f)});
+    row.querySelector('button').addEventListener('click',()=>{if(B.assets)delete B.assets[k];row.querySelector('input').value='';changed()});
+    up.append(row);
+  }
+  document.querySelectorAll('#designSeg button').forEach(b=>b.classList.toggle('on',b.dataset.d===design));
+  updateCounts();
+}
+function lengthErrors(){
+  const D=DESIGNS[design],P=briefs[design].poster,errs=[];
+  for(const [key,lab,max] of D.fields){
+    const v=getP(P,key),id='f_'+key.replace(/\./g,'_'),c=$('#'+id+'_c');
+    if(!max){c.textContent='';continue}
+    const n=len(v);c.textContent=`${n}/${max}`;c.classList.toggle('bad',n>max);
+    if(n>max)errs.push(`${lab} ${n} 字，上限 ${max}`);
+  }
+  const t=D.total.keys.reduce((a,k)=>a+len(P[k]),0);
+  if(t>D.total.max)errs.push(`${D.total.msg} ${t} 字，上限 ${D.total.max}（2 秒看不完 → 删字）`);
+  for(const k of D.total.keys.filter(k=>!/tail/.test(k)))if(!P[k])errs.push(`「${D.fields.find(f=>f[0]===k)[1]}」没写`);
+  return errs;
+}
+function updateCounts(){const e=lengthErrors(),s=$('#check');s.className='status '+(e.length?'bad':'ok');s.textContent=e.length?'✗ '+e.join('\n✗ '):'✓ 字数 OK'}
+
+/* ---------- 预览 ---------- */
+const frames=[['9x16',$('#f916'),1920],['1x1',$('#f11'),1080]];
+function sizeFrames(){const w=Math.min(300,Math.max(200,(document.querySelector('.previews').clientWidth-20)/2.4));
+  for(const [F,box,H] of frames){const s=(F==='1x1'?w*1.25:w)/1080;box.style.width=1080*s+'px';box.style.height=H*s+'px';
+    const ifr=box.querySelector('iframe');ifr.style.height=H+'px';ifr.style.transform=`scale(${s})`}}
+let pending=0,faceHits={};
+function renderPreview(){
+  const tok=++pending,B=briefs[design];
+  for(const [F,box] of frames){
+    const ifr=box.querySelector('iframe');
+    ifr.onload=()=>{if(tok!==pending)return;const w=ifr.contentWindow;
+      w.BRIEF=JSON.parse(JSON.stringify(B));w.FORMAT=F;w.DEBUG=$('#debugChk').checked;
+      try{w.build()}catch(e){console.error(e)}
+      setTimeout(()=>{if(tok!==pending)return;faceHits[F]=w.eval(`(()=>{const f=window.__FACE__,o=[];document.querySelectorAll('.gold,.white,.band,.sticker,.underline,.t,.tag,.pill,.q,.rule').forEach(e=>{const r=e.getBoundingClientRect();if(r.right>f.x&&r.left<f.x+f.w&&r.bottom>f.y&&r.top<f.y+f.h)o.push(e.textContent.trim().slice(0,12))});return o})()`);showFace()},350)};
+    ifr.src=DESIGNS[design].tpl+'?v='+tok;
+  }
+}
+function showFace(){const bad=Object.entries(faceHits).filter(([,h])=>h&&h.length),s=$('#faceStatus');
+  s.className='status '+(bad.length?'bad':'ok');s.textContent=bad.length?bad.map(([F,h])=>`✗ ${F}：碰到脸 → ${[...new Set(h)].join('、')}（删字，不要缩字号）`).join('\n'):'✓ 没有字碰到脸'}
+let tmr;function changed(){store.set('ct.briefs',briefs);updateCounts();clearTimeout(tmr);tmr=setTimeout(renderPreview,250)}
+
+/* ---------- 文案 ---------- */
+function capCount(s){return [...String(s).replace(/#\S+/g,'').replace(/https?:\/\/\S+/g,'').replace(/[\s*]/g,'')].length}
+function buildCapTabs(){const t=$('#capTabs');t.innerHTML='';
+  for(const k in CAPS){const b=document.createElement('button');b.textContent=CAPS[k][0];b.className=k===capTab?'on':'';b.onclick=()=>{capTab=k;buildCapTabs()};t.append(b)}
+  $('#capText').value=caps[capTab]||'';$('#capHint').textContent=CAPS[capTab][2];capCheck()}
+function capCheck(){const v=caps[capTab]||'',[,max]=CAPS[capTab],n=capCount(v),c=$('#capCnt');
+  c.textContent=`${n}/${max}`;c.classList.toggle('bad',n>max);
+  const hits=BLACK.filter(w=>v.includes(w)),emo=(v.match(/\p{Extended_Pictographic}/gu)||[]).length,lim=capTab==='wa'||capTab==='tg'?1:2;
+  const long=v.split('\n').filter(l=>capCount(l)>16&&!/^#|https?:/.test(l.trim())).length;
+  $('#capFlags').innerHTML=hits.map(w=>`<span class="flag">AI 味：${w}</span>`).join('')+(emo>lim?`<span class="flag">表情 ${emo} 个（≤${lim}）</span>`:'')+(long?`<span class="flag">${long} 行超过 16 字</span>`:'');}
+$('#capText').addEventListener('input',e=>{caps[capTab]=e.target.value;store.set('ct.caps',caps);capCheck()});
+
+/* ---------- 出图 ---------- */
+async function doRender(save){
+  const name=$('#saveName').value.trim();
+  if(save&&!name){$('#renderStatus').innerHTML='<div class="status warn">先写存档名</div>';return}
+  const e=lengthErrors();if(e.length){$('#renderStatus').innerHTML=`<div class="status bad">先把字数改好：\n${e.join('\n')}</div>`;return}
+  for(const b of [$('#saveBtn'),$('#testBtn')])b.disabled=true;
+  $('#renderStatus').innerHTML='<div class="status warn">出图中…（约 5–10 秒）</div>';$('#outImgs').innerHTML='';
+  try{const r=await fetch('/api/render',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({brief:{...briefs[design],design},captions:caps,name,save})});
+    const j=await r.json();
+    $('#renderStatus').innerHTML=`<div class="status ${j.ok?'ok':'bad'}">${j.ok?'✓ 出好了'+(save?'，存在 '+j.folder:'（试出，没存档）'):'✗ 没过检查'}\n${(j.log||'').replace(/\/\S*\/(?=[^\/\s]+\.png)/g,'').replace(/</g,'&lt;')}</div>`;
+    $('#outImgs').innerHTML=(j.files||[]).map(f=>`<a href="${f}" download><img src="${f}" alt=""></a>`).join('');
+  }catch(err){$('#renderStatus').innerHTML=`<div class="status bad">连不到出图服务：${err}</div>`}
+  for(const b of [$('#saveBtn'),$('#testBtn')])b.disabled=false;
+}
+$('#saveBtn').onclick=()=>doRender(true);$('#testBtn').onclick=()=>doRender(false);
+$('#debugChk').onchange=renderPreview;
+$('#resetBtn').onclick=async()=>{await loadExample(design);buildForm();renderPreview()};
+document.querySelectorAll('#designSeg button').forEach(b=>b.onclick=async()=>{design=b.dataset.d;store.set('ct.design',design);if(!briefs[design])await loadExample(design);buildForm();renderPreview()});
+addEventListener('resize',sizeFrames);
+
+(async()=>{if(!briefs[design])await loadExample(design);buildForm();buildCapTabs();sizeFrames();renderPreview()})();
+</script>
+</body>
+</html>
