@@ -17,6 +17,6 @@ await m.evaluate(qr=>{const cf=document.querySelector('.rd0 .conf');cf.style.pos
  cf.appendChild(d);},qr);
 await m.evaluate(()=>document.fonts.ready);await m.waitForTimeout(300);
 const g=await m.evaluate(()=>{const rd=document.querySelector('.rd0'),cf=rd.querySelector('.conf'),R=rd.getBoundingClientRect(),C=cf.getBoundingClientRect(),a=cf.querySelector('a.btn').getBoundingClientRect();
- const q=document.getElementById('pdfqr').getBoundingClientRect();return {x:R.left+scrollX,w:R.width,y:C.top+scrollY,h:C.height+48,btn:[a.left-R.left,a.top-C.top,a.width,a.height],qr:[q.left-R.left,q.top-C.top,q.width,q.height],href:cf.querySelector('a.btn').href}});
+ const q=document.getElementById('pdfqr').getBoundingClientRect();return {x:R.left+scrollX,w:R.width,y:C.top+scrollY,h:C.height+48,btn:[a.left-R.left,a.top-C.top,a.width,a.height],qr:[q.left-R.left,q.top-C.top,q.width,q.height],href:'https://2027qimenconference.suyenlim.com'}});
 await m.screenshot({path:'pdfz/conf2.jpg',type:'jpeg',quality:82,clip:{x:g.x,y:g.y,width:g.w,height:g.h},fullPage:true});
 fs.writeFileSync('pdfz/conf2.json',JSON.stringify(g));console.log(g);await b.close()})()
