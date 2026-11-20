@@ -87,3 +87,8 @@
 - 2026-11-20：(NEW)=uvlroqgh 欢迎讯息 A 加 beat tag `lead_magnet_2027shengxiaocaifu` → 每个从生肖指南报名的人都会被打上（aigoal 没有「没有某标签」的条件，所以无法只限新客；看新客请在 CRM 筛 lead_magnet_2027shengxiaocaifu 且 没有 registered_webinar 的旧纪录 / 用建立日期）。
 - 2026-11-20：IG「财运到」：bot o1p8sl0r 新增 au_cyd_comment（全部 IG 贴文、评论含「财运到」→ 公开回复 → DM 请先关注 @2027suyenlimconference 再回复「关注了」→ 10 分钟后、1 天后再提醒），au_cyd_send0/1（关键字「我已关注，发给我」/「关注了」→ 发指南连结 2027shengxiaocaifu.suyenlim.com + utm），au_cyd_tag0/1（同关键字 → tag got_caiyun_guide_ig）。aigoal 不保留没有网址的按钮，所以改成「回复关注了」。改前备份 backup-automation-2026-11-20/bots-before-caiyundao.json。
 - 2026-11-20：标签 `lead_magnet_2027shengxiaocaifu` 改成**每次送出都贴**（不论新旧客）：新建表单页 s43bw0r7（slug suyen2027-caiyun-tag，「生肖财运指南 · 自动标签（勿删）」，form_tag=lead_magnet_2027shengxiaocaifu，不在任何漏斗、不发讯息），指南送出时多送一笔 register 到 landing:suyen2027-caiyun-tag。已用 Harvard 测试：标签有贴上。
+
+## 2026-11-20 定案 A+（漏斗 Domain 卡显示 Set）
+- 网域挂在漏斗 Opt-in nmsqus6s（slug suyen2027-caiyun-optin）→ 卡片显示网域。`/` = 介绍页（指南上半部 + 「看我的 2027 财运 →」，藏一个隐形 aigoal 表单避免平台塞预设表单）。
+- 按钮 → `/suyen2027-caiyun#dobform` = 完整版指南 lf1skpvx（资料框 → 同页结果 + PDF；报名进漏斗 Opt-in + 标签页）→ 我会出席战略大会 → /suyen2027-caiyun-vip → /join 或 /suyen2027-caiyun-vipok。
+- **完整版指南 lf1skpvx 必须保持 published**（之前在漏斗 Domain 卡按 Connect 会把它变成草稿，网站就挂）。
