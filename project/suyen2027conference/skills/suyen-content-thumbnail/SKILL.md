@@ -63,6 +63,22 @@ node scripts/render-poster.mjs <brief.json> <输出资料夹> --debug  # 加画�
 
 为什么不用 AI 直接生成整张海报：AI 画中文字会错字、每次版位都跑掉，做不到「只换字其他照旧」。AI 只拿来做**底图**（无字），字一律由模板排。要用 studio.aigoal.ai 生底图 → **只建画布，不按 Run**（`references/poster-spec.md` 第 4 节有提示词）。
 
+### A2b. 设计 2「案例」（Reagan 11-20 给的 案例1 封面）
+
+参考：`examples/ref-case1-9x16-screenshot.jpg`。brief 写 `"design": "case"` 就用 `templates/case.html`。示范：`examples/case-2-sample/`。
+
+| 格 | 参考图 | 上限 |
+|---|---|---|
+| `tag` 深红圆角标签 | 案例1 | 4 字 |
+| `h1` 白大字 | 钱进得来， | 6 字 |
+| `h2` 白大字，`[方括号]` 内变黄 | 却[拿不出来]?! | 7 字；h1+h2 ≤ 12 |
+| `pill` 米黄条：图标 + 2 行深红字（`[ ]` 变亮红） | 以为… / 结果… | 每行 9 字 |
+| `question` 图标 + 2 行（第 2 行整行 `[ ]` 黄） | 投资、合作之前， / 你真的看清楚了吗？ | 每行 9 字 |
+
+- 2 秒看完的只有 **h1 + h2**；pill 和问句是第二眼。
+- 内建图标 `coins`（红钱币）、`chart`（米色上升图），也可以填图片路径或一个字。
+- **案例内容一定要照那支片真的案例写**，不编。
+
 ### A3. 两个尺寸各自的规矩
 
 | | 封面 9:16（1080×1920） | 方图 1:1（1080×1080） |
@@ -129,7 +145,10 @@ Reagan 挑一版，四个平台都用同一版改长短。
 | `references/captions.md` | FB / IG / WhatsApp / Telegram 各自的格式、长度、hashtag、例子 |
 | `references/poster-spec.md` | 两张参考图量出来的版位、颜色、字体、换设计怎么对版位、AI 底图提示词 |
 | `references/cover-patterns.md` | 从小红书 / IG 高赞封面整理的规律（为什么不下载原图也在这里） |
-| `templates/poster.html` | 海报模板（锁设计） |
+| `templates/poster.html` | 设计 1「2028 黄金年」模板（锁设计） |
+| `templates/case.html` | 设计 2「案例」模板（锁设计） |
 | `scripts/render-poster.mjs` | 出图 + 字数检查 + 护脸检查 |
 | `examples/ref-2028-*.jpg` | Reagan 给的两张参考图 |
 | `examples/2028-golden-year/` | 照参考图重做的一套：brief、两张图、文案 |
+| `examples/ref-case1-9x16-screenshot.jpg` | 案例1 封面截图（设计 2 的参考） |
+| `examples/case-2-sample/` | 设计 2 示范（案例2，内容是示范用的） |

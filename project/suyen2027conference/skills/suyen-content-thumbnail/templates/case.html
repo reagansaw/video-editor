@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>Suyen case poster</title>
+<!--
+  设计 2「案例」：照 examples/ref-case1-9x16-screenshot.jpg（Reagan 11-20 给的 案例1 封面）量的。
+  由 scripts/render-poster.mjs 打开（brief.design = "case"），注入 window.BRIEF / window.FORMAT。
+  只改 brief.json 的字；版位、颜色、字体锁在这里。
+  字里用 [方括号] 包起来的部分变黄色重点字，例："却[拿不出来]?!"
+-->
+<style>
+  :root{
+    --yellow:#FFD84A; --yellow-2:#FFC21F; --cream:#FBEBD2; --cream-2:#F6DDB8; --ink-red:#8E1B22;
+    --tag-bg:#7E1029; --tag-edge:#F3B9A0;
+    --zh:"Lantinghei SC","LTH","PingFang SC","Noto Sans CJK SC","Source Han Sans SC","WenQuanYi Zen Hei",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:#000}
+  #stage{position:relative;overflow:hidden;width:1080px;font-family:var(--zh)}
+  .bg{position:absolute;inset:0;
+    background:
+      radial-gradient(90% 45% at 90% 0%, rgba(150,50,120,.45), transparent 60%),
+      linear-gradient(180deg,#7a1838 0%,#8f1f45 30%,#a42a55 55%,#c24a68 75%,#ecc0aa 100%);}
+  .wave{position:absolute;left:0;right:0;bottom:0;height:30%;opacity:.2;
+    background-image:radial-gradient(circle at 50% 100%, transparent 18px, #fff 19px, transparent 21px, transparent 30px, #fff 31px, transparent 33px, transparent 42px,#fff 43px,transparent 45px);
+    background-size:96px 48px;
+    -webkit-mask-image:linear-gradient(180deg,transparent,#000 70%);mask-image:linear-gradient(180deg,transparent,#000 70%);}
+  img.abs{position:absolute;display:block}
+  .plate{inset:0;width:100%;height:100%;object-fit:cover}
+  .t{position:absolute;white-space:nowrap;line-height:1.12;font-weight:900;color:#fff}
+  .hl{color:var(--yellow)}
+  .head{text-shadow:0 3px 0 rgba(60,0,20,.55),0 6px 0 rgba(60,0,20,.25);letter-spacing:.01em}
+  .tag{position:absolute;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;
+    background:linear-gradient(180deg,#9a1834,var(--tag-bg));border:3px solid var(--tag-edge);border-radius:18px;
+    letter-spacing:.04em;box-shadow:0 5px 0 rgba(60,0,20,.45)}
+  .rule{position:absolute;height:3px;background:linear-gradient(90deg,rgba(255,255,255,.75),rgba(255,255,255,.35) 70%,rgba(255,255,255,0))}
+  .pill{position:absolute;display:flex;align-items:center;border-radius:40px;
+    background:linear-gradient(90deg,var(--cream) 0%,var(--cream-2) 70%,rgba(246,221,184,.0) 100%)}
+  .pill .div{align-self:stretch;width:3px;background:var(--ink-red);opacity:.75;margin:26px 0}
+  .pill .hl{color:#C4122F}
+  .pill .lines{color:var(--ink-red);font-weight:900;line-height:1.28;white-space:nowrap}
+  .q .lines{line-height:1.3;text-shadow:0 3px 0 rgba(60,0,20,.5)}
+  .dbg{position:absolute;border:4px dashed #0ff;pointer-events:none}
+  .dbg.face{border-color:#f0f}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+/* 版位（px，画布宽 1080）。截图 ×2.25 量出来的。 */
+const LAYOUT = {
+  "9x16": { H:1920,
+    logo:{x:84,y:40,w:160,h:165},
+    deco:{x:400,y:0,w:680,h:334},
+    person:{x:560,y:760,w:520,h:1160},
+    face:{x:720,y:790,w:190,h:230},
+    tag:{x:76,y:268,h:92,size:60,padX:30},
+    h1:{x:80,y:380,size:118},
+    h2:{x:80,y:522,size:118},
+    rule:{x:84,y:712,w:700},
+    pill:{x:66,y:780,w:620,h:196,icon:120,size:50,gap:22},
+    q:{x:84,y:1050,icon:130,size:52,gap:12},
+    gridCrop:{y:240,h:1440}
+  },
+  "1x1": { H:1080,
+    logo:{x:46,y:30,w:118,h:122},
+    deco:{x:500,y:0,w:580,h:285},
+    person:{x:678,y:250,w:402,h:830},
+    face:{x:770,y:330,w:170,h:200},
+    tag:{x:56,y:178,h:72,size:46,padX:24},
+    h1:{x:56,y:268,size:92},
+    h2:{x:56,y:378,size:92},
+    rule:{x:58,y:504,w:560},
+    pill:{x:46,y:536,w:560,h:160,icon:96,size:42,gap:18},
+    q:{x:58,y:738,icon:100,size:44,gap:10}
+  }
+};
+
+function el(tag,cls,style,html){const e=document.createElement(tag);if(cls)e.className=cls;if(style)Object.assign(e.style,style);if(html!=null)e.innerHTML=html;return e}
+function esc(s){return String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}
+function mark(s){return esc(s).replace(/\[(.+?)\]/g,'<span class="hl">$1</span>')}
+
+/* 内建图标：coins / chart / 其他字 = 当成图片路径或一个字 */
+const ICONS={
+  coins:`<svg viewBox="0 0 120 120"><g fill="#B3162A" stroke="#7c0d1c" stroke-width="3">
+    <ellipse cx="44" cy="98" rx="30" ry="10"/><rect x="14" y="70" width="60" height="28"/><ellipse cx="44" cy="70" rx="30" ry="10" fill="#d0243a"/>
+    <ellipse cx="78" cy="88" rx="28" ry="9"/><rect x="50" y="44" width="56" height="44"/><ellipse cx="78" cy="44" rx="28" ry="9" fill="#d0243a"/></g>
+    <g stroke="#f1c27a" stroke-width="3" fill="none"><path d="M18 84h52M18 77h52M54 58h50M54 66h50M54 74h50"/></g>
+    <g fill="#B3162A"><path d="M24 30l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/><path d="M100 14l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></g></svg>`,
+  chart:`<svg viewBox="0 0 130 120"><g fill="#F7E2C2"><rect x="10" y="84" width="18" height="28" rx="2"/><rect x="36" y="70" width="18" height="42" rx="2"/>
+    <rect x="62" y="54" width="18" height="58" rx="2"/><rect x="88" y="36" width="18" height="76" rx="2"/></g>
+    <path d="M8 72 C40 66 70 46 104 16" stroke="#F7E2C2" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M90 10 L118 6 L112 34 Z" fill="#F7E2C2"/></svg>`
+};
+function icon(name,size){
+  if(!name)return null;
+  if(ICONS[name])return el('div',null,{width:size+'px',height:size+'px',flex:'0 0 auto'},ICONS[name]);
+  if(/\.(png|jpe?g|svg|webp)$/i.test(name)||/^(file|data|https?):/.test(name)){const i=el('img',null,{width:size+'px',height:size+'px',objectFit:'contain',flex:'0 0 auto'});i.src=name;return i}
+  return el('div',null,{width:size+'px',height:size+'px',flex:'0 0 auto',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:900,fontSize:(size*.7)+'px',color:'var(--ink-red)'},esc(name));
+}
+
+function build(){
+  const B=window.BRIEF,F=window.FORMAT||'9x16',L=LAYOUT[F],A=B.assets||{},T=B.poster;
+  const st=document.getElementById('stage');st.style.height=L.H+'px';
+  st.append(el('div','bg'),el('div','wave'));
+  const plate=A['plate_'+F]||A.plate;
+  if(plate){const i=el('img','abs plate');i.src=plate;st.append(i)}
+  else if(A.deco){const i=el('img','abs',{left:L.deco.x+'px',top:L.deco.y+'px',width:L.deco.w+'px',height:L.deco.h+'px',objectFit:'cover'});i.src=A.deco;st.append(i)}
+  const person=A['person_'+F]||A.person;
+  if(person){const i=el('img','abs',{left:L.person.x+'px',top:L.person.y+'px',width:L.person.w+'px',height:L.person.h+'px',objectFit:'cover',objectPosition:'top'});i.src=person;st.append(i)}
+  if(A.logo){const i=el('img','abs',{left:L.logo.x+'px',top:L.logo.y+'px',width:L.logo.w+'px',height:L.logo.h+'px',objectFit:'contain'});i.src=A.logo;st.append(i)}
+
+  if(T.tag)st.append(el('div','tag',{left:L.tag.x+'px',top:L.tag.y+'px',height:L.tag.h+'px',padding:`0 ${L.tag.padX}px`,fontSize:L.tag.size+'px'},esc(T.tag)));
+  st.append(el('div','t head',{left:L.h1.x+'px',top:L.h1.y+'px',fontSize:L.h1.size+'px'},mark(T.h1)));
+  st.append(el('div','t head',{left:L.h2.x+'px',top:L.h2.y+'px',fontSize:L.h2.size+'px'},mark(T.h2)));
+  st.append(el('div','rule',{left:L.rule.x+'px',top:L.rule.y+'px',width:L.rule.w+'px'}));
+
+  if(T.pill&&T.pill.lines&&T.pill.lines.length){const P=L.pill;
+    const p=el('div','pill',{left:P.x+'px',top:P.y+'px',width:P.w+'px',height:P.h+'px',padding:`0 ${P.gap}px 0 ${P.gap+6}px`,gap:P.gap+'px'});
+    const ic=icon(T.pill.icon,P.icon);if(ic){p.append(ic,el('div','div'))}
+    p.append(el('div','lines',{fontSize:P.size+'px'},T.pill.lines.map(mark).join('<br>')));st.append(p);}
+
+  if(T.question&&T.question.lines&&T.question.lines.length){const Q=L.q;
+    const q=el('div','q',{position:'absolute',left:Q.x+'px',top:Q.y+'px'});
+    const ic=icon(T.question.icon,Q.icon);if(ic)q.append(ic);
+    q.append(el('div','lines t',{position:'relative',fontSize:Q.size+'px',marginTop:Q.gap+'px'},T.question.lines.map(mark).join('<br>')));
+    st.append(q);}
+
+  if(window.DEBUG){
+    st.append(el('div','dbg face',{left:L.face.x+'px',top:L.face.y+'px',width:L.face.w+'px',height:L.face.h+'px'}));
+    if(L.gridCrop)st.append(el('div','dbg',{left:0,top:L.gridCrop.y+'px',width:'1080px',height:L.gridCrop.h+'px'}));}
+  window.__FACE__=L.face;window.__READY__=true;
+}
+if(window.BRIEF)build();
+</script>
+</body>
+</html>
