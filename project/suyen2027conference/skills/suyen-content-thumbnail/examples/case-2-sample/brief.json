@@ -1,18 +1,33 @@
 {
   "design": "case",
   "topic": "案例2 · 合伙三年越做越亏（示范内容，真片要照真的案例改）",
-  "formats": ["9x16", "1x1"],
+  "formats": [
+    "9x16",
+    "1x1"
+  ],
   "assets": {
     "logo": "../../templates/assets/logo-keyed.png",
     "deco": "../../templates/assets/deco-satellite.png",
-    "person_9x16": "../../templates/assets/demo-person-9x16.png",
+    "person_9x16": "../../templates/assets/demo-person-9x16-case.png",
     "person_1x1": "../../templates/assets/demo-person-1x1.png"
   },
   "poster": {
     "tag": "案例2",
     "h1": "合伙三年，",
     "h2": "却[越做越亏]?!",
-    "pill": { "icon": "coins", "lines": ["以为找对人合伙，", "结果[钱全卡在里面]"] },
-    "question": { "icon": "chart", "lines": ["签约、合伙之前，", "[你选对时机了吗？]"] }
+    "pill": {
+      "icon": "coins",
+      "lines": [
+        "以为找对人合伙，",
+        "结果[钱全卡在里面]"
+      ]
+    },
+    "question": {
+      "icon": "chart",
+      "lines": [
+        "签约、合伙之前，",
+        "[你选对时机了吗？]"
+      ]
+    }
   }
 }

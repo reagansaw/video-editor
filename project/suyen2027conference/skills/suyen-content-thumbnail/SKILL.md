@@ -65,14 +65,14 @@ node scripts/render-poster.mjs <brief.json> <输出资料夹> --debug  # 加画�
 
 ### A2b. 设计 2「案例」（Reagan 11-20 给的 案例1 封面）
 
-参考：`examples/ref-case1-9x16-screenshot.jpg`。brief 写 `"design": "case"` 就用 `templates/case.html`。示范：`examples/case-2-sample/`。
+参考：`examples/ref-case1-9x16-clean.jpg`（无播放键）、`examples/ref-case1-9x16-screenshot.jpg`。照原封面重做的对版图：`examples/case-1-recreate/`。brief 写 `"design": "case"` 就用 `templates/case.html`。示范：`examples/case-2-sample/`。
 
 | 格 | 参考图 | 上限 |
 |---|---|---|
 | `tag` 深红圆角标签 | 案例1 | 4 字 |
 | `h1` 白大字 | 钱进得来， | 6 字 |
 | `h2` 白大字，`[方括号]` 内变黄 | 却[拿不出来]?! | 7 字；h1+h2 ≤ 12 |
-| `pill` 米黄条：图标 + 2 行深红字（`[ ]` 变亮红） | 以为… / 结果… | 每行 9 字 |
+| `pill` 米黄条：图标 + 2 行深红字（`[ ]` 变亮红） | 以为赚到钱， / 结果[钱被套住]！ | 每行 9 字 |
 | `question` 图标 + 2 行（第 2 行整行 `[ ]` 黄） | 投资、合作之前， / 你真的看清楚了吗？ | 每行 9 字 |
 
 - 2 秒看完的只有 **h1 + h2**；pill 和问句是第二眼。

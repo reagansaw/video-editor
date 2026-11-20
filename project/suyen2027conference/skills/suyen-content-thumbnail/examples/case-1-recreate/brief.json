@@ -1,0 +1,33 @@
+{
+  "design": "case",
+  "topic": "案例1 · 钱进得来，却拿不出来（照 Reagan 给的原封面重做，对版用）",
+  "formats": [
+    "9x16",
+    "1x1"
+  ],
+  "assets": {
+    "logo": "../../templates/assets/logo-keyed.png",
+    "deco": "../../templates/assets/deco-satellite.png",
+    "person_9x16": "../../templates/assets/demo-person-9x16-case.png",
+    "person_1x1": "../../templates/assets/demo-person-1x1.png"
+  },
+  "poster": {
+    "tag": "案例1",
+    "h1": "钱进得来，",
+    "h2": "却[拿不出来]?!",
+    "pill": {
+      "icon": "coins",
+      "lines": [
+        "以为赚到钱，",
+        "结果[钱被套住]！"
+      ]
+    },
+    "question": {
+      "icon": "chart",
+      "lines": [
+        "投资、合作之前，",
+        "[你真的看清楚了吗？]"
+      ]
+    }
+  }
+}
