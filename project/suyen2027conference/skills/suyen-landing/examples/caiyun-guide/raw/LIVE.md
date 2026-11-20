@@ -71,3 +71,4 @@
 | `/suyen2027-caiyun-vipok` | (NEW) VIP 升级成功 |
 - (NEW)=uvlroqgh 的 Opt-in 页 nmsqus6s（suyen2027-caiyun-optin）和 guide 页 ljpbk7zh（suyen2027-caiyun-guide）不再有人进来，只是 funnel 里的步骤。
 - make_raw.py：CONF_PAGE = 网域 /suyen2027-caiyun-vip；建法：`PDFZ=pdfz.json python3 make_raw.py ../optin.html lichun.json out.html suyen2027-caiyun-optin https://2027shengxiaocaifu.suyenlim.com/suyen2027-caiyun-vip suyen2027-caiyun`
+- 2026-11-20：(NEW) 登记成功页 slug 改 `join` → https://2027shengxiaocaifu.suyenlim.com/join；VIP 页的「不用了，我先加入大会」原本写死主 funnel 的 suyen2027-join.aigoal.ai，已改成网域 /join；VIP 付款后转到网域 /suyen2027-caiyun-vipok。
