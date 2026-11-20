@@ -31,6 +31,7 @@ CSS = '''
 .dob select{margin-top:6px}
 .yhint{font-size:13px!important;line-height:1.6;color:var(--muted);margin:-2px 0 0}
 .dob .btn:disabled{background:#D9C9CB;box-shadow:none;cursor:not-allowed;color:#fff}
+html.pdfmode body>*:not(#pdfmode){display:none!important}#pdfmode{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#FBF4E8;padding:20px}#pdfmode .pm-card{max-width:420px;width:100%;background:#fff;border-radius:22px;padding:30px 24px;text-align:center;box-shadow:0 18px 40px rgba(59,15,24,.12)}#pdfmode .pm-k{color:#B8324A;font-weight:700;font-size:13px;letter-spacing:2px;margin:0 0 8px}#pdfmode h1{font-size:28px;margin:0 0 12px;color:#3B0F18}#pdfmode p{color:#5E4A4C;line-height:1.7}#pdfmode .pm-btn{margin:16px 0 6px;width:100%;min-height:54px;background:#D03F58!important;color:#fff!important;border:0!important;font-size:18px}#pdfmode .pm-s{font-size:13px;color:#9a8487;margin:14px 0 0}
 .pdfwrap{margin:28px 0 8px;text-align:center}.pdfwrap p{margin:10px 0 0;font-size:14px;color:#7A5A60}.pdfwrap .pdfbtn{width:100%;max-width:420px;margin:0;background:#fff;border:2px solid #B8324A!important;color:#B8324A}.pdfbtn:disabled{opacity:.7;cursor:wait}
 .pdfbtn{border:0;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:12px;padding:0 22px;border-radius:999px;background:#EFDFB3;color:#3B0F18;font-weight:900;font-size:16px;text-decoration:none}
 .fine2{font-size:12px!important;color:var(--muted);text-align:center;margin-top:8px}
@@ -215,6 +216,15 @@ function savePdf(btn){
   }).then(function(){btn.disabled=false;btn.textContent=t;},function(er){try{console.log('PDFERR',er&&(er.stack||er.message||er))}catch(_){}btn.disabled=false;btn.textContent=t;alert('PDF 没下载成功，请稍后再试一次。');});
 }
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.pdfbtn[data-zi]');if(b){e.preventDefault();savePdf(b);}});
+/* ?pdf=年份：漏斗第 2 页的「下载 PDF」连过来 → 只显示下载画面（他们已在漏斗报名） */
+(function(){var y=0;try{y=+(new URLSearchParams(location.search).get('pdf')||0);}catch(e){}if(!y)return;
+  var zi=((y-4)%%12+12)%%12,yr=document.getElementById('y'+zi+'_'+y);if(yr)yr.checked=true;
+  var z=document.getElementById('z'+zi);if(z)z.checked=true;
+  var ov=document.createElement('div');ov.id='pdfmode';
+  ov.innerHTML='<div class="pm-card"><p class="pm-k">2027 · 你的生肖求财指南</p><h1>属'+ZOD[zi]+' · '+y+' 年出生</h1><p>按下面的按钮，下载你的《2027 生肖财运指南》PDF，存在手机里随时看。</p><button type="button" class="pdfbtn pm-btn" data-zi="'+zi+'">下载 PDF ↓</button><p class="pm-s">林舒苑 · 2027 奇门遁甲战略导师</p></div>';
+  document.body.appendChild(ov);document.documentElement.classList.add('pdfmode');try{prewarm(zi);}catch(e){}
+})();
+
 
 /* 立即报名 → WhatsApp：记一下点击（Meta Contact 事件 + aigoal 统计） */
 document.querySelectorAll('a[data-cta="whatsapp-attend"]').forEach(function(a){a.addEventListener('click',function(){try{if(window.fbq)fbq('track','Contact');}catch(e){}try{post({event:'cta',cta:'conference-page'});}catch(e){}});});

@@ -60,3 +60,4 @@
 ## 2026-11-20 最终定案（改回 5 步，要先送出表单才看到指南）
 「(NEW)」= **uvlroqgh**：Opt-in `/`（资料框，按「看我的 2027 财运 →」送出）→ `/suyen2027-caiyun-guide`（选出生年份 → 显示指南；26 个立即报名直接连 VIP + ft）→ `/suyen2027-caiyun-vip` → `/suyen2027-caiyun-join`（没升级）/ `/suyen2027-caiyun-vipok`（VIP）。网域 2027shengxiaocaifu.suyenlim.com。
 7xi22jze 改名「(old3)」，页 *-old3。生成器 `raw/funnel/build_new.py`。
+- 2026-11-20：第 2 页（suyen2027-caiyun-guide）选年份后，排名卡下面出现「下载我的 2027 指南 PDF ↓」（98 个按年份的连结，CSS 只显示选中那一年）→ 开 https://suyen2027-caiyun-full.aigoal.ai/?pdf=年份 → 完整版指南的下载画面，按「下载 PDF」生成那一年的 PDF（aigoal 不收 PDF 上传，所以用这个方式）。第 2 页的 WhatsApp 浮动按钮已藏。
