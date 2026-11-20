@@ -42,3 +42,4 @@
 - 讯息：B/C/C2/F1-F3 已关；A 欢迎讯息 aigoal 关不掉。webinar_at 2027-01-08T20:30，community 同主 funnel。
 - 旧的单独大会复制页 → suyen2027-caiyun-dahui-old；多出来的草稿 2027-6j1m（kwa1cqev）可删。
 - aigoal 限制：funnel 只能用一次 import 建；没有「把现有页加进 funnel」的 API；funnel 页会剥 script / meta refresh。
+- 2026-11-20 更新：funnel Opt-in（suyen2027-caiyun-optin）改放「无 script 版指南」（optin.html：点生肖看解读 + aigoal 报名弹窗，报名后自动去大会页并带 ft），补了 6 支影片；平台自动加的「留下资料」表单因此消失。
