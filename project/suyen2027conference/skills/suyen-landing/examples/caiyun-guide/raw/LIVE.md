@@ -45,3 +45,4 @@
 - 2026-11-20 更新：funnel Opt-in（suyen2027-caiyun-optin）改放「无 script 版指南」（optin.html：点生肖看解读 + aigoal 报名弹窗，报名后自动去大会页并带 ft），补了 6 支影片；平台自动加的「留下资料」表单因此消失。
 - 2026-11-20 选方案 1：funnel Opt-in（gzvyfwvf）改用 `suyen2027-caiyun` + 自订域名 https://2027shengxiaocaifu.suyenlim.com；完整版 raw 指南（lf1skpvx）移到 `suyen2027-caiyun-full` 当备份（它的表单仍报名到主 funnel suyen2027）。
 - 欢迎讯息：reply_gate 开；A_GATE＝「你好 {name}👋 你的报名收到啦！🎉 / 2027奇门战略大会的线上分享会位置帮你锁好了。/ 回我一个「YES」…🎁」+ 按钮 YES；AY、A 照主 funnel；图片同主 funnel。其他 6 步全关。
+- 2026-11-20 最终：入口改回完整版指南 lf1skpvx（`suyen2027-caiyun` + 2027shengxiaocaifu.suyenlim.com，有出生年份框、自动打开、PDF）。它的表单报名到 funnel「2027 生肖财运指南 · 林舒苑老师 (NEW)」(iyawii07) 的 Opt-in `landing:suyen2027-caiyun-optin`，拿 ft → 大会页 suyen2027-caiyun-dahui → VIP suyen2027-caiyun-vip。funnel 自己的 Opt-in 页（gzvyfwvf，无 script 版）留在 suyen2027-caiyun-optin，没有连结过去。
