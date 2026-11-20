@@ -47,3 +47,6 @@ repo 里已经同步一份：`remotion/public/suyenc/banner_bottom_2027.png`、`
 
 ## WhatsApp 讯息
 写 Suyen 的 WhatsApp 讯息、活动 / webinar 前的预热讯息、提醒讯息时，先读 `skills/suyen-whatsapp/SKILL.md`（7 条预热公式；老师故事和学员案例只用真的，没有就留【待补】）。
+
+## 贴文文案 + 封面 / 方图（Content & Thumbnail）
+写 FB / IG / WhatsApp / Telegram 的贴文文案，或做 IG reels 封面（9:16）、WhatsApp 方图（1:1）时，先读 `skills/suyen-content-thumbnail/SKILL.md`（马来西亚口吻、去 AI 化；两张图同一套 5 格字，用 `scripts/render-poster.mjs` 出图，锁设计只换字）。

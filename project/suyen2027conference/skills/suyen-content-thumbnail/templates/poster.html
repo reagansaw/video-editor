@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>Suyen poster</title>
+<!--
+  Suyen 封面 / WhatsApp 方图模板（照 examples/ref-2028-*.jpg 量出来的版位）
+  由 scripts/render-poster.mjs 打开，注入 window.BRIEF 和 window.FORMAT（"9x16" | "1x1"）。
+  只改 brief.json 的字，版位、颜色、字体都锁在这里。要改设计 → 改这个档，不要在 brief 里改。
+-->
+<style>
+  :root{
+    --rose:#D2405A; --rose-deep:#A82745; --wine:#5a1240; --cream:#F7E6C6; --cream-2:#FBF1DC;
+    --gold-1:#FFF8D2; --gold-2:#FFE07A; --gold-3:#F2B52A; --gold-4:#C9850F; --gold-edge:#7a2a12;
+    --red-1:#C4122F; --red-2:#E23A3F; --ink-red:#9B1C1F;
+    --zh:"Lantinghei SC","LTH","PingFang SC","Noto Sans CJK SC","Source Han Sans SC","WenQuanYi Zen Hei",sans-serif;
+    --num:"Didot","Bodoni 72","Times New Roman","Liberation Serif","DejaVu Serif",serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:#000}
+  #stage{position:relative;overflow:hidden;width:1080px}
+  .fmt-9x16{height:1920px}
+  .fmt-1x1{height:1080px}
+
+  /* 底：玫红渐层 + 下方青海波（有 plate 就整张被 plate 盖掉） */
+  .bg{position:absolute;inset:0;
+    background:
+      radial-gradient(120% 60% at 85% 0%, rgba(120,40,140,.55), transparent 60%),
+      linear-gradient(180deg,#6d1745 0%,#a3245a 30%,#b8306a 55%,#d9637a 78%,#f4c7ae 100%);}
+  .wave{position:absolute;left:0;right:0;bottom:0;height:34%;opacity:.22;
+    background-image:radial-gradient(circle at 50% 100%, transparent 18px, #fff 19px, transparent 21px, transparent 30px, #fff 31px, transparent 33px, transparent 42px,#fff 43px,transparent 45px);
+    background-size:96px 48px;
+    -webkit-mask-image:linear-gradient(180deg,transparent,#000 70%);mask-image:linear-gradient(180deg,transparent,#000 70%);}
+  .plate,.person{position:absolute;display:block}
+  .plate{inset:0;width:100%;height:100%;object-fit:cover}
+  .logo{position:absolute;object-fit:contain}
+
+  .layer{position:absolute;left:0;top:0}
+  /* 金字：后层做厚度（叠位移，不是光晕），前层金渐层 */
+  .gold{position:absolute;white-space:nowrap;line-height:1;font-weight:900}
+  .gold > span{display:block}
+  .gold .back{position:absolute;left:0;top:0;color:var(--gold-edge);
+    text-shadow:1px 1px 0 var(--gold-edge),2px 2px 0 var(--gold-edge),3px 3px 0 var(--gold-edge),4px 4px 0 var(--gold-edge),5px 5px 0 #5c1d0c,6px 6px 0 #4a160a,7px 7px 0 #3b1108}
+  .gold .front{position:relative;
+    background:linear-gradient(180deg,var(--gold-1) 0%,var(--gold-2) 32%,var(--gold-3) 62%,var(--gold-4) 82%,var(--gold-2) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+  .num{font-family:var(--num);letter-spacing:-.02em}
+  .zh{font-family:var(--zh);letter-spacing:.02em}
+  .cream .front{background:linear-gradient(180deg,#fffaf0 0%,#fff3d6 45%,#f6dca4 75%,#efc777 100%);-webkit-background-clip:text;background-clip:text}
+  .italic{font-style:italic;transform:skewX(-6deg)}
+
+  .white{position:absolute;white-space:nowrap;line-height:1;font-family:var(--zh);font-weight:900;color:#fff;
+    text-shadow:2px 2px 0 rgba(90,10,20,.55),4px 4px 0 rgba(90,10,20,.35)}
+  .band svg,.sticker svg{position:absolute;left:0;top:0;width:100%;height:100%}
+  .band,.sticker{position:absolute}
+  .band .txt{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center}
+  .underline{position:absolute;border-radius:50%;
+    background:linear-gradient(90deg,rgba(255,224,122,0),var(--gold-2) 18%,var(--gold-3) 60%,rgba(242,181,42,0))}
+  .sticker .inner{position:absolute;inset:0;display:flex;align-items:center}
+  .sticker .icon{flex:0 0 auto;object-fit:contain}
+  .sticker .icon-txt{flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-family:var(--zh);font-weight:900;color:var(--ink-red)}
+  .sticker .div{flex:0 0 3px;align-self:stretch;background:var(--ink-red);opacity:.8}
+  .sticker .lines{font-family:var(--zh);font-weight:900;color:var(--ink-red);line-height:1.18;white-space:nowrap}
+
+  /* 调版位用：?debug 会画出脸的保护框和 IG 网格 3:4 裁切线 */
+  .dbg{position:absolute;border:4px dashed #0ff;pointer-events:none}
+  .dbg.face{border-color:#f0f}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+/* 版位（px，画布宽 1080）。照参考图量的，换设计时只改这里。 */
+const LAYOUT = {
+  "9x16": { H:1920,
+    logo:{x:860,y:46,w:150,h:170},
+    person:{x:540,y:672,w:540,h:1248},          // demo / cutout 放的位置
+    face:{x:660,y:770,w:220,h:270},             // 脸：任何字都不能进这个框
+    l1:{x:96,y:330,size:230},                    // 2028
+    l2:{x:84,y:560,size:150,ls:0},               // 是黄金年
+    band:{x:30,y:762,w:622,h:142,size:100},      // 但你撑得过
+    l4:{x:58,y:918,size:186},                    // 2027
+    l4tail:{dx:10,size:96,dy:56},               // 吗？
+    underline:{x:70,y:1082,w:560,h:22},
+    sticker:{x:44,y:1160,w:560,h:250,icon:150,line:48,gap:22},
+    gridCrop:{y:240,h:1440}                      // IG 主页网格只露中间 3:4
+  },
+  "1x1": { H:1080,
+    logo:{x:886,y:30,w:140,h:150},
+    person:{x:678,y:250,w:402,h:830},
+    face:{x:770,y:330,w:170,h:200},
+    l1:{x:90,y:168,size:196},
+    l2:{x:78,y:352,size:142,ls:2},
+    band:{x:18,y:508,w:612,h:110,size:90},
+    l4:{x:72,y:610,size:172},
+    l4tail:{dx:14,size:92,dy:52},
+    underline:{x:76,y:770,w:520,h:18},
+    sticker:{x:66,y:826,w:556,h:196,icon:120,line:42,gap:20}
+  }
+};
+
+/* 毛边：固定种子的乱数，同一个字数每次长得一样 */
+function rng(seed){return()=>((seed=(seed*16807)%2147483647)/2147483647)}
+function roughRect(w,h,seed,jag){const r=rng(seed),p=[];const n=Math.max(8,Math.round(w/26));
+  for(let i=0;i<=n;i++)p.push([i*w/n,r()*jag]);
+  for(let i=1;i<=6;i++)p.push([w-r()*jag*1.6,i*h/6]);
+  for(let i=n;i>=0;i--)p.push([i*w/n,h-r()*jag]);
+  for(let i=5;i>=1;i--)p.push([r()*jag*1.6,i*h/6]);
+  return p.map(q=>q.map(v=>v.toFixed(1)).join(',')).join(' ');}
+
+function el(tag,cls,style,html){const e=document.createElement(tag);if(cls)e.className=cls;if(style)Object.assign(e.style,style);if(html!=null)e.innerHTML=html;return e}
+function esc(s){return String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}
+function gold(text,{x,y,size,ls},cls){const isNum=/^[0-9]+$/.test(text.trim());
+  const g=el('div','gold '+(isNum?'num ':'zh ')+(cls||''),{left:x+'px',top:y+'px',fontSize:size+'px',letterSpacing:(ls||0)+'px'});
+  g.append(el('span','back',null,esc(text)),el('span','front',null,esc(text)));return g}
+
+function build(){
+  const B=window.BRIEF, F=window.FORMAT||'9x16', L=LAYOUT[F], A=B.assets||{};
+  const st=document.getElementById('stage');st.className='fmt-'+F;
+  st.append(el('div','bg'),el('div','wave'));
+  const plate=A['plate_'+F]||A.plate;
+  if(plate){const i=el('img','plate');i.src=plate;st.append(i)}
+  const person=A['person_'+F]||A.person;
+  if(person){const i=el('img','person',{left:L.person.x+'px',top:L.person.y+'px',width:L.person.w+'px',height:L.person.h+'px',objectFit:'cover',objectPosition:'top'});i.src=person;st.append(i)}
+  if(A.logo){const i=el('img','logo',{left:L.logo.x+'px',top:L.logo.y+'px',width:L.logo.w+'px',height:L.logo.h+'px'});i.src=A.logo;st.append(i)}
+
+  const T=B.poster;
+  st.append(gold(T.line1,L.l1));
+  st.append(gold(T.line2,L.l2,'cream'));
+
+  // 红条
+  const b=el('div','band',{left:L.band.x+'px',top:L.band.y+'px',width:L.band.w+'px',height:L.band.h+'px'});
+  b.innerHTML=`<svg viewBox="0 0 ${L.band.w} ${L.band.h}" preserveAspectRatio="none"><defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="#8f0c22"/><stop offset=".25" stop-color="var(--red-1)"/><stop offset=".8" stop-color="var(--red-2)"/><stop offset="1" stop-color="#e86a5a" stop-opacity=".2"/></linearGradient></defs><polygon fill="url(#rg)" points="${roughRect(L.band.w,L.band.h,7,14)}"/></svg>`;
+  b.append(el('div','white txt',{fontSize:L.band.size+'px'},esc(T.band)));st.append(b);
+
+  // 2027 + 吗？
+  const l4=gold(T.line4,L.l4,'italic');st.append(l4);
+  if(T.line4_tail){requestAnimationFrame(()=>{});
+    const w=l4.getBoundingClientRect().width;
+    st.append(el('div','white',{left:(L.l4.x+w+L.l4tail.dx)+'px',top:(L.l4.y+L.l4tail.dy)+'px',fontSize:L.l4tail.size+'px'},esc(T.line4_tail)));}
+  st.append(el('div','underline',{left:L.underline.x+'px',top:L.underline.y+'px',width:L.underline.w+'px',height:L.underline.h+'px'}));
+
+  // 米黄贴纸
+  if(T.sticker&&T.sticker.lines&&T.sticker.lines.length){const S=L.sticker;
+    const s=el('div','sticker',{left:S.x+'px',top:S.y+'px',width:S.w+'px',height:S.h+'px'});
+    s.innerHTML=`<svg viewBox="0 0 ${S.w} ${S.h}" preserveAspectRatio="none"><polygon fill="var(--cream-2)" opacity=".96" points="${roughRect(S.w,S.h,11,12)}"/></svg>`;
+    const inner=el('div','inner',{padding:`0 ${S.gap+8}px 0 ${S.gap+10}px`,gap:S.gap+'px'});
+    const ic=T.sticker.icon;
+    if(ic&&/\.(png|jpe?g|svg|webp)$/i.test(ic)){const i=el('img','icon',{width:S.icon+'px',height:S.icon+'px'});i.src=ic;inner.append(i)}
+    else if(ic){inner.append(el('div','icon-txt',{width:S.icon+'px',height:S.icon+'px',fontSize:(S.icon*.7)+'px'},esc(ic)))}
+    if(ic)inner.append(el('div','div'));
+    inner.append(el('div','lines',{fontSize:S.line+'px'},T.sticker.lines.map(esc).join('<br>')));
+    s.append(inner);st.append(s);}
+
+  if(/debug/.test(location.search)||window.DEBUG){
+    st.append(el('div','dbg face',{left:L.face.x+'px',top:L.face.y+'px',width:L.face.w+'px',height:L.face.h+'px'}));
+    if(L.gridCrop)st.append(el('div','dbg',{left:0,top:L.gridCrop.y+'px',width:'1080px',height:L.gridCrop.h+'px'}));}
+  window.__FACE__=L.face; window.__READY__=true;
+}
+if(window.BRIEF)build();
+</script>
+</body>
+</html>

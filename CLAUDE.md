@@ -10,6 +10,7 @@
 | 竖版内容片 / reels（C0049–C0060，玫红模板） | `project/suyen2027conference/skills/suyen-content-rose/SKILL.md` |
 | 1:1 上下 banner 版 | `project/suyen2027conference/docs/1比1-上下banner.md` |
 | 落地页 / lead magnet / webinar 报名页 | `project/suyen2027conference/skills/suyen-landing/SKILL.md` |
+| 贴文文案（FB / IG / WhatsApp / Telegram）、IG reels 封面、WhatsApp 方图海报 | `project/suyen2027conference/skills/suyen-content-thumbnail/SKILL.md`（Content & Thumbnail Skills：一套字出 9:16 + 1:1 两张图，锁设计只换字） |
 | WhatsApp 预热 / 提醒讯息 | `project/suyen2027conference/skills/suyen-whatsapp/SKILL.md` |
 | 奇门解盘 1对1 上下格访谈片（4 个版本） | skill `qimen-jiepan-1on1`（`.claude/skills/qimen-jiepan-1on1/`） |
 | 竖版片尾 CTA（留言「正能量」，不带 BGM） | skill `suyen-cta`（`.claude/skills/suyen-cta/`） |
