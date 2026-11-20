@@ -1857,7 +1857,7 @@ function savePdf(btn){
     var blob=makePdf(new Uint8Array(buf),g.w,g.h,W.toFixed(2),Hp.toFixed(2),links,body,C?{jpg:new Uint8Array(bs[1]),iw:C.w,ih:C.h}:null);
     var u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='2027生肖求财指南-属'+ZOD[zi]+'-林舒苑.pdf';document.body.appendChild(a);a.click();
     setTimeout(function(){URL.revokeObjectURL(u);a.remove();},4000);
-  }).then(function(){btn.disabled=false;btn.textContent=t;},function(er){try{console.log('PDFERR',er&&(er.stack||er.message||er))}catch(_){}btn.disabled=false;btn.textContent=t;alert('PDF 没下载成功，请稍后再试一次。');});
+  }).then(function(){btn.disabled=false;btn.textContent=t;if(document.documentElement.classList.contains('pdfmode')&&history.length>1){var bk=document.getElementById('pm-back');if(bk)bk.style.display='block';setTimeout(function(){history.back();},1800);}},function(er){try{console.log('PDFERR',er&&(er.stack||er.message||er))}catch(_){}btn.disabled=false;btn.textContent=t;alert('PDF 没下载成功，请稍后再试一次。');});
 }
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.pdfbtn[data-zi]');if(b){e.preventDefault();savePdf(b);}});
 /* ?pdf=年份：漏斗第 2 页的「下载 PDF」连过来 → 只显示下载画面（他们已在漏斗报名） */
@@ -1865,7 +1865,7 @@ document.addEventListener('click',function(e){var b=e.target.closest&&e.target.c
   var zi=((y-4)%12+12)%12,yr=document.getElementById('y'+zi+'_'+y);if(yr)yr.checked=true;
   var z=document.getElementById('z'+zi);if(z)z.checked=true;
   var ov=document.createElement('div');ov.id='pdfmode';
-  ov.innerHTML='<div class="pm-card"><p class="pm-k">2027 · 你的生肖求财指南</p><h1>属'+ZOD[zi]+' · '+y+' 年出生</h1><p>你的《2027 生肖财运指南》PDF 正在下载…<br>如果没有自动开始，请按下面的按钮。</p><button type="button" class="pdfbtn pm-btn" data-zi="'+zi+'">下载 PDF ↓</button><p class="pm-s">林舒苑 · 2027 奇门遁甲战略导师</p></div>';
+  ov.innerHTML='<div class="pm-card"><p class="pm-k">2027 · 你的生肖求财指南</p><h1>属'+ZOD[zi]+' · '+y+' 年出生</h1><p>你的《2027 生肖财运指南》PDF 正在下载…<br>如果没有自动开始，请按下面的按钮。</p><button type="button" class="pdfbtn pm-btn" data-zi="'+zi+'">下载 PDF ↓</button><p id="pm-back" style="display:none;color:#2E7D4F;font-weight:700">下载好了 ✓ 正在回到你的指南…</p><p class="pm-s">林舒苑 · 2027 奇门遁甲战略导师</p></div>';
   document.body.appendChild(ov);document.documentElement.classList.add('pdfmode');try{prewarm(zi);}catch(e){}
   setTimeout(function(){var b=ov.querySelector('.pdfbtn');if(b)savePdf(b);},400);
 })();
