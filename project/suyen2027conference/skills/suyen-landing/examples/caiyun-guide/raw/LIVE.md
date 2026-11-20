@@ -78,3 +78,8 @@
 - 2026-11-20：PDF 最后的大会卡 QR（扫码参加奇门战略大会）+ 卡上「立即报名」连结 → https://2027qimenconference.suyenlim.com。
 - 2026-11-20：PDF 加第 2 页＝赞助商（ABLE FARM 食油海报）：米色页、标题「特别鸣谢 · 赞助商」、海报 55% 宽置中（raw/sponsor/sponsor-page.jpg，pdfz.json 的 sponsor）。
 - 2026-11-20：PDF 改成**现成档案**：98 个（每个出生年份 1 个，指南 + 赞助页）由 `build98.js` 用完整版指南的 ?pdf=年份 生成，上传到 WhatsApp bot（o1p8sl0r）的**档案库**（aigoal 只有这里收 PDF；从档案库删掉档案就会 404，所以要留着），标题「2027 生肖财运指南 · 属X · YYYY 年出生（PDF）」。网址表 `raw/pdf98-urls.json`。第 2 页按钮 = 直接下载该年份的档案（download 属性），不换页。**指南内容/图片/赞助页有改，要重跑 build98.js 再重传、换第 2 页连结。**
+
+## 2026-11-20 定案 A（现行）
+- 2027shengxiaocaifu.suyenlim.com `/` = 完整版指南 lf1skpvx（slug suyen2027-caiyun）：资料框 → 同一页显示「你是 X 年出生，生肖 属X」+ 指南 + PDF（页内直接下载，含赞助页）；报名进 (NEW) 的 Opt-in（landing:suyen2027-caiyun-optin），拿 ft → 立即报名 → /suyen2027-caiyun-vip → /join 或 /suyen2027-caiyun-vipok。
+- (NEW) 漏斗画面的 Domain 卡会显示 Not set（网域挂在 lf1skpvx 上，这是唯一能做到「送出后同页直接看结果」的方式）。(NEW) 的 Opt-in（suyen2027-caiyun-optin）和第 2 页（suyen2027-caiyun-guide）没人会进去。
+- 已证实 aigoal 漏斗页做不到的事：script / onerror 会被剥、meta refresh 被剥、frame-src 'none'、stage=draft 只是标签、下一页拿不到表单答案。
