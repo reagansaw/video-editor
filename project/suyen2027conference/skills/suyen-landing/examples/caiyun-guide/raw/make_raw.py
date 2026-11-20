@@ -151,11 +151,11 @@ function go(ev){
   $('dobres').className='on';
   setTimeout(function(){prewarm(zi);},1200);
   var eid='dob.'+Date.now().toString(36)+'.'+Math.random().toString(36).slice(2,8);
-  try{post({event:'register',source:'landing:'+FUNNEL_SLUG,name:v.nm,email:v.em,phone:v.ph,event_id:eid,tags:['registered','lead_magnet_2027_十二生肖'],
+  /* 送出表单：只贴 lead_magnet_2027shengxiaocaifu（自动标签表单页，不进漏斗、不发讯息）；资料存起来，等按「我会出席」才报名大会 */
+  window.AG_LEAD={nm:v.nm,em:v.em,ph:v.ph,y:y,zi:zi,pill:pill,eid:eid};
+  try{post({event:'register',source:'landing:suyen2027-caiyun-tag',name:v.nm,email:v.em,phone:v.ph,event_id:eid+'.t',
     fields:[{k:'birth_year',l:'出生年份',v:String(y)},{k:'dob_pillar',l:'生肖',v:'属'+ZOD[zi]+'（'+pill+'年）'}],
-    note:'出生年份: '+y+'\\n生肖: 属'+ZOD[zi]+'（'+pill+'年）'}).then(function(r){return r&&r.json?r.json():null;}).then(function(j){if(j&&j.ft)setFt(j.ft);}).catch(function(){});}catch(e){}
-  /* 每次送出都贴 lead_magnet_2027shengxiaocaifu：同步记到自动标签表单页（不在任何漏斗，不发讯息） */
-  try{post({event:'register',source:'landing:suyen2027-caiyun-tag',name:v.nm,email:v.em,phone:v.ph,event_id:eid+'.t'});}catch(e){}
+    note:'出生年份: '+y+'\\n生肖: 属'+ZOD[zi]+'（'+pill+'年）'});}catch(e){}
   try{if(window.fbq)fbq('track','Lead',{content_name:'zodiac_'+ZOD[zi]},{eventID:eid});}catch(e){}
   if($('name')&&!$('name').value)$('name').value=v.nm; if($('email')&&!$('email').value)$('email').value=v.em; if($('wa')&&!$('wa').value)$('wa').value=v.ph;
   try{if(window.fbq)fbq('track','ViewContent',{content_name:'zodiac_'+ZOD[zi]});}catch(e){}
@@ -239,7 +239,17 @@ document.addEventListener('click',function(e){var b=e.target.closest&&e.target.c
 
 
 /* 立即报名 → WhatsApp：记一下点击（Meta Contact 事件 + aigoal 统计） */
-document.querySelectorAll('a[data-cta="whatsapp-attend"]').forEach(function(a){a.addEventListener('click',function(){try{if(window.fbq)fbq('track','Contact');}catch(e){}try{post({event:'cta',cta:'conference-page'});}catch(e){}});});
+/* 按「我会出席战略大会」才报名大会（主 funnel → registered_webinar + 欢迎讯息；已报名的不会重发），拿 ft 再去 VIP */
+document.querySelectorAll('a[data-cta="whatsapp-attend"]').forEach(function(a){a.addEventListener('click',function(ev){
+  try{if(window.fbq)fbq('track','Contact');}catch(e){}
+  var L=window.AG_LEAD,href=a.getAttribute('href').split('?')[0];if(!L)return;
+  ev.preventDefault();if(a.getAttribute('data-busy'))return;a.setAttribute('data-busy','1');a.style.opacity='.7';
+  var go=function(ft){location.href=href+(ft?'?ft='+encodeURIComponent(ft):'');};
+  var t=setTimeout(function(){go('');},6000);
+  try{post({event:'register',source:'landing:'+FUNNEL_SLUG,name:L.nm,email:L.em,phone:L.ph,event_id:L.eid+'.c',
+    fields:[{k:'birth_year',l:'出生年份',v:String(L.y)},{k:'dob_pillar',l:'生肖',v:'属'+ZOD[L.zi]+'（'+L.pill+'年）'}],
+    note:'从 2027 生肖财运指南按「我会出席」报名'}).then(function(r){return r&&r.json?r.json():null;}).then(function(j){clearTimeout(t);go(j&&j.ft);}).catch(function(){clearTimeout(t);go('');});}catch(e){clearTimeout(t);go('');}
+});});
 /* ② 报名弹窗 */
 var modal=document.querySelector('[data-aigoal-modal="lead"]'), lastBtn=null;
 function openM(e){if(e)e.preventDefault();lastBtn=e&&e.currentTarget;modal.classList.add('ag-open');document.body.style.overflow='hidden';var f=modal.querySelector('input:not([type=hidden])');if(f)setTimeout(function(){f.focus();},50);}
