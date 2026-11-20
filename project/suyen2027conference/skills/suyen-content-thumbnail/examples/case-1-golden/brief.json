@@ -1,0 +1,25 @@
+{
+  "design": "golden",
+  "topic": "案例1 · 钱进得来，却拿不回（照 2028 黄金年的设计，只换字）",
+  "formats": [
+    "9x16"
+  ],
+  "assets": {
+    "plate_9x16": "../../templates/assets/plate-9x16.png"
+  },
+  "poster": {
+    "line1": "钱进得来",
+    "line2": "却拿不回",
+    "band": "以为赚到钱",
+    "line4": "被套住",
+    "line4_tail": "?!",
+    "sticker": {
+      "icon": "coins",
+      "lines": [
+        "案例 1 ·",
+        "投资合作前",
+        "看清楚没？"
+      ]
+    }
+  }
+}

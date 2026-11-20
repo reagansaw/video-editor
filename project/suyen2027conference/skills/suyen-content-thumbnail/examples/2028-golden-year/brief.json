@@ -1,9 +1,12 @@
 {
   "topic": "2028 黄金年，但 2027 要先撑过去（赤马红羊）",
-  "formats": ["9x16", "1x1"],
+  "formats": [
+    "9x16",
+    "1x1"
+  ],
   "assets": {
+    "plate_9x16": "../../templates/assets/plate-9x16.png",
     "logo": "../../templates/assets/logo-from-ref.png",
-    "person_9x16": "../../templates/assets/demo-person-9x16.png",
     "person_1x1": "../../templates/assets/demo-person-1x1.png"
   },
   "poster": {
@@ -14,7 +17,11 @@
     "line4_tail": "吗？",
     "sticker": {
       "icon": "../../templates/assets/icon-goat.png",
-      "lines": ["赤马红羊 ·", "2026–2027", "两年大转变"]
+      "lines": [
+        "赤马红羊 ·",
+        "2026–2027",
+        "两年大转变"
+      ]
     }
   }
 }

@@ -8,13 +8,15 @@
   由 scripts/render-poster.mjs 打开，注入 window.BRIEF 和 window.FORMAT（"9x16" | "1x1"）。
   只改 brief.json 的字，版位、颜色、字体都锁在这里。要改设计 → 改这个档，不要在 brief 里改。
 -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@700;900&family=Noto+Serif:ital,wght@0,900;1,900&display=block" rel="stylesheet">
 <style>
   :root{
     --rose:#D2405A; --rose-deep:#A82745; --wine:#5a1240; --cream:#F7E6C6; --cream-2:#FBF1DC;
-    --gold-1:#FFF8D2; --gold-2:#FFE07A; --gold-3:#F2B52A; --gold-4:#C9850F; --gold-edge:#7a2a12;
+    --gold-1:#FFFBE6; --gold-2:#FFE55E; --gold-3:#FAC21C; --gold-4:#E09A0C; --gold-edge:#5c0f1f;
     --red-1:#C4122F; --red-2:#E23A3F; --ink-red:#9B1C1F;
-    --zh:"Lantinghei SC","LTH","PingFang SC","Noto Sans CJK SC","Source Han Sans SC","WenQuanYi Zen Hei",sans-serif;
-    --num:"Didot","Bodoni 72","Times New Roman","Liberation Serif","DejaVu Serif",serif;
+    --zh:"Noto Sans SC","Lantinghei SC","LTH","PingFang SC","Noto Sans CJK SC","Source Han Sans SC","WenQuanYi Zen Hei",sans-serif;
+    --num:"Noto Serif","Didot","Bodoni 72","Times New Roman","Liberation Serif","DejaVu Serif",serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{background:#000}
@@ -38,29 +40,30 @@
   .layer{position:absolute;left:0;top:0}
   /* 金字：后层做厚度（叠位移，不是光晕），前层金渐层 */
   .gold{position:absolute;white-space:nowrap;line-height:1;font-weight:900}
-  .gold > span{display:block}
+  .gold > span{display:block;padding-right:.4em}  /* 斜体字尾会超出字框，留位给金色渐层 */
   .gold .back{position:absolute;left:0;top:0;color:var(--gold-edge);
     text-shadow:1px 1px 0 var(--gold-edge),2px 2px 0 var(--gold-edge),3px 3px 0 var(--gold-edge),4px 4px 0 var(--gold-edge),5px 5px 0 #5c1d0c,6px 6px 0 #4a160a,7px 7px 0 #3b1108}
   .gold .front{position:relative;
     background:linear-gradient(180deg,var(--gold-1) 0%,var(--gold-2) 32%,var(--gold-3) 62%,var(--gold-4) 82%,var(--gold-2) 100%);
     -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
-  .num{font-family:var(--num);letter-spacing:-.02em}
+  .num{font-family:var(--num);letter-spacing:-.02em;font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
   .zh{font-family:var(--zh);letter-spacing:.02em}
   .cream .front{background:linear-gradient(180deg,#fffaf0 0%,#fff3d6 45%,#f6dca4 75%,#efc777 100%);-webkit-background-clip:text;background-clip:text}
-  .italic{font-style:italic;transform:skewX(-6deg)}
+  .italic{font-style:italic}
 
   .white{position:absolute;white-space:nowrap;line-height:1;font-family:var(--zh);font-weight:900;color:#fff;
     text-shadow:2px 2px 0 rgba(90,10,20,.55),4px 4px 0 rgba(90,10,20,.35)}
-  .band svg,.sticker svg{position:absolute;left:0;top:0;width:100%;height:100%}
+  .band > svg,.sticker > svg{position:absolute;left:0;top:0;width:100%;height:100%}
+  .sticker .icon svg{width:100%;height:100%;display:block}
   .band,.sticker{position:absolute}
-  .band .txt{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center}
-  .underline{position:absolute;border-radius:50%;
-    background:linear-gradient(90deg,rgba(255,224,122,0),var(--gold-2) 18%,var(--gold-3) 60%,rgba(242,181,42,0))}
+  .band .txt{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%) skewX(-8deg);text-align:center}
+  .underline{position:absolute;transform:rotate(-1.6deg);transform-origin:0 50%;clip-path:polygon(0 18%,100% 42%,100% 62%,0 100%);
+    background:linear-gradient(90deg,#FFE96A 0%,#FFD21F 55%,rgba(255,200,30,.15) 100%)}
   .sticker .inner{position:absolute;inset:0;display:flex;align-items:center}
   .sticker .icon{flex:0 0 auto;object-fit:contain}
   .sticker .icon-txt{flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-family:var(--zh);font-weight:900;color:var(--ink-red)}
   .sticker .div{flex:0 0 3px;align-self:stretch;background:var(--ink-red);opacity:.8}
-  .sticker .lines{font-family:var(--zh);font-weight:900;color:var(--ink-red);line-height:1.18;white-space:nowrap}
+  .sticker .lines{font-family:var(--zh);font-weight:900;color:var(--ink-red);line-height:1.18;white-space:nowrap;transform:skewX(-6deg)}
 
   /* 调版位用：?debug 会画出脸的保护框和 IG 网格 3:4 裁切线 */
   .dbg{position:absolute;border:4px dashed #0ff;pointer-events:none}
@@ -75,14 +78,14 @@ const LAYOUT = {
   "9x16": { H:1920,
     logo:{x:860,y:46,w:150,h:170},
     person:{x:540,y:672,w:540,h:1248},          // demo / cutout 放的位置
-    face:{x:660,y:770,w:220,h:270},             // 脸：任何字都不能进这个框
-    l1:{x:96,y:330,size:230},                    // 2028
-    l2:{x:84,y:560,size:150,ls:0},               // 是黄金年
-    band:{x:30,y:762,w:622,h:142,size:100},      // 但你撑得过
-    l4:{x:58,y:918,size:186},                    // 2027
-    l4tail:{dx:10,size:96,dy:56},               // 吗？
-    underline:{x:70,y:1082,w:560,h:22},
-    sticker:{x:44,y:1160,w:560,h:250,icon:150,line:48,gap:22},
+    face:{x:752,y:740,w:175,h:220},             // 脸：任何字都不能进这个框
+    l1:{x:128,y:310,size:235,sx:1.04,zhSize:160,zhDy:88,zhDx:-62},                    // 2028
+    l2:{x:66,y:572,size:160,ls:4},               // 是黄金年
+    band:{x:28,y:760,w:652,h:152,size:102},      // 但你撑得过
+    l4:{x:62,y:872,size:219,sx:.82,zhSize:160},                    // 2027
+    l4tail:{dx:14,size:108,dy:58},                 // 吗？
+    underline:{x:58,y:1084,w:570,h:36},
+    sticker:{x:40,y:1156,w:570,h:262,icon:160,line:56,gap:20},
     gridCrop:{y:240,h:1440}                      // IG 主页网格只露中间 3:4
   },
   "1x1": { H:1080,
@@ -108,10 +111,24 @@ function roughRect(w,h,seed,jag){const r=rng(seed),p=[];const n=Math.max(8,Math.
   for(let i=5;i>=1;i--)p.push([r()*jag*1.6,i*h/6]);
   return p.map(q=>q.map(v=>v.toFixed(1)).join(',')).join(' ');}
 
+const ICONS={
+  coins:`<svg viewBox="0 0 120 120"><g fill="#B3162A" stroke="#7c0d1c" stroke-width="3">
+    <ellipse cx="44" cy="98" rx="30" ry="10"/><rect x="14" y="70" width="60" height="28"/><ellipse cx="44" cy="70" rx="30" ry="10" fill="#d0243a"/>
+    <ellipse cx="78" cy="88" rx="28" ry="9"/><rect x="50" y="44" width="56" height="44"/><ellipse cx="78" cy="44" rx="28" ry="9" fill="#d0243a"/></g>
+    <g stroke="#f1c27a" stroke-width="3" fill="none"><path d="M18 84h52M18 77h52M54 58h50M54 66h50M54 74h50"/></g>
+    <g fill="#B3162A"><path d="M24 30l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/><path d="M100 14l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></g></svg>`,
+  chart:`<svg viewBox="0 0 130 120"><g fill="#F7E2C2"><rect x="10" y="84" width="18" height="28" rx="2"/><rect x="36" y="70" width="18" height="42" rx="2"/>
+    <rect x="62" y="54" width="18" height="58" rx="2"/><rect x="88" y="36" width="18" height="76" rx="2"/></g>
+    <path d="M8 72 C40 66 70 46 104 16" stroke="#F7E2C2" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M90 10 L118 6 L112 34 Z" fill="#F7E2C2"/></svg>`
+};
 function el(tag,cls,style,html){const e=document.createElement(tag);if(cls)e.className=cls;if(style)Object.assign(e.style,style);if(html!=null)e.innerHTML=html;return e}
 function esc(s){return String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}
-function gold(text,{x,y,size,ls},cls){const isNum=/^[0-9]+$/.test(text.trim());
-  const g=el('div','gold '+(isNum?'num ':'zh ')+(cls||''),{left:x+'px',top:y+'px',fontSize:size+'px',letterSpacing:(ls||0)+'px'});
+function gold(text,{x,y,size,ls,sx,zhSize,zhDy,zhDx},cls){const isNum=/^[0-9]+$/.test(text.trim());
+  // 数字用 size + sx（横向压窄，照样板的瘦高数字）；中文用 zhSize（没给就用 size）
+  const fs=isNum?size:(zhSize||size), skew=(/italic/.test(cls||'')&&!isNum)?'skewX(-6deg) ':'';  // 数字用字体本身的斜体，不再斜切（会让金色渐层断掉）
+  const g=el('div','gold '+(isNum?'num ':'zh ')+(cls||''),{left:(x+(isNum?0:(zhDx||0)))+'px',top:(y+(isNum?0:(zhDy||0)))+'px',fontSize:fs+'px',letterSpacing:(ls||0)+'px',
+    transformOrigin:'0 0',transform:skew+(isNum&&sx?`scaleX(${sx})`:'')});
   g.append(el('span','back',null,esc(text)),el('span','front',null,esc(text)));return g}
 
 function build(){
@@ -122,7 +139,7 @@ function build(){
   if(plate){const i=el('img','plate');i.src=plate;st.append(i)}
   const person=A['person_'+F]||A.person;
   if(person){const i=el('img','person',{left:L.person.x+'px',top:L.person.y+'px',width:L.person.w+'px',height:L.person.h+'px',objectFit:'cover',objectPosition:'top'});i.src=person;st.append(i)}
-  if(A.logo){const i=el('img','logo',{left:L.logo.x+'px',top:L.logo.y+'px',width:L.logo.w+'px',height:L.logo.h+'px'});i.src=A.logo;st.append(i)}
+  if(A.logo&&!plate){const i=el('img','logo',{left:L.logo.x+'px',top:L.logo.y+'px',width:L.logo.w+'px',height:L.logo.h+'px'});i.src=A.logo;st.append(i)}
 
   const T=B.poster;
   st.append(gold(T.line1,L.l1));
@@ -135,18 +152,25 @@ function build(){
 
   // 2027 + 吗？
   const l4=gold(T.line4,L.l4,'italic');st.append(l4);
-  if(T.line4_tail){requestAnimationFrame(()=>{});
-    const w=l4.getBoundingClientRect().width;
-    st.append(el('div','white',{left:(L.l4.x+w+L.l4tail.dx)+'px',top:(L.l4.y+L.l4tail.dy)+'px',fontSize:L.l4tail.size+'px'},esc(T.line4_tail)));}
+  let tailDone=Promise.resolve();
+  if(T.line4_tail){
+    const tail=el('div','white',{top:(L.l4.y+L.l4tail.dy)+'px',fontSize:L.l4tail.size+'px',visibility:'hidden'},esc(T.line4_tail));st.append(tail);
+    // 等网络字体载完才量 2027 的宽度，不然会用后备字体量错
+    tailDone=document.fonts.ready.then(()=>{
+      const fr=l4.querySelector('.front'),pad=parseFloat(getComputedStyle(fr).paddingRight)*(/^[0-9]+$/.test(T.line4.trim())?(L.l4.sx||1):1);
+      const w=fr.getBoundingClientRect().right-pad-L.l4.x;   // 量字本身，不量留白
+      tail.style.left=(L.l4.x+w+L.l4tail.dx)+'px';tail.style.visibility='visible';});
+  }
   st.append(el('div','underline',{left:L.underline.x+'px',top:L.underline.y+'px',width:L.underline.w+'px',height:L.underline.h+'px'}));
 
   // 米黄贴纸
   if(T.sticker&&T.sticker.lines&&T.sticker.lines.length){const S=L.sticker;
     const s=el('div','sticker',{left:S.x+'px',top:S.y+'px',width:S.w+'px',height:S.h+'px'});
-    s.innerHTML=`<svg viewBox="0 0 ${S.w} ${S.h}" preserveAspectRatio="none"><polygon fill="var(--cream-2)" opacity=".96" points="${roughRect(S.w,S.h,11,12)}"/></svg>`;
+    s.innerHTML=`<svg viewBox="0 0 ${S.w} ${S.h}" preserveAspectRatio="none"><defs><linearGradient id="sk" x1="0" x2="1"><stop offset="0" stop-color="#F9E6C6"/><stop offset="1" stop-color="#F3D7AE"/></linearGradient></defs><polygon fill="url(#sk)" opacity=".97" points="${roughRect(S.w,S.h,11,12)}"/></svg>`;
     const inner=el('div','inner',{padding:`0 ${S.gap+8}px 0 ${S.gap+10}px`,gap:S.gap+'px'});
     const ic=T.sticker.icon;
-    if(ic&&/\.(png|jpe?g|svg|webp)$/i.test(ic)){const i=el('img','icon',{width:S.icon+'px',height:S.icon+'px'});i.src=ic;inner.append(i)}
+    if(ic&&ICONS[ic]){inner.append(el('div','icon',{width:S.icon+'px',height:S.icon+'px'},ICONS[ic]))}
+    else if(ic&&/\.(png|jpe?g|svg|webp)$/i.test(ic)){const i=el('img','icon',{width:S.icon+'px',height:S.icon+'px'});i.src=ic;inner.append(i)}
     else if(ic){inner.append(el('div','icon-txt',{width:S.icon+'px',height:S.icon+'px',fontSize:(S.icon*.7)+'px'},esc(ic)))}
     if(ic)inner.append(el('div','div'));
     inner.append(el('div','lines',{fontSize:S.line+'px'},T.sticker.lines.map(esc).join('<br>')));
@@ -155,7 +179,11 @@ function build(){
   if(/debug/.test(location.search)||window.DEBUG){
     st.append(el('div','dbg face',{left:L.face.x+'px',top:L.face.y+'px',width:L.face.w+'px',height:L.face.h+'px'}));
     if(L.gridCrop)st.append(el('div','dbg',{left:0,top:L.gridCrop.y+'px',width:'1080px',height:L.gridCrop.h+'px'}));}
-  window.__FACE__=L.face; window.__READY__=true;
+  window.__FACE__=L.face; tailDone.then(()=>{
+    const over=[];const fit=(inner,box,name)=>{if(!inner||!box)return;const a=inner.getBoundingClientRect(),b=box.getBoundingClientRect();if(a.right>b.right-8||a.left<b.left)over.push(name)};
+    const sk=document.querySelector('.sticker');if(sk){const r=document.createRange();r.selectNodeContents(sk.querySelector('.lines'));fit(r,sk,'贴纸的字超出贴纸')}
+    const bd=document.querySelector('.band');if(bd){const r=document.createRange();r.selectNodeContents(bd.querySelector('.txt'));fit(r,bd,'红条的字超出红条')}
+    window.__OVERFLOW__=over;window.__READY__=true});
 }
 if(window.BRIEF)build();
 </script>

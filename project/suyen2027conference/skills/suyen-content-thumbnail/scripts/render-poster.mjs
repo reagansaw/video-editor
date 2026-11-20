@@ -45,7 +45,7 @@ if (design === 'case') {
   if (len(P.h1) + len(P.h2) > 12) errs.push(`大标题 2 行加起来 ${len(P.h1) + len(P.h2)} 字，超过 12`);
   lines(P.pill, '米黄条', 2, 9); lines(P.question, '问句', 2, 9);
 } else {
-  const LIMIT = { line1: 4, line2: 5, band: 6, line4: 4, line4_tail: 2, bigTotal: 20 };
+  const LIMIT = { line1: 4, line2: 4, band: 6, line4: 4, line4_tail: 2, bigTotal: 20 };
   for (const k of ['line1', 'line2', 'band', 'line4']) need(k, LIMIT[k]);
   if (len(P.line4_tail) > LIMIT.line4_tail) errs.push(`poster.line4_tail 上限 ${LIMIT.line4_tail} 字`);
   lines(P.sticker, '贴纸', 3, 9);
@@ -64,6 +64,7 @@ for (const F of formats) {
   await page.addInitScript(([b, f, d]) => { window.BRIEF = b; window.FORMAT = f; window.DEBUG = d; }, [brief, F, debug]);
   await page.goto(pathToFileURL(tpl).href);
   await page.waitForFunction(() => window.__READY__);
+  await page.waitForLoadState('networkidle').catch(() => {});
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(300);
   // 护脸检查：任何字的框跟脸框重叠就不合格
@@ -75,10 +76,12 @@ for (const F of formats) {
     });
     return out;
   });
+  const over = await page.evaluate(() => window.__OVERFLOW__ || []);
+  if (over.length) { bad = true; console.error(`✗ ${F}：${over.join('、')}（删字）`); }
   if (hits.length) { bad = true; console.error(`✗ ${F}：这些字碰到脸：${hits.join('、')}（字太长，删字，不要缩字号）`); }
   const out = path.join(outDir, debug ? names[F].replace('.png', '-debug.png') : names[F]);
   await page.screenshot({ path: out });
-  console.log((hits.length ? '⚠ ' : '✓ ') + out);
+  console.log((hits.length || over.length ? '⚠ ' : '✓ ') + out);
   await page.close();
 }
 await browser.close();
