@@ -92,3 +92,4 @@
 - 网域挂在漏斗 Opt-in nmsqus6s（slug suyen2027-caiyun-optin）→ 卡片显示网域。`/` = 介绍页（指南上半部 + 「看我的 2027 财运 →」，藏一个隐形 aigoal 表单避免平台塞预设表单）。
 - 按钮 → `/suyen2027-caiyun#dobform` = 完整版指南 lf1skpvx（资料框 → 同页结果 + PDF；报名进漏斗 Opt-in + 标签页）→ 我会出席战略大会 → /suyen2027-caiyun-vip → /join 或 /suyen2027-caiyun-vipok。
 - **完整版指南 lf1skpvx 必须保持 published**（之前在漏斗 Domain 卡按 Connect 会把它变成草稿，网站就挂）。
+- 2026-11-20：指南表单改报名到**主 funnel**（FUNNEL_SLUG=suyen2027）：已在主 funnel 的人（registered_webinar）重复报名不会再收欢迎讯息（Harvard 06:12 后 9 次重复报名都没再发）；新客收主 funnel 的欢迎 + registered_webinar。标签页 suyen2027-caiyun-tag 照送（lead_magnet_2027shengxiaocaifu）。生肖 funnel 报名数会是 0。
