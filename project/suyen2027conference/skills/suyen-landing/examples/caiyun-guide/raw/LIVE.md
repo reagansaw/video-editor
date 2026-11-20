@@ -56,3 +56,7 @@
 | Sales | gxf9zmmh：VIP 升级成功 | /suyen2027-caiyun-vipok |
 - 设定：webinar_at 2027-01-08T20:30；community 同主 funnel；reply gate（A_GATE「你好 {name}👋 你的报名收到啦！…回我一个「YES」…」+ YES 钮；AY/A 同主 funnel）；B/C/C2/F1-F3 关。
 - 旧的：iyawii07「(old)」、uvlroqgh「(old2)」的页都改成 *-old / *-old2；完整版 raw 指南 lf1skpvx 在 suyen2027-caiyun-full（备份，没连结）。生成器：`raw/funnel/build_v3.py`（读 rawsite/prod-live.html）。
+
+## 2026-11-20 最终定案（改回 5 步，要先送出表单才看到指南）
+「(NEW)」= **uvlroqgh**：Opt-in `/`（资料框，按「看我的 2027 财运 →」送出）→ `/suyen2027-caiyun-guide`（选出生年份 → 显示指南；26 个立即报名直接连 VIP + ft）→ `/suyen2027-caiyun-vip` → `/suyen2027-caiyun-join`（没升级）/ `/suyen2027-caiyun-vipok`（VIP）。网域 2027shengxiaocaifu.suyenlim.com。
+7xi22jze 改名「(old3)」，页 *-old3。生成器 `raw/funnel/build_new.py`。
