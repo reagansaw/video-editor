@@ -221,8 +221,9 @@ document.addEventListener('click',function(e){var b=e.target.closest&&e.target.c
   var zi=((y-4)%%12+12)%%12,yr=document.getElementById('y'+zi+'_'+y);if(yr)yr.checked=true;
   var z=document.getElementById('z'+zi);if(z)z.checked=true;
   var ov=document.createElement('div');ov.id='pdfmode';
-  ov.innerHTML='<div class="pm-card"><p class="pm-k">2027 · 你的生肖求财指南</p><h1>属'+ZOD[zi]+' · '+y+' 年出生</h1><p>按下面的按钮，下载你的《2027 生肖财运指南》PDF，存在手机里随时看。</p><button type="button" class="pdfbtn pm-btn" data-zi="'+zi+'">下载 PDF ↓</button><p class="pm-s">林舒苑 · 2027 奇门遁甲战略导师</p></div>';
+  ov.innerHTML='<div class="pm-card"><p class="pm-k">2027 · 你的生肖求财指南</p><h1>属'+ZOD[zi]+' · '+y+' 年出生</h1><p>你的《2027 生肖财运指南》PDF 正在下载…<br>如果没有自动开始，请按下面的按钮。</p><button type="button" class="pdfbtn pm-btn" data-zi="'+zi+'">下载 PDF ↓</button><p class="pm-s">林舒苑 · 2027 奇门遁甲战略导师</p></div>';
   document.body.appendChild(ov);document.documentElement.classList.add('pdfmode');try{prewarm(zi);}catch(e){}
+  setTimeout(function(){var b=ov.querySelector('.pdfbtn');if(b)savePdf(b);},400);
 })();
 
 
