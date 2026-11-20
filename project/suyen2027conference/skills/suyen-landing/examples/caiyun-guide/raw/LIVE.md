@@ -26,3 +26,8 @@
 - 新页 **https://suyen2027-caiyun-dahui.aigoal.ai**（id 25qmc3u8，「舒苑2027奇门遁甲战略大会 · 生肖财运指南」）＝ suyen2027 原大会页的复制；7 个「立即报名，提前布局 2027」都直接去 OTO https://suyen2027-vip.aigoal.ai/，没有弹窗。6 支见证影片已补上；右下 WhatsApp 浮动按钮用 CSS 藏起来（原页也没有）。
 - 生肖页所有「立即报名」改去这个大会页（`make_raw.py` 的 CONF_PAGE）。
 - 注意：suyen2027-caiyun-v1（nsdxd10s）、suyen2027-caiyun-ok（x6xiwtve）、suyen2027-caiyun-test（lk70bgy3）已被删除（不是 Claude 删的）；上传在那些页的图片网址照样能开。
+
+## 2026-11-20 接上主大会 funnel（2027 Master Suyen 战略大会 · 报名，ix2g7pr9）
+- 生肖页出生年份表单 → 报名送到 `landing:suyen2027`（主 funnel 的 optin），所以进主 funnel 的欢迎 + 提醒流程；回传的报名码 ft 带到「立即报名」→ 大会页 ?ft= → 大会页 7 个按钮（data-cta="order"，平台自动带 ft）→ VIP OTO ?ft=（付款才认得是谁）。
+- 标签由页面设定决定：主 funnel 只打 `registered_webinar`；表单送的 `lead_magnet_2027_十二生肖` 不会被采用（生肖资料在栏位 birth_year / dob_pillar 和备注里）。
+- 测试时误建了一个真实联系人「测试 / t@example.com / 0123456789」（id o2bfprll），需要在 CRM 手动删除。

@@ -149,12 +149,16 @@ function go(ev){
   var eid='dob.'+Date.now().toString(36)+'.'+Math.random().toString(36).slice(2,8);
   try{post({event:'register',source:'landing:'+FUNNEL_SLUG,name:v.nm,email:v.em,phone:v.ph,event_id:eid,tags:['registered','lead_magnet_2027_十二生肖'],
     fields:[{k:'birth_year',l:'出生年份',v:String(y)},{k:'dob_pillar',l:'生肖',v:'属'+ZOD[zi]+'（'+pill+'年）'}],
-    note:'出生年份: '+y+'\\n生肖: 属'+ZOD[zi]+'（'+pill+'年）'});}catch(e){}
+    note:'出生年份: '+y+'\\n生肖: 属'+ZOD[zi]+'（'+pill+'年）'}).then(function(r){return r&&r.json?r.json():null;}).then(function(j){if(j&&j.ft)setFt(j.ft);}).catch(function(){});}catch(e){}
   try{if(window.fbq)fbq('track','Lead',{content_name:'zodiac_'+ZOD[zi]},{eventID:eid});}catch(e){}
   if($('name')&&!$('name').value)$('name').value=v.nm; if($('email')&&!$('email').value)$('email').value=v.em; if($('wa')&&!$('wa').value)$('wa').value=v.ph;
   try{if(window.fbq)fbq('track','ViewContent',{content_name:'zodiac_'+ZOD[zi]});}catch(e){}
   window.scrollTo({top:0,behavior:'smooth'});
 }
+/* 大会 funnel 的报名码 ft：带去大会页 → 大会页按钮再带去 VIP OTO（付款才认得是谁） */
+function setFt(ft){try{sessionStorage.setItem('ag_ft',ft);}catch(e){}
+  document.querySelectorAll('a[data-cta="whatsapp-attend"]').forEach(function(a){var u=a.getAttribute('href').split('?')[0];a.setAttribute('href',u+'?ft='+encodeURIComponent(ft));});}
+try{var _ft=new URLSearchParams(location.search).get('ft')||sessionStorage.getItem('ag_ft');if(_ft)setFt(_ft);}catch(e){}
 $('dobform').addEventListener('submit',go);
 /* 下载 PDF：把这位访客自己那一份指南（.rdN）在浏览器里转成 PDF，不用另外放档案 */
 /* aigoal 页面只准跑页面里的 script（CSP），所以 html2canvas 放在页底 type=text/plain 不执行，按下载才装进来 */
