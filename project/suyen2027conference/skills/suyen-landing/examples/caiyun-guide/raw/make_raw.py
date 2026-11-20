@@ -216,7 +216,7 @@ function savePdf(btn){
     sl.forEach(function(x){var hs=(x[1]-x[0])*k,yb=Hp-(yd+hs),ty=yb-Hi+x[1]*k;
       body+='q 0 '+yb.toFixed(2)+' '+W.toFixed(2)+' '+hs.toFixed(2)+' re W n '+W.toFixed(2)+' 0 0 '+Hi.toFixed(2)+' 0 '+ty.toFixed(2)+' cm /Im0 Do Q ';yd+=hs;});
     if(C){body+='q '+(C.W*k).toFixed(2)+' 0 0 '+Hc.toFixed(2)+' 0 0 cm /Im1 Do Q';var b=C.btn;links.push({u:C.href,r:[b[0]*k,Hc-(b[1]+b[3])*k,(b[0]+b[2])*k,Hc-b[1]*k].map(function(v){return v.toFixed(1);})});if(C.qr){var q=C.qr;links.push({u:C.href,r:[q[0]*k,Hc-(q[1]+q[3])*k,(q[0]+q[2])*k,Hc-q[1]*k].map(function(v){return v.toFixed(1);})});}}
-    var blob=makePdf(new Uint8Array(buf),g.w,g.h,W.toFixed(2),Hp.toFixed(2),links,body,C?{jpg:new Uint8Array(bs[1]),iw:C.w,ih:C.h}:null,SP?{jpg:new Uint8Array(bs[2]),iw:SP.w,ih:SP.h,W:W.toFixed(2),H:(W*SP.h/SP.w).toFixed(2)}:null);
+    var blob=makePdf(new Uint8Array(buf),g.w,g.h,W.toFixed(2),Hp.toFixed(2),links,body,C?{jpg:new Uint8Array(bs[1]),iw:C.w,ih:C.h}:null,SP?{jpg:new Uint8Array(bs[2]),iw:SP.w,ih:SP.h,W:(W*0.5).toFixed(2),H:(W*0.5*SP.h/SP.w).toFixed(2)}:null);
     var u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='2027生肖求财指南-属'+ZOD[zi]+'-林舒苑.pdf';document.body.appendChild(a);a.click();
     setTimeout(function(){URL.revokeObjectURL(u);a.remove();},4000);
   }).then(function(){btn.disabled=false;btn.textContent=t;if(document.documentElement.classList.contains('pdfmode')&&history.length>1){var bk=document.getElementById('pm-back');if(bk)bk.style.display='block';setTimeout(function(){history.back();},1800);}},function(er){try{console.log('PDFERR',er&&(er.stack||er.message||er))}catch(_){}btn.disabled=false;btn.textContent=t;alert('PDF 没下载成功，请稍后再试一次。');});
