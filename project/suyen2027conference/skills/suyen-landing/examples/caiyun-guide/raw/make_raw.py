@@ -76,7 +76,7 @@ WA_SUYEN = '60176374934'
 from urllib.parse import quote as _q
 _wa = f'https://wa.me/{WA_SUYEN}?text=' + _q('我要出席奇门战略大会')
 _n = h.count('href="#signup" data-modal-open="lead"'); assert _n >= 2, _n
-CONF_PAGE = 'https://suyen2027-caiyun-dahui.aigoal.ai/'   # 2026-11-19：立即报名 → 大会页（复制自 suyen2027，按钮直接去 VIP OTO）
+CONF_PAGE = 'https://2027shengxiaocaifu.suyenlim.com/suyen2027-caiyun-vip'   # 2026-11-19：立即报名 → 大会页（复制自 suyen2027，按钮直接去 VIP OTO）
 h = h.replace('href="#signup" data-modal-open="lead"', f'href="{CONF_PAGE}" data-cta="whatsapp-attend"')
 # 03 出生年份：年份已经从表单知道，不用再按 → 藏起年份按钮、问题和立春说明，直接显示他的那张求财卡
 h = h.replace('</style>', '.ypanel>b,.ychips,.ypanel>p.note{display:none}.yres{margin-top:0;border-top:0;padding-top:0}.yd0,.yd1,.yd2,.yd3,.yd4,.yd5,.yd6,.yd7,.yd8,.yd9,.yd10,.yd11{display:none}</style>', 1)

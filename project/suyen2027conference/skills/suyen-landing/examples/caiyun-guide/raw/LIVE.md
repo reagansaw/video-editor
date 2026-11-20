@@ -61,3 +61,13 @@
 「(NEW)」= **uvlroqgh**：Opt-in `/`（资料框，按「看我的 2027 财运 →」送出）→ `/suyen2027-caiyun-guide`（选出生年份 → 显示指南；26 个立即报名直接连 VIP + ft）→ `/suyen2027-caiyun-vip` → `/suyen2027-caiyun-join`（没升级）/ `/suyen2027-caiyun-vipok`（VIP）。网域 2027shengxiaocaifu.suyenlim.com。
 7xi22jze 改名「(old3)」，页 *-old3。生成器 `raw/funnel/build_new.py`。
 - 2026-11-20：第 2 页（suyen2027-caiyun-guide）选年份后，排名卡下面出现「下载我的 2027 指南 PDF ↓」（98 个按年份的连结，CSS 只显示选中那一年）→ 开 https://suyen2027-caiyun-full.aigoal.ai/?pdf=年份 → 完整版指南的下载画面，按「下载 PDF」生成那一年的 PDF（aigoal 不收 PDF 上传，所以用这个方式）。第 2 页的 WhatsApp 浮动按钮已藏。
+
+## 2026-11-20 现行（同一个网域 2027shengxiaocaifu.suyenlim.com）
+| 网址 | 页 |
+|---|---|
+| `/` | 完整版指南 lf1skpvx（slug suyen2027-caiyun）：资料框 → 同一页打开指南 + PDF；报名送到 (NEW) 的 Opt-in `landing:suyen2027-caiyun-optin`，拿 ft |
+| `/suyen2027-caiyun-vip` | (NEW) VIP 升级（立即报名 26 个都连这里 +ft） |
+| `/suyen2027-caiyun-join` | (NEW) 登记成功（没升级） |
+| `/suyen2027-caiyun-vipok` | (NEW) VIP 升级成功 |
+- (NEW)=uvlroqgh 的 Opt-in 页 nmsqus6s（suyen2027-caiyun-optin）和 guide 页 ljpbk7zh（suyen2027-caiyun-guide）不再有人进来，只是 funnel 里的步骤。
+- make_raw.py：CONF_PAGE = 网域 /suyen2027-caiyun-vip；建法：`PDFZ=pdfz.json python3 make_raw.py ../optin.html lichun.json out.html suyen2027-caiyun-optin https://2027shengxiaocaifu.suyenlim.com/suyen2027-caiyun-vip suyen2027-caiyun`
