@@ -46,3 +46,13 @@
 - 2026-11-20 选方案 1：funnel Opt-in（gzvyfwvf）改用 `suyen2027-caiyun` + 自订域名 https://2027shengxiaocaifu.suyenlim.com；完整版 raw 指南（lf1skpvx）移到 `suyen2027-caiyun-full` 当备份（它的表单仍报名到主 funnel suyen2027）。
 - 欢迎讯息：reply_gate 开；A_GATE＝「你好 {name}👋 你的报名收到啦！🎉 / 2027奇门战略大会的线上分享会位置帮你锁好了。/ 回我一个「YES」…🎁」+ 按钮 YES；AY、A 照主 funnel；图片同主 funnel。其他 6 步全关。
 - 2026-11-20 最终：入口改回完整版指南 lf1skpvx（`suyen2027-caiyun` + 2027shengxiaocaifu.suyenlim.com，有出生年份框、自动打开、PDF）。它的表单报名到 funnel「2027 生肖财运指南 · 林舒苑老师 (NEW)」(iyawii07) 的 Opt-in `landing:suyen2027-caiyun-optin`，拿 ft → 大会页 suyen2027-caiyun-dahui → VIP suyen2027-caiyun-vip。funnel 自己的 Opt-in 页（gzvyfwvf，无 script 版）留在 suyen2027-caiyun-optin，没有连结过去。
+
+## 2026-11-20 定案：Webinar Funnel「2027 生肖财运指南 · 林舒苑老师 (NEW)」= 7xi22jze（照主 funnel 2027 Master Suyen 战略大会 · 报名 复制）
+| 步骤 | 页 | 网址（经 2027shengxiaocaifu.suyenlim.com） |
+|---|---|---|
+| Opt-in | fjzxneaz：资料框（称呼/Email/WhatsApp/出生年份＝aigoal 报名表单）；4 项有效后指南用 CSS :has 显示在下面；所有「立即报名」= 送出这个表单 | `/`（suyen2027-caiyun） |
+| Thank-you | k7b6bala：VIP 升级（RM104.76，tag vip，付款后去 vipok；不升级 → join） | /suyen2027-caiyun-vip |
+| Sales | 6ks4fei9：登记成功（没升级 VIP） | /suyen2027-caiyun-join |
+| Sales | gxf9zmmh：VIP 升级成功 | /suyen2027-caiyun-vipok |
+- 设定：webinar_at 2027-01-08T20:30；community 同主 funnel；reply gate（A_GATE「你好 {name}👋 你的报名收到啦！…回我一个「YES」…」+ YES 钮；AY/A 同主 funnel）；B/C/C2/F1-F3 关。
+- 旧的：iyawii07「(old)」、uvlroqgh「(old2)」的页都改成 *-old / *-old2；完整版 raw 指南 lf1skpvx 在 suyen2027-caiyun-full（备份，没连结）。生成器：`raw/funnel/build_v3.py`（读 rawsite/prod-live.html）。
