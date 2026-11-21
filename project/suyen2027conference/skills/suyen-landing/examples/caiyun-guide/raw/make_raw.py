@@ -246,7 +246,7 @@ document.querySelectorAll('a[data-cta="whatsapp-attend"]').forEach(function(a){a
   ev.preventDefault();if(a.getAttribute('data-busy'))return;a.setAttribute('data-busy','1');a.style.opacity='.7';
   var go=function(ft){location.href=href+(ft?'?ft='+encodeURIComponent(ft):'');};
   var t=setTimeout(function(){go('');},6000);
-  try{post({event:'register',source:'landing:'+FUNNEL_SLUG,name:L.nm,email:L.em,phone:L.ph,event_id:L.eid+'.c',
+  try{post({event:'register',source:'landing:suyen2027-caiyun-attend',name:L.nm,email:L.em,phone:L.ph,event_id:L.eid+'.c',
     fields:[{k:'birth_year',l:'出生年份',v:String(L.y)},{k:'dob_pillar',l:'生肖',v:'属'+ZOD[L.zi]+'（'+L.pill+'年）'}],
     note:'从 2027 生肖财运指南按「我会出席」报名'}).then(function(r){return r&&r.json?r.json():null;}).then(function(j){clearTimeout(t);go(j&&j.ft);}).catch(function(){clearTimeout(t);go('');});}catch(e){clearTimeout(t);go('');}
 });});
