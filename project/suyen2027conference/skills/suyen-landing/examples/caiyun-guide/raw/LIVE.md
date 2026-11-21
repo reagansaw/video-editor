@@ -99,3 +99,4 @@
 - 2026-11-21：避免已报名的人重收欢迎讯息（主 funnel 重复报名会重发）。「我会出席战略大会」改送 landing:suyen2027-caiyun-attend（表单页 3uic2cl9，form_tag=registered_webinar，不在漏斗）。bot 规则 au_cyd_welcome：标签 registered_webinar「新贴上」时 → 发已核准模板 au1ushrl4_broadcast_zh（「你好 {name}，恭喜你，已经成功锁定…」+ 社群链接）；讯息步骤条件 has_tag lead_magnet_2027shengxiaocaifu（规则层条件对 label_added 会被存成 none，所以放在步骤上）。已有 registered_webinar 的人不会触发。代价：新报名者不在主 funnel，收不到主 funnel 之后的提醒。aigoal 现在也有「没有某个标签」条件（not_has_tag）。
 - 2026-11-21：标签页 s43bw0r7 被删掉（API 回 bad secret）→ 重建 w8n2s0i4，同样 slug suyen2027-caiyun-tag、form_tag lead_magnet_2027shengxiaocaifu，标题加「删掉的话标签和欢迎讯息都会失效」。
 - 2026-11-21：Google Sheet：标签页 w8n2s0i4 接「2027年奇门战略大会 Lead Magnet」（栏位 出生年份、生肖）；我会出席页 3uic2cl9 接主大会「Customer List」。VIP skip 用 Harvard 的 ft 测试会转去 /join，但按钮报名回 deduped 没 ft → 等 aigoal #7。
+- 2026-11-21：VIP 页 oqcbkd0m 顶端加「已经是 VIP？👉 直接加入大会社群」→ /join（在 aigoal #7 上线前，VIP 一点就到社群页）。改前备份 backup-automation-2026-11-20/vip-page-before-banner.json。
