@@ -31,3 +31,8 @@
 ## 6. 其他
 - 落地页可上传 PDF 档（目前只有 bot 档案库能放 PDF，删掉档案库项目档案就失效）。
 - 11-21 10:26–10:29 所有落地页回「页面载入中…」(503)，请确认原因。
+
+## 7. 重复报名也要回传 ft（让「skip if tag」对 VIP 生效）— 11-21 补充
+谢谢上线 skip-if！我们已在 VIP 页（suyen2027-caiyun-vip）设定 tags=[vip] → /join。
+**问题**：已经报名过的人再次报名，`/api/track` register 只回 `{"ok":true,"deduped":true}`，**没有 `ft`**。VIP 一定是已报名的人，所以他们到 VIP 页时网址没有 ft，`/r/ft/skip` 查不到人，skip 永远不会触发，VIP 还是看到升级推销。
+**希望**：deduped 的 register 也回传这个联系人的 `ft`（例如 `{"ok":true,"deduped":true,"ft":"..."}`）。
