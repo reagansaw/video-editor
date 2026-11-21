@@ -100,3 +100,4 @@
 - 2026-11-21：标签页 s43bw0r7 被删掉（API 回 bad secret）→ 重建 w8n2s0i4，同样 slug suyen2027-caiyun-tag、form_tag lead_magnet_2027shengxiaocaifu，标题加「删掉的话标签和欢迎讯息都会失效」。
 - 2026-11-21：Google Sheet：标签页 w8n2s0i4 接「2027年奇门战略大会 Lead Magnet」（栏位 出生年份、生肖）；我会出席页 3uic2cl9 接主大会「Customer List」。VIP skip 用 Harvard 的 ft 测试会转去 /join，但按钮报名回 deduped 没 ft → 等 aigoal #7。
 - 2026-11-21：VIP 页 oqcbkd0m 顶端加「已经是 VIP？👉 直接加入大会社群」→ /join（在 aigoal #7 上线前，VIP 一点就到社群页）。改前备份 backup-automation-2026-11-20/vip-page-before-banner.json。
+- 2026-11-21：主 funnel VIP 页 4e411c3b（suyen2027-vip）也设 skip-if tags=[vip] → https://2027qimenconference.suyenlim.com/suyen2027-join。Harvard 的 ft 测试会转过去。同样受 aigoal #7 限制（已存在联系人报名没回 ft）。
