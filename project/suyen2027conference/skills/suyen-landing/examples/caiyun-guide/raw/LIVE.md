@@ -95,3 +95,4 @@
 - 2026-11-20：指南表单改报名到**主 funnel**（FUNNEL_SLUG=suyen2027）：已在主 funnel 的人（registered_webinar）重复报名不会再收欢迎讯息（Harvard 06:12 后 9 次重复报名都没再发）；新客收主 funnel 的欢迎 + registered_webinar。标签页 suyen2027-caiyun-tag 照送（lead_magnet_2027shengxiaocaifu）。生肖 funnel 报名数会是 0。
 - 2026-11-20：两段式。送出指南表单 → 只送 landing:suyen2027-caiyun-tag（贴 lead_magnet_2027shengxiaocaifu，存出生年份/生肖，不进漏斗、不发讯息）。按「我会出席战略大会」→ 才送 landing:suyen2027（主 funnel：registered_webinar + 欢迎讯息，已报名的不重发）→ 拿 ft 去 VIP。
 - 2026-11-21：取消介绍页。网域改回完整版指南 lf1skpvx → 一打开就是资料框（漏斗 Domain 卡会显示 Not set，这是正常的，不要在那里按 Connect）。
+- 2026-11-21：aigoal 新功能「skip if tag」（POST /api/landing/skip-if {id,tags,to}）：生肖 funnel VIP 页 oqcbkd0m 设 tags=[vip] → 转 https://2027shengxiaocaifu.suyenlim.com/join。需要网址带 ft（「我会出席」按钮会带）。另外 aigoal 也新增 after-submit（{id,to,pass}：表单送出后去哪、把哪些栏位带到下一页）。
