@@ -36,3 +36,9 @@
 谢谢上线 skip-if！我们已在 VIP 页（suyen2027-caiyun-vip）设定 tags=[vip] → /join。
 **问题**：已经报名过的人再次报名，`/api/track` register 只回 `{"ok":true,"deduped":true}`，**没有 `ft`**。VIP 一定是已报名的人，所以他们到 VIP 页时网址没有 ft，`/r/ft/skip` 查不到人，skip 永远不会触发，VIP 还是看到升级推销。
 **希望**：deduped 的 register 也回传这个联系人的 `ft`（例如 `{"ok":true,"deduped":true,"ft":"..."}`）。
+
+## 8. 「表单送出后带资料到下一页」也要能带 name / phone / email — 11-21 补充
+谢谢上线 after-submit（to + pass）！目前 `pass` 只带「其他栏位」(fields)，**name / phone / email 不会带**。我们要把网域挂在漏斗 Opt-in（Domain 卡显示 Set），送出后带去我们的指南页；指南页之后按「我会出席」要再报名（贴 registered_webinar），但拿不到 name/phone/email 就认不出是谁。
+**希望**（任一即可）：
+- A. `pass` 也可以选 `name` / `phone` / `email`；
+- B. 或 `/api/track` register 接受只带 `ft`（用 ft 认人），不用再传 name/phone/email。（测试：只带 ft 送 register 回 ok，但没有记到联系人上）
