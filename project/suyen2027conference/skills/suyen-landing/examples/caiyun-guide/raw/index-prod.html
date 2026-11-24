@@ -268,7 +268,7 @@ details.more p{font-size:15px;line-height:1.8;padding-top:10px}
 .cfb::after{content:"已确认 " counter(ok) " / 5 项。把还没勾选的一项，带到下一次沟通里。"}
 .chk:not(:has(input:checked)) .cfb::after{content:"先从一项最重要的条件开始核实。"}
 .chk:not(:has(input:not(:checked))) .cfb::after{content:"5 项已确认。接下来，按已核实的条件安排下一步；勾选不代表收益或结果保证。"}
-.qcard{margin:22px 0 0;max-width:560px}
+.qcard{margin:22px auto 0;max-width:560px}
 .qcard img{width:100%;height:auto;border-radius:var(--radius-md);box-shadow:var(--shadow-2);background:#FAF5E6}
 .pcard{margin-top:22px;background:#FFFAEB;border:1.5px solid #D9C08E;border-radius:var(--radius-md);padding:24px 22px;box-shadow:var(--shadow-2)}
 .pcard .k{font:900 13px/1 var(--latin);letter-spacing:3px;color:var(--crimson-600)}
