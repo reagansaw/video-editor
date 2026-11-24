@@ -47,9 +47,9 @@ def sponsor_page(name, first):
     cv.drawCentredString(PW/2,PH-30,'特别鸣谢 · 赞助商'); cv.showPage(); cv.save(); b.seek(0)
     base=PdfReader(b).pages[0]
     ad=PdfReader(ADS[name]).pages[0]; aw,ah=float(ad.mediabox.width),float(ad.mediabox.height)
-    top=46; box_w,box_h=PW-28,PH-top-14
+    top=46; box_w,box_h=PW-28,PH-top-34
     sc=min(box_w/aw,box_h/ah); x=(PW-aw*sc)/2; yb=(PH-top-ah*sc)
-    yb=14+(box_h-ah*sc)/2
+    yb=34+(box_h-ah*sc)/2
     base.merge_transformed_page(ad,Transformation().scale(sc).translate(x-float(ad.mediabox.left)*sc,yb-float(ad.mediabox.bottom)*sc))
     return base
 
@@ -67,6 +67,17 @@ def build(year,out,pair=None):
     w.add_page(guide_page(year))
     for i in (3,4): w.add_page(m.pages[i])
     for j,n in enumerate(pair): w.add_page(sponsor_page(n,j==0))
+    for n,pg in enumerate(w.pages,1):
+        if n in (2,3): continue   # Master Book pages already carry 2, 3
+        pw,ph=float(pg.mediabox.width),float(pg.mediabox.height)
+        b=io.BytesIO(); cv=canvas.Canvas(b,pagesize=(pw,ph))
+        cx,cy,r=pw-22,16.5,5.6
+        if n==1: cv.setFillColorRGB(*CREAM)
+        else: cv.setFillColorRGB(184/255,50/255,74/255)
+        cv.circle(cx,cy,r,stroke=0,fill=1)
+        cv.setFillColorRGB(*((184/255,50/255,74/255) if n==1 else (1,1,1))); cv.setFont('Helvetica-Bold',6.2)
+        cv.drawCentredString(cx,cy-2.2,str(n)); cv.showPage(); cv.save(); b.seek(0)
+        pg.merge_page(PdfReader(b).pages[0])
     w.compress_identical_objects() if hasattr(w,'compress_identical_objects') else None
     with open(out,'wb') as f: w.write(f)
     return pair
