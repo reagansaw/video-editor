@@ -34,12 +34,52 @@ def guide_page(year):
     conf=Image.open(S+'/pdfz/conf2.jpg').convert('RGB'); crops.append(conf.resize((g['w'],int(conf.size[1]*g['w']/conf.size[0]))))
     H=sum(c.size[1] for c in crops); out=Image.new('RGB',(g['w'],H),(251,244,232)); y=0
     for c in crops: out.paste(c,(0,y)); y+=c.size[1]
-    b=io.BytesIO(); h_pt=PW*H/g['w']
-    cv=canvas.Canvas(b,pagesize=(PW,h_pt)); 
+    cuts=[]
+    sp=P+'/sections.json'
+    if os.path.exists(sp):
+        sec=json.load(open(sp)).get(str(zi),{}).get('tags',[])
+        h0=int(g['top']*k); hc=int(card[1]*k)-int(card[0]*k)
+        for tag,t in sec:
+            if not tag.startswith('SECTION'): continue
+            if t<=g['top']: cuts.append(int(t*k))
+            elif t>=g['bottom']: cuts.append(h0+hc+int((t-g['bottom'])*k))
+    cuts.append(H-crops[-1].size[1])   # conference card starts a page
+    return split_a5(out,cuts=sorted(cuts))
+
+def split_a5(out, top_pt=22, bot_pt=30, cuts=()):
+    """cut the long guide into A5 pages at blank rows between sections"""
+    import numpy as np
     from reportlab.lib.utils import ImageReader
-    jb=io.BytesIO(); out.save(jb,'JPEG',quality=88); jb.seek(0)
-    cv.drawImage(ImageReader(jb),0,0,PW,h_pt); cv.showPage(); cv.save(); b.seek(0)
-    return PdfReader(b).pages[0]
+    W,H=out.size; k=W/PW; avail=int((PH-top_pt-bot_pt)*k)
+    a=np.asarray(out.convert('L')).astype(np.int16)
+    blank=(a.max(1)-a.min(1)<10)          # rows with no content
+    pages=[]; y=0
+    while y<H:
+        # skip leading blank rows
+        while y<H and blank[y]: y+=1
+        if y>=H: break
+        end=min(H,y+avail)
+        if end<H:
+            # blank runs inside the window; prefer the lowest big gap (between sections)
+            runs=[]; r=y+int(avail*.3)
+            while r<end:
+                if blank[r]:
+                    q=r
+                    while q<H and blank[q]: q+=1
+                    runs.append((r,q)); r=q
+                else: r+=1
+            runs=[(p,q) for p,q in runs if p<end]
+            big=[(p,q) for p,q in runs if q-p>=95]
+            sc=[c for c in cuts if y+int(avail*.3)<c<=end]
+            if sc: end=sc[-1]-2; runs=[]
+            pick=None if sc else ([(p,q) for p,q in runs if q-p>=6] or [None])[-1]
+            if pick and not sc: end=min((pick[0]+pick[1])//2, end) if pick[1]>end else (pick[0]+pick[1])//2
+        sl=out.crop((0,y,W,end)); y=end
+        b=io.BytesIO(); cv=canvas.Canvas(b,pagesize=(PW,PH)); cv.setFillColorRGB(*CREAM); cv.rect(0,0,PW,PH,fill=1,stroke=0)
+        jb=io.BytesIO(); sl.save(jb,'JPEG',quality=88); jb.seek(0); hp=sl.size[1]/k
+        cv.drawImage(ImageReader(jb),0,PH-top_pt-hp,PW,hp); cv.showPage(); cv.save(); b.seek(0)
+        pages.append(PdfReader(b).pages[0])
+    return pages
 
 def sponsor_page(name, first):
     # cream A5 with header, ad placed vector-scaled below
@@ -72,7 +112,7 @@ def build(year,out,pair=None):
             cv.rect(40,PH-499,365,380,stroke=0,fill=1); cv.showPage(); cv.save(); b.seek(0)
             pg.merge_page(PdfReader(b).pages[0]); pg.merge_page(PdfReader(qy).pages[0])
         w.add_page(pg)
-    w.add_page(guide_page(year))
+    for gp in guide_page(year): w.add_page(gp)
     for i in (3,4): w.add_page(m.pages[i])
     for j,n in enumerate(pair): w.add_page(sponsor_page(n,j==0))
     for n,pg in enumerate(w.pages,1):
