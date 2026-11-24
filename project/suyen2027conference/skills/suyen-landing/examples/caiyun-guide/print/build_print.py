@@ -56,7 +56,9 @@ def sponsor_page(name, first):
 def build(year,out,pair=None):
     pair=pair or random.Random(year).choice(PAIRS)
     m=PdfReader(A+'/master-pages.pdf'); w=PdfWriter()
-    for i in (0,1,2): w.add_page(m.pages[i])
+    fp=A+'/front-pages.pdf'   # new 目录/关于/前言 version, pages 1-3
+    f=PdfReader(fp) if os.path.exists(fp) else m
+    for i in (0,1,2): w.add_page(f.pages[i])
     w.add_page(guide_page(year))
     for i in (3,4): w.add_page(m.pages[i])
     for j,n in enumerate(pair): w.add_page(sponsor_page(n,j==0))
