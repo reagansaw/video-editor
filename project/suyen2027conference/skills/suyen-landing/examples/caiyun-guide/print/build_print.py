@@ -58,7 +58,12 @@ def build(year,out,pair=None):
     m=PdfReader(A+'/master-pages.pdf'); w=PdfWriter()
     fp=A+'/front-pages.pdf'   # new 目录/关于/前言 version, pages 1-3
     f=PdfReader(fp) if os.path.exists(fp) else m
-    for i in (0,1,2): w.add_page(f.pages[i])
+    cov=A+'/cover-2027.jpg'   # new page 1 (2027 十二生肖运势锦囊 cover)
+    if os.path.exists(cov) and not os.path.exists(fp):
+        b=io.BytesIO(); cv=canvas.Canvas(b,pagesize=(PW,PH)); cv.drawImage(cov,0,0,PW,PH); cv.showPage(); cv.save(); b.seek(0)
+        w.add_page(PdfReader(b).pages[0]); first=1
+    else: first=0
+    for i in range(first,3): w.add_page(f.pages[i])
     w.add_page(guide_page(year))
     for i in (3,4): w.add_page(m.pages[i])
     for j,n in enumerate(pair): w.add_page(sponsor_page(n,j==0))
