@@ -76,7 +76,7 @@ def build(year,out,pair=None):
     for i in (3,4): w.add_page(m.pages[i])
     for j,n in enumerate(pair): w.add_page(sponsor_page(n,j==0))
     for n,pg in enumerate(w.pages,1):
-        if n in (2,3): continue   # Master Book pages already carry 2, 3
+        if n in (1,2,3): continue   # cover: no number; Master Book pages already carry 2, 3
         pw,ph=float(pg.mediabox.width),float(pg.mediabox.height)
         b=io.BytesIO(); cv=canvas.Canvas(b,pagesize=(pw,ph))
         cx,cy,r=pw-22,16.5,5.6
