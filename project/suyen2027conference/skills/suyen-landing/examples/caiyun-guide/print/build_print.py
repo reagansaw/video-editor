@@ -15,6 +15,7 @@ ADS={'ALCP':A+'/ALCP Ad (Right Side) (2).pdf','Golden Palm Tree':A+'/Golden Palm
 PAIRS=[('ALCP','Golden Palm Tree'),('SSF','ABLE'),('KLH','Tayago'),('SSF','Bharu')]
 PW,PH=420,595   # A5, same as Master Book
 CREAM=(251/255,244/255,232/255)
+QYBG=(1,246/255,238/255)
 pdfmetrics.registerFont(TTFont('H700',S+'/sponsor/h700.ttf'))
 
 def guide_page(year):
@@ -63,7 +64,14 @@ def build(year,out,pair=None):
         b=io.BytesIO(); cv=canvas.Canvas(b,pagesize=(PW,PH)); cv.drawImage(cov,0,0,PW,PH); cv.showPage(); cv.save(); b.seek(0)
         w.add_page(PdfReader(b).pages[0]); first=1
     else: first=0
-    for i in range(first,3): w.add_page(f.pages[i])
+    for i in range(first,3):
+        pg=f.pages[i]
+        qy=S+'/print/qy/qy.pdf'
+        if i==2 and f is m and os.path.exists(qy):   # 前言 rewritten for 2027 丁未年
+            b=io.BytesIO(); cv=canvas.Canvas(b,pagesize=(PW,PH)); cv.setFillColorRGB(*QYBG)
+            cv.rect(40,PH-499,365,380,stroke=0,fill=1); cv.showPage(); cv.save(); b.seek(0)
+            pg.merge_page(PdfReader(b).pages[0]); pg.merge_page(PdfReader(qy).pages[0])
+        w.add_page(pg)
     w.add_page(guide_page(year))
     for i in (3,4): w.add_page(m.pages[i])
     for j,n in enumerate(pair): w.add_page(sponsor_page(n,j==0))
