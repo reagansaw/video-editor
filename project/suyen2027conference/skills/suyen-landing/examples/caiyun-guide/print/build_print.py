@@ -19,6 +19,16 @@ QYBG=(1,246/255,238/255)
 pdfmetrics.registerFont(TTFont('H700',S+'/sponsor/h700.ttf'))
 
 def guide_page(year):
+    """one long page = the guide exactly as that birth year sees it on the site"""
+    zy=S+f'/print/zy/{year}.jpg'
+    if os.path.exists(zy):
+        from reportlab.lib.utils import ImageReader
+        im=Image.open(zy).convert('RGB'); h_pt=PW*im.size[1]/im.size[0]
+        b=io.BytesIO(); cv=canvas.Canvas(b,pagesize=(PW,h_pt)); cv.drawImage(ImageReader(zy),0,0,PW,h_pt); cv.showPage(); cv.save(); b.seek(0)
+        return [PdfReader(b).pages[0]]
+    return guide_page_old(year)
+
+def guide_page_old(year):
     zi=(year-4)%12; P=S+'/print/z'
     meta={}
     for f in ('meta.json','meta-part.json'):

@@ -107,3 +107,9 @@
 - 内容 = 正式版（lf1skpvx）复制一份，只把属鼠那一段换成《1. Rat2027_Bilingual.docx》的内容（字不改）。其他 11 个生肖、表单、按钮跟 v1 一样（表单送出仍会真的贴标签）。
 - 生成器：`rat-2027/build_mock.py` + `rat-2027/rt.css`；图片网址 `rat-2027/v2-img-urls.json`（p2/p3/rat 三张因 img_limit 直接嵌在 HTML 里）。
 - version 1（lf1skpvx / 网域首页）完全没动。
+
+## 2026-11-25 · version 1 更新（lf1skpvx）
+- 「同样属X，财路不一样」中间加一行「YYYY 年的你，」：纯 CSS（跟年份卡一样用 #yN_YYYY:checked），没选年份时照旧两行。
+- 每个生肖结果最下面（下载 PDF 下面）加「知道运势之后，下一步该怎么走？」战略大会区块（字照 Reagan 给的）。二维码 → https://2027qimenconference.suyenlim.com；二维码和「扫描二维码，立即报名」可点 = 我会出席（data-cta="whatsapp-attend"）。
+- 上线前备份：scratchpad v1fix/backup-v1-before-1125.json。
+- 印刷版 PDF：指南改回一整张长页，用 print/cap_year.js 按出生年份截（跟访客看到的一样）；后面接结语页。网站「下载 PDF」按钮还是旧截图（还没有新标题和下一步区块）。
