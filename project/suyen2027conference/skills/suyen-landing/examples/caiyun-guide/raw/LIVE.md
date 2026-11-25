@@ -124,3 +124,4 @@
   - 漏斗第 2 页 ljpbk7zh：98 个下载连结全部换成新档。
   - 每年用哪组赞助：`print/pairs-98.txt`。
   - 上线前备份：scratchpad v1fix/backup-g-before-book.json、backup-p2-before-book.json。
+- 2026-11-25：旧的 98 个 PDF（raw/pdf98-urls.json）已从 bot 档案库删掉。现在网站只给完整版（pdf98-book-urls.json）。指南/图片有改，要重跑 print/all.sh → up_book.py → patch_site.py（patch_site 要先改成替换现有 PDFBOOK），再删上一批。
