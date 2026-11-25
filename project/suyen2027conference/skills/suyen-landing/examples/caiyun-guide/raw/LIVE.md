@@ -101,3 +101,9 @@
 - 2026-11-21：Google Sheet：标签页 w8n2s0i4 接「2027年奇门战略大会 Lead Magnet」（栏位 出生年份、生肖）；我会出席页 3uic2cl9 接主大会「Customer List」。VIP skip 用 Harvard 的 ft 测试会转去 /join，但按钮报名回 deduped 没 ft → 等 aigoal #7。
 - 2026-11-21：VIP 页 oqcbkd0m 顶端加「已经是 VIP？👉 直接加入大会社群」→ /join（在 aigoal #7 上线前，VIP 一点就到社群页）。改前备份 backup-automation-2026-11-20/vip-page-before-banner.json。
 - 2026-11-21：主 funnel VIP 页 4e411c3b（suyen2027-vip）也设 skip-if tags=[vip] → https://2027qimenconference.suyenlim.com/suyen2027-join。Harvard 的 ft 测试会转过去。同样受 aigoal #7 限制（已存在联系人报名没回 ft）。
+
+## 2026-11-25 · Version 2（属鼠新版，独立页，不动 version 1）
+- 新 raw 页 **hbmwuugd**，slug `suyen2027-caiyun-v2`：https://suyen2027-caiyun-v2.aigoal.ai ，也可走 https://2027shengxiaocaifu.suyenlim.com/suyen2027-caiyun-v2
+- 内容 = 正式版（lf1skpvx）复制一份，只把属鼠那一段换成《1. Rat2027_Bilingual.docx》的内容（字不改）。其他 11 个生肖、表单、按钮跟 v1 一样（表单送出仍会真的贴标签）。
+- 生成器：`rat-2027/build_mock.py` + `rat-2027/rt.css`；图片网址 `rat-2027/v2-img-urls.json`（p2/p3/rat 三张因 img_limit 直接嵌在 HTML 里）。
+- version 1（lf1skpvx / 网域首页）完全没动。
