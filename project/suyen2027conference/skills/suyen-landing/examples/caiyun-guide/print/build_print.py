@@ -94,6 +94,20 @@ def sponsor_page(name, first):
     base.merge_transformed_page(ad,Transformation().scale(sc).translate(x-float(ad.mediabox.left)*sc,yb-float(ad.mediabox.bottom)*sc))
     return base
 
+
+def jieyu_page(m):
+    """结语: 前言 page design, header + body replaced"""
+    jy=S+'/print/qy/jy.pdf'
+    if not os.path.exists(jy): return None
+    w=PdfWriter(); w.append(m,pages=[2]); pg=w.pages[0]
+    b=io.BytesIO(); cv=canvas.Canvas(b,pagesize=(PW,PH))
+    cv.setFillColorRGB(187/255,38/255,73/255); cv.rect(22,PH-96,140,72,stroke=0,fill=1)   # old 前言/FOREWORDS
+    cv.setFillColorRGB(*QYBG); cv.rect(36,PH-570,370,456,stroke=0,fill=1)                   # old body + signature
+    cv.rect(384,4,30,26,stroke=0,fill=1)                                                    # old page number 3
+    cv.showPage(); cv.save(); b.seek(0)
+    pg.merge_page(PdfReader(b).pages[0]); pg.merge_page(PdfReader(jy).pages[0])
+    return pg
+
 def build(year,out,pair=None):
     pair=pair or random.Random(year).choice(PAIRS)
     m=PdfReader(A+'/master-pages.pdf'); w=PdfWriter()
@@ -113,6 +127,8 @@ def build(year,out,pair=None):
             pg.merge_page(PdfReader(b).pages[0]); pg.merge_page(PdfReader(qy).pages[0])
         w.add_page(pg)
     for gp in guide_page(year): w.add_page(gp)
+    jp=jieyu_page(m)
+    if jp is not None: w.add_page(jp)   # 结语 after the guide
     for i in (3,4): w.add_page(m.pages[i])
     for j,n in enumerate(pair): w.add_page(sponsor_page(n,j==0))
     for n,pg in enumerate(w.pages,1):
