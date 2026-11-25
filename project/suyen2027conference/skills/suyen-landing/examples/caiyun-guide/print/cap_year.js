@@ -16,6 +16,6 @@ for(const y of years){const zi=((y-4)%12+12)%12;
  await m.evaluate(([zi,y])=>{document.getElementById('z'+zi).checked=true;document.getElementById('y'+zi+'_'+y).checked=true;document.querySelectorAll('.rd'+zi+' img').forEach(i=>i.loading='eager')},[zi,y]);
  for(let s=0;s<30000;s+=700){await m.evaluate(v=>scrollTo(0,v),s);await m.waitForTimeout(25)}
  await m.evaluate(async zi=>{await Promise.all([...document.querySelectorAll('.rd'+zi+' img')].map(i=>(i.complete&&i.naturalWidth)?0:new Promise(ok=>{i.addEventListener('load',ok);i.addEventListener('error',ok)})));await document.fonts.ready;scrollTo(0,0)},zi);
- await m.waitForTimeout(200);
+ await m.waitForTimeout(1500);
  await m.locator('.rd'+zi).screenshot({path:`print/zy/${y}.jpg`,type:'jpeg',quality:82});process.stdout.write(y+' ')}
 await b.close();console.log('done')})();
