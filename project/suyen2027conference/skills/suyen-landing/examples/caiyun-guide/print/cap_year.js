@@ -9,7 +9,7 @@ await m.route('https://suyen2027-caiyun.aigoal.ai/**',async r=>{const u=new URL(
  const res=await r.fetch({url:'https://app.aigoal.ai'+u.pathname});return r.fulfill({response:res});});
 await m.route(/b-cdn\.net|mediadelivery|facebook/,r=>r.abort());
 await m.goto('https://suyen2027-caiyun.aigoal.ai/',{waitUntil:'networkidle'});
-await m.addStyleTag({content:'.conf,.ctab,.nx,.pdfwrap,.mbar,.ychips,.ypanel>b,[data-aigoal-modal]{display:none!important}*{animation:none!important;transition:none!important}#read .rd{padding:40px 44px 48px!important;background:#FBF4E8!important}'});
+await m.addStyleTag({content:'.conf,.ctab,.nx,.pdfwrap,.mbar,.ychips,.ypanel>b,[data-aigoal-modal]{display:none!important}#read .nxt{display:block!important}*{animation:none!important;transition:none!important}#read .rd{padding:40px 44px 48px!important;background:#FBF4E8!important}'});
 await m.evaluate(()=>{for(const e of document.querySelectorAll('body *')){const p=getComputedStyle(e).position;if((p==='fixed'||p==='sticky')&&!e.closest('#read'))e.style.setProperty('display','none','important')}});
 fs.mkdirSync('print/zy',{recursive:true});
 for(const y of years){const zi=((y-4)%12+12)%12;
