@@ -119,3 +119,8 @@
 - 2026-11-25：奇门盘 + 「2027年的年度盘」下面加该生肖的动物图（来自《2027丁未年12生肖 1岁到100岁》docx 的 image3、7–17，白底，裁成 1200×750，内嵌在 HTML 里）。原图存 zodiac-animals/za0–11.png（0=鼠…11=猪）。
 - 2026-11-25：动物图改成透明背景（rembg isnet 抠图），去掉白卡框，只留淡阴影。透明原图 zodiac-animals/zt0–11.png。
 - 2026-11-25：「下一步该怎么走」区块字放大：标题改成大标题（跟各段 h2 一样，后半句红色），问题、「真假混」那句、大会名、落实、日期、五大层面、结尾句都放大。字没改。
+- 2026-11-25：**98 个年份完整版 PDF 上线**（封面、关于、前言、指南长页、结语、服务、Follow us、2 页赞助）。`print/all.sh` 生成，手机版（约 3.5 MB）上传到 bot 档案库，网址表 `raw/pdf98-book-urls.json`（旧的 `pdf98-urls.json` 档案还留着没删）。
+  - 指南页 lf1skpvx「下载 PDF」按钮：`window.PDFBOOK[年份]` 直接下载完整版，同页不跳。
+  - 漏斗第 2 页 ljpbk7zh：98 个下载连结全部换成新档。
+  - 每年用哪组赞助：`print/pairs-98.txt`。
+  - 上线前备份：scratchpad v1fix/backup-g-before-book.json、backup-p2-before-book.json。
