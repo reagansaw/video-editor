@@ -113,3 +113,4 @@
 - 每个生肖结果最下面（下载 PDF 下面）加「知道运势之后，下一步该怎么走？」战略大会区块（字照 Reagan 给的）。二维码 → https://2027qimenconference.suyenlim.com；二维码和「扫描二维码，立即报名」可点 = 我会出席（data-cta="whatsapp-attend"）。
 - 上线前备份：scratchpad v1fix/backup-v1-before-1125.json。
 - 印刷版 PDF：指南改回一整张长页，用 print/cap_year.js 按出生年份截（跟访客看到的一样）；后面接结语页。网站「下载 PDF」按钮还是旧截图（还没有新标题和下一步区块）。
+- 2026-11-25：hero 奇门盘上面加 2027 八字表（9时 己巳 / 4日 甲寅 / Feb月 壬寅 / 2027年 丁未，HTML 做的），盘下面加「2027年的年度盘」。12 个生肖都有。
