@@ -134,3 +134,4 @@
   - 留下的测试联系人：Claude 测试（可删）/ Claude FPX test - delete me，60100000777，claude-fpx-test@example.com。
   - 备份：scratchpad oto/backup-*-before-fpxfix.json；新版 raw/vip/*.json。
   - 11-26 早上加的「指南表单 ft 带去 VIP」没有用（tag 页报名不回 ft），留着无害。
+- 2026-11-26：VIP 产品（公司产品「VIP 2027 奇门战略大会」，FPX 付款页 /pay/x/…827d8a6b21092a3d1d 显示的介绍）改成 7 大福利、总价值 RM3,005（照 WhatsApp au_askvip_send 的写法），拿掉 **（付款页不认 markdown）。价钱、付款连结、税都没动。改法：GET /api/company → 改 description → POST /api/company/product。备份 scratchpad oto/backup-company-before-vipdesc.json。
