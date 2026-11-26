@@ -139,3 +139,4 @@
 - 2026-11-26：生肖漏斗 uvlroqgh 弃单提醒 G1/G2/G3 加 override：文字照预设，{sales} 换成 https://2027shengxiaocaifu.suyenlim.com/suyen2027-caiyun-vip（漏斗没挂网域，{sales} 会变成 suyen2027-caiyun-vip.aigoal.ai?ft=…）。代价：连结不带 ft；付款选择页信用卡 / FPX 都不需要 ft。A / AY / A_GATE 没动。POST /api/funnels/{id}/reminders {overrides:{…全部…}}。备份 scratchpad ab/backup-fn-uvlroqgh-before-G.json。
 - 2026-11-26：IG「关注了」之后那条 DM 改短（谢谢关注 + 指南准备好了 + 🎁 领取我的小礼物 + 连结）；au_cyd_send0/1（打字「关注了」的回复）也改成同一段。想做成按钮：aigoal 按钮只能一层，放在「✅ 关注了」按钮里面的 DM 加按钮会被吃掉，所以先用文字连结。约 3 分钟内（06:5x）那条 DM 没有连结，之后已补回。
 - 2026-11-26：新规则 au_cyd_gift（label_added got_caiyun_guide_ig → social_dm「你的小礼物在这里 🎁 点下面领取 👇」+ 按钮「🎁 领取我的小礼物」→ 指南页 utm_content=caiyundao_btn）。测试中：原本「关注了」那条 DM 还留着文字连结当后备；Reagan 用自己 IG 测，按钮有出来就把那条的连结拿掉，没出来就关掉 au_cyd_gift。其他 38 条没动。备份 oto/backup-bots-before-giftrule.json。
+- 2026-11-26：IG 第一条 DM 换成版本 B（讲痛点），Reagan 定稿，最后一句「按「✅ 关注了」👇 马上拿」。按钮不变。
