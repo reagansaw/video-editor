@@ -136,3 +136,4 @@
   - 11-26 早上加的「指南表单 ft 带去 VIP」没有用（tag 页报名不回 ft），留着无害。
 - 2026-11-26：VIP 产品（公司产品「VIP 2027 奇门战略大会」，FPX 付款页 /pay/x/…827d8a6b21092a3d1d 显示的介绍）改成 7 大福利、总价值 RM3,005（照 WhatsApp au_askvip_send 的写法），拿掉 **（付款页不认 markdown）。价钱、付款连结、税都没动。改法：GET /api/company → 改 description → POST /api/company/product。备份 scratchpad oto/backup-company-before-vipdesc.json。
 - 2026-11-26（下午）：VIP 页加「选择付款方式」：5 颗「现在升级」钮改成 <label for="paychk">，按下去先弹出选择（纯 CSS 勾选框，不用 script）：「信用卡 / 借记卡」= 平台 pay-embed（Stripe）；「网上银行 FPX / Touch 'n Go」= Xendit 付款页 /pay/x/…827d8a6b21092a3d1d。之前每颗钮下面的白色 FPX 连结拿掉。两页都改。备份 oto/backup-*-before-chooser.json。
+- 2026-11-26：生肖漏斗 uvlroqgh 弃单提醒 G1/G2/G3 加 override：文字照预设，{sales} 换成 https://2027shengxiaocaifu.suyenlim.com/suyen2027-caiyun-vip（漏斗没挂网域，{sales} 会变成 suyen2027-caiyun-vip.aigoal.ai?ft=…）。代价：连结不带 ft；付款选择页信用卡 / FPX 都不需要 ft。A / AY / A_GATE 没动。POST /api/funnels/{id}/reminders {overrides:{…全部…}}。备份 scratchpad ab/backup-fn-uvlroqgh-before-G.json。
