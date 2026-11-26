@@ -126,3 +126,4 @@
   - 上线前备份：scratchpad v1fix/backup-g-before-book.json、backup-p2-before-book.json。
 - 2026-11-25：旧的 98 个 PDF（raw/pdf98-urls.json）已从 bot 档案库删掉。现在网站只给完整版（pdf98-book-urls.json）。指南/图片有改，要重跑 print/all.sh → up_book.py → patch_site.py（patch_site 要先改成替换现有 PDFBOOK），再删上一批。
 - 2026-11-25：网页上不显示「下一步该怎么走」区块（#read .nxt{display:none}），PDF 里保留（cap_year.js 截图时强制显示）。
+- 2026-11-26：修「FPX 付不到钱」：指南表单送出（tag 页）回来的 ft 以前没存，按「我会出席」时 attend 报名是 deduped 不回 ft，所以去 VIP 页都没 ft → Xendit need_contact。现在表单的 ft 存进 AG_LEAD.ft / sessionStorage，「我会出席」没拿到新 ft 就用它。重复报名的老客户仍然没有 ft（aigoal 第 7、9 项）。上线前备份 v1fix/backup-before-ftfix.json。

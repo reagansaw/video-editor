@@ -2148,7 +2148,7 @@ function go(ev){
   window.AG_LEAD={nm:v.nm,em:v.em,ph:v.ph,y:y,zi:zi,pill:pill,eid:eid};
   try{post({event:'register',source:'landing:suyen2027-caiyun-tag',name:v.nm,email:v.em,phone:v.ph,event_id:eid+'.t',
     fields:[{k:'birth_year',l:'出生年份',v:String(y)},{k:'dob_pillar',l:'生肖',v:'属'+ZOD[zi]+'（'+pill+'年）'}],
-    note:'出生年份: '+y+'\n生肖: 属'+ZOD[zi]+'（'+pill+'年）'});}catch(e){}
+    note:'出生年份: '+y+'\n生肖: 属'+ZOD[zi]+'（'+pill+'年）'}).then(function(r){return r&&r.json?r.json():null;}).then(function(j){if(j&&j.ft){window.AG_LEAD.ft=j.ft;setFt(j.ft);}}).catch(function(){});}catch(e){}
   try{if(window.fbq)fbq('track','Lead',{content_name:'zodiac_'+ZOD[zi]},{eventID:eid});}catch(e){}
   if($('name')&&!$('name').value)$('name').value=v.nm; if($('email')&&!$('email').value)$('email').value=v.em; if($('wa')&&!$('wa').value)$('wa').value=v.ph;
   try{if(window.fbq)fbq('track','ViewContent',{content_name:'zodiac_'+ZOD[zi]});}catch(e){}
@@ -2247,7 +2247,7 @@ document.querySelectorAll('a[data-cta="whatsapp-attend"]').forEach(function(a){a
   try{if(window.fbq)fbq('track','Contact');}catch(e){}
   var L=window.AG_LEAD,href=a.getAttribute('href').split('?')[0];if(!L)return;
   ev.preventDefault();if(a.getAttribute('data-busy'))return;a.setAttribute('data-busy','1');a.style.opacity='.7';
-  var go=function(ft){location.href=href+(ft?'?ft='+encodeURIComponent(ft):'');};
+  var go=function(ft){if(!ft){try{ft=L.ft||sessionStorage.getItem('ag_ft')||new URLSearchParams(location.search).get('ft')||'';}catch(e){ft=L.ft||'';}}location.href=href+(ft?'?ft='+encodeURIComponent(ft):'');};
   var t=setTimeout(function(){go('');},6000);
   try{post({event:'register',source:'landing:suyen2027-caiyun-attend',name:L.nm,email:L.em,phone:L.ph,event_id:L.eid+'.c',
     fields:[{k:'birth_year',l:'出生年份',v:String(L.y)},{k:'dob_pillar',l:'生肖',v:'属'+ZOD[L.zi]+'（'+L.pill+'年）'}],
