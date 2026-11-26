@@ -128,3 +128,9 @@
 - 2026-11-25：网页上不显示「下一步该怎么走」区块（#read .nxt{display:none}），PDF 里保留（cap_year.js 截图时强制显示）。
 - 2026-11-26：修「FPX 付不到钱」：指南表单送出（tag 页）回来的 ft 以前没存，按「我会出席」时 attend 报名是 deduped 不回 ft，所以去 VIP 页都没 ft → Xendit need_contact。现在表单的 ft 存进 AG_LEAD.ft / sessionStorage，「我会出席」没拿到新 ft 就用它。重复报名的老客户仍然没有 ft（aigoal 第 7、9 项）。上线前备份 v1fix/backup-before-ftfix.json。
 - 2026-11-26：IG 评论自动回复（au_cyd_comment）关键字加上有空格和繁体的写法：财运 到、财 运到、财 运 到、財運到、財運 到、財 運到、財 運 到、財运到、财運到、財运 到、财運 到（原本只有「财运到」）。只改这一条，其他 37 条没动。
+- 2026-11-26：**VIP 页 FPX / TNG 付不到钱 修好**（生肖 VIP oqcbkd0m + 主漏斗 VIP 4e411c3b）。原因：弹窗选 FPX 时 `/api/pay/checkout-session` 要网址带 `ft`，没有就 409 need_contact →「没发出去」。从生肖指南来的人一定没有 ft（tag 页报名根本不回 ft；我会出席又是 deduped），老客户也没有。
+  - 改法：5 颗「现在升级」钮都改 `data-providers="stripe"`（直接开信用卡，不会再出错）；每颗下面加白色胶囊连结「用网上银行 FPX / Touch 'n Go 付款 →」→ https://app.aigoal.ai/pay/x/6d4a02f6-2165-49da-bf8c-ab4434ca9d72/827d8a6b21092a3d1d（WhatsApp 付款讯息用的同一个 Xendit 页，自己收名字 + WhatsApp，不需要 ft）。底部固定条不放连结。
+  - 测试：Stripe 弹窗正常；FPX 连结能开出 Xendit 付款单（本机连不上 checkout-ui-gateway.xendit.co 所以看不到银行列表，真手机可以）。
+  - 留下的测试联系人：Claude 测试（可删）/ Claude FPX test - delete me，60100000777，claude-fpx-test@example.com。
+  - 备份：scratchpad oto/backup-*-before-fpxfix.json；新版 raw/vip/*.json。
+  - 11-26 早上加的「指南表单 ft 带去 VIP」没有用（tag 页报名不回 ft），留着无害。
