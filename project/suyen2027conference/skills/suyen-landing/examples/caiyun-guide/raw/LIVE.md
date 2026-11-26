@@ -141,3 +141,4 @@
 - 2026-11-26：新规则 au_cyd_gift（label_added got_caiyun_guide_ig → social_dm「你的小礼物在这里 🎁 点下面领取 👇」+ 按钮「🎁 领取我的小礼物」→ 指南页 utm_content=caiyundao_btn）。测试中：原本「关注了」那条 DM 还留着文字连结当后备；Reagan 用自己 IG 测，按钮有出来就把那条的连结拿掉，没出来就关掉 au_cyd_gift。其他 38 条没动。备份 oto/backup-bots-before-giftrule.json。
 - 2026-11-26：IG 第一条 DM 换成版本 B（讲痛点），Reagan 定稿，最后一句「按「✅ 关注了」👇 马上拿」。按钮不变。
 - 2026-11-26：au_cyd_gift 文字改成「你的《2027 生肖财运指南》准备好了。 / 👇 点击下面领取小礼物」，按钮「🎁 领取我的小礼物」（Reagan 定稿）。
+- 2026-11-26：Reagan 测过按钮可以。「关注了」那条 DM 改成只有「谢谢你的关注 🙏」，连结交给 au_cyd_gift 的「🎁 领取我的小礼物」按钮。打字「关注了」的 au_cyd_send0/1 仍是文字连结版（那两条不能放按钮）。
