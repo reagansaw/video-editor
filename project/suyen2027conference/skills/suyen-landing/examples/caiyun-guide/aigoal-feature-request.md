@@ -47,3 +47,10 @@
 **现况**：VIP 页（suyen2027-caiyun-vip、suyen2027-vip）按付款 → 选「网上银行 FPX」或 TNG，网址没有 `ft` 的话，`/api/pay/checkout-session` 回 `409 need_contact`，弹窗只显示「没发出去，再试一次或直接 WhatsApp 我们」，客户付不了。信用卡（Stripe）没问题，因为 Stripe 自己收 email。
 没有 ft 的人：重复报名的人（register deduped 不回 ft，见第 7 项）、从 WhatsApp / IG 直接点 VIP 连结进来的人。
 **希望**：回 `need_contact` 时，弹窗不要直接报错，改成请客户填电话或 email（平台文字里已经有 `needContact`「请留电话或 email…」），带着再开 Xendit 付款单；或 checkout-session 接受 `phone` / `email` 栏位。
+
+## 10. IG 自动回复：先确认客户真的有关注，才发东西（11-27）
+**现况**：IG 评论「财运到」→ 私讯 → 客户按「✅ 关注了」就发指南。系统不会检查他是不是真的关注了 @2027suyenlimconference，很多人没关注也拿到了。自动化条件里没有「有没有关注」可以选。
+**希望**：自动化加一个条件「IG 有关注我们 / 没有关注」。Instagram Messaging API 的 User Profile 有 `is_user_follow_business` 栏位（客户私讯过我们之后就能查）。按「关注了」时：
+- 有关注 → 发指南；
+- 没关注 → 回「好像还没看到你的关注哦 🙏 先关注 @2027suyenlimconference，再按一次「✅ 关注了」」，并再给一次按钮。
+另外：「关注了」之后的私讯也希望可以放网址按钮（现在按钮只能放在第一条，第二层的按钮会被吃掉；用 label_added 规则发 social_dm 带按钮，实测在 IG 发不出去）。
