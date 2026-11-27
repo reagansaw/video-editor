@@ -147,3 +147,4 @@
   - 没拿到连结的窗口：2026-11-26 07:48 → 11-27 00:01 UTC（马来西亚 11-26 15:48 → 11-27 08:01），约 4 人，名单已私下给 Reagan（客户资料不放 repo）。
 - 2026-11-27：aigoal 上线「要先关注我们的 Instagram 才走这条」。au_cyd_comment 的「✅ 关注了」按钮（bfol2）设 need_follow=true，follow_fail=「好像还没看到你的关注哦 🙏 先关注 @2027suyenlimconference，关注好了再按一次「✅ 关注了」，马上把指南发给你 🎁」。另有步骤条件 ig_follows / ig_not_follows 可用。打字「关注了」的 au_cyd_send0/1 还没检查（不是按钮）。
 - 2026-11-27：堵住不检查关注的路：(1) follow_fail 改成 Reagan 的字「好像还没看到你的关注哦 🙏 / 关注好了再按一次「✅ 关注了」，马上把指南发给你 🎁」；(2) 打字「关注了 / 我已关注，发给我」(au_cyd_send0/1) 不再发连结，改叫客人按「✅ 关注了」按钮；au_cyd_tag0/1 关掉；(3) 生日规则 au_rizhu_comment 的私讯加同一组按钮（👉 去关注 / ✅ 关注了 need_follow），文字改「按下面「✅ 关注了」」，两条提醒改「按上面的「✅ 关注了」」。备份 oto/backup-bots-before-block.json。
+- 2026-11-27：下载 PDF 追踪：新表单页 s9dj2hkx（suyen2027-caiyun-dl，自动贴 download_caiyun）。指南页按「下载 PDF」时用表单资料（AG_LEAD，另存 localStorage ag_lead）报名到这页 → 贴 download_caiyun + 这页的 leads 数 = 下载人数。没填表单的人只会记 cta 事件，不会贴标签。漏斗第 2 页的 98 个下载连结不追踪。测试联系人「Claude test」已贴过一次（要删）。

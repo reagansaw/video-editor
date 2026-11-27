@@ -2146,6 +2146,7 @@ function go(ev){
   var eid='dob.'+Date.now().toString(36)+'.'+Math.random().toString(36).slice(2,8);
   /* 送出表单：只贴 lead_magnet_2027shengxiaocaifu（自动标签表单页，不进漏斗、不发讯息）；资料存起来，等按「我会出席」才报名大会 */
   window.AG_LEAD={nm:v.nm,em:v.em,ph:v.ph,y:y,zi:zi,pill:pill,eid:eid};
+  try{localStorage.setItem('ag_lead',JSON.stringify(window.AG_LEAD));}catch(e){}
   try{post({event:'register',source:'landing:suyen2027-caiyun-tag',name:v.nm,email:v.em,phone:v.ph,event_id:eid+'.t',
     fields:[{k:'birth_year',l:'出生年份',v:String(y)},{k:'dob_pillar',l:'生肖',v:'属'+ZOD[zi]+'（'+pill+'年）'}],
     note:'出生年份: '+y+'\n生肖: 属'+ZOD[zi]+'（'+pill+'年）'}).then(function(r){return r&&r.json?r.json():null;}).then(function(j){if(j&&j.ft){window.AG_LEAD.ft=j.ft;setFt(j.ft);}}).catch(function(){});}catch(e){}
@@ -2206,6 +2207,7 @@ function savePdf(btn){
   if(_u){var _t=btn.textContent;btn.disabled=true;btn.textContent='正在下载 PDF…';
     try{if(window.fbq)fbq('track','ViewContent',{content_name:'pdf_'+ZOD[_zi]});}catch(e){}
     try{post({event:'cta',cta:'pdf-download',source:'landing:'+OWN_SLUG});}catch(e){}
+    try{var _L=window.AG_LEAD;if(!_L){try{_L=JSON.parse(localStorage.getItem('ag_lead')||'null');}catch(e){}}if(_L&&(_L.em||_L.ph))post({event:'register',source:'landing:suyen2027-caiyun-dl',name:_L.nm,email:_L.em,phone:_L.ph,event_id:(_L.eid||'dl')+'.d'+_yr+'.'+Date.now().toString(36),fields:[{k:'pdf_year',l:'下载 PDF',v:'属'+ZOD[_zi]+' '+_yr}],note:'下载 PDF：属'+ZOD[_zi]+' '+_yr});}catch(e){}
     fetch(_u).then(function(r){if(!r.ok)throw new Error('pdf '+r.status);return r.blob();}).then(function(b){
       var u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='2027生肖财运指南-属'+ZOD[_zi]+'-'+_yr+'-林舒苑.pdf';document.body.appendChild(a);a.click();
       setTimeout(function(){URL.revokeObjectURL(u);a.remove();},4000);btn.disabled=false;btn.textContent=_t;
