@@ -20,7 +20,7 @@ pdfmetrics.registerFont(TTFont('H700',S+'/sponsor/h700.ttf'))
 
 def guide_page(year):
     """one long page = the guide exactly as that birth year sees it on the site"""
-    zy=S+f'/print/zy/{year}.jpg'
+    zy=os.environ.get('ZYDIR',S+'/print/zy')+f'/{year}.jpg'
     if os.path.exists(zy):
         from reportlab.lib.utils import ImageReader
         im=Image.open(zy).convert('RGB'); h_pt=PW*im.size[1]/im.size[0]
@@ -140,7 +140,9 @@ def build(year,out,pair=None):
     jp=jieyu_page(m)
     if jp is not None: w.add_page(jp)   # 结语 after the guide
     for i in (3,4): w.add_page(m.pages[i])
-    for j,n in enumerate(pair): w.add_page(sponsor_page(n,j==0))
+    one=os.environ.get('ONE_SPONSOR')
+    sp=[pair[0] if year%2 else pair[1]] if one else list(pair)
+    for j,n in enumerate(sp): w.add_page(sponsor_page(n,j==0))
     for n,pg in enumerate(w.pages,1):
         if n in (1,2,3): continue   # cover: no number; Master Book pages already carry 2, 3
         pw,ph=float(pg.mediabox.width),float(pg.mediabox.height)
